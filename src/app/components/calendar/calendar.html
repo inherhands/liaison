@@ -1,0 +1,55 @@
+<div class="container">
+  <div class="header">
+    <button mat-icon-button (click)="prevMonth()">
+      <mat-icon>chevron_left</mat-icon>
+    </button>
+    <span class="month-label">{{ monthLabel() }}</span>
+    <button mat-icon-button (click)="nextMonth()">
+      <mat-icon>chevron_right</mat-icon>
+    </button>
+    <button mat-button (click)="goToToday()">Today</button>
+  </div>
+
+  <div class="grid">
+    @for (d of weekDays; track d) {
+      <div class="weekday-label">{{ d }}</div>
+    }
+
+    @for (day of days(); track day.date.toISOString()) {
+      <div
+        class="day-cell"
+        [class.other-month]="!day.inMonth"
+        [class.today]="isToday(day)"
+        [class.has-events]="day.eventCount > 0"
+        [class.clickable]="day.inMonth"
+        (click)="selectDay(day)"
+      >
+        <span class="day-num">{{ day.date.getDate() }}</span>
+
+        @if (day.inMonth && day.eventCount > 0) {
+          <div class="dot-row">
+            @if (day.eventTypes.has('Sex')) {
+              <span class="dot dot-sex"></span>
+            }
+            @if (day.eventTypes.has('Solo')) {
+              <span class="dot dot-solo"></span>
+            }
+            @if (day.eventTypes.has('Note')) {
+              <span class="dot dot-note"></span>
+            }
+            @if (day.eventTypes.has('Refusal')) {
+              <span class="dot dot-refusal"></span>
+            }
+          </div>
+        }
+      </div>
+    }
+  </div>
+
+  <div class="legend">
+    <span class="legend-item"><span class="dot dot-sex"></span> Sex</span>
+    <span class="legend-item"><span class="dot dot-solo"></span> Solo</span>
+    <span class="legend-item"><span class="dot dot-note"></span> Note</span>
+    <span class="legend-item"><span class="dot dot-refusal"></span> Refusal</span>
+  </div>
+</div>

@@ -1,0 +1,122 @@
+.container {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+@media (max-width: 640px) {
+  .container { padding: 0.5rem; }
+  .day-cell { min-height: 44px; }
+  .month-label { font-size: 1rem; min-width: 130px; }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin-bottom: 0.75rem;
+}
+
+.month-label {
+  font-size: 1.1rem;
+  font-weight: 600;
+  min-width: 160px;
+  text-align: center;
+  color: var(--col-gold-light);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+
+.weekday-label {
+  text-align: center;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--col-text-muted);
+  padding: 4px 0 6px;
+  text-transform: uppercase;
+}
+
+.day-cell {
+  min-height: 52px;
+  border-radius: 6px;
+  padding: 4px 4px 2px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  transition: background 0.1s;
+  user-select: none;
+}
+
+.day-cell.clickable { cursor: pointer; }
+
+.day-cell.clickable:hover {
+  background: var(--col-surface-2);
+}
+
+.day-cell.other-month .day-num {
+  color: var(--col-border);
+}
+
+.day-cell.today .day-num {
+  background: var(--col-gold);
+  color: var(--col-surface);
+  border-radius: 50%;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+.day-num {
+  font-size: 14px;
+  font-weight: 500;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--col-text);
+}
+
+.dot-row {
+  display: flex;
+  gap: 2px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.dot-sex     { background: #e8a0b0; }
+.dot-solo    { background: #c0a0d8; }
+.dot-note    { background: #9abcda; }
+.dot-refusal { background: var(--col-gold); }
+
+.legend {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: var(--col-text-muted);
+}

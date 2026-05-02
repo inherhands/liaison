@@ -1,0 +1,54 @@
+<div class="container">
+  <h2>Settings</h2>
+
+  <section class="section">
+    <h3>Theme</h3>
+    <p>Choose between the custom dark theme or the default Material look.</p>
+    <mat-button-toggle-group [value]="theme()" (change)="setTheme($event.value)">
+      <mat-button-toggle value="dark">
+        <mat-icon>dark_mode</mat-icon>
+        Dark
+      </mat-button-toggle>
+      <mat-button-toggle value="material">
+        <mat-icon>light_mode</mat-icon>
+        Material
+      </mat-button-toggle>
+    </mat-button-toggle-group>
+  </section>
+
+  <mat-divider></mat-divider>
+
+  <section class="section">
+    <h3>Export</h3>
+    <p>Download all your data as a JSON backup file.</p>
+    <button mat-raised-button color="primary" (click)="exportData()" [disabled]="exporting()">
+      <mat-icon>download</mat-icon>
+      {{ exporting() ? 'Exporting...' : 'Export Backup' }}
+    </button>
+  </section>
+
+  <mat-divider></mat-divider>
+
+  <section class="section">
+    <h3>Import</h3>
+    <p class="warn-text">Warning: importing will replace all current data.</p>
+    <button mat-raised-button color="accent" (click)="triggerFileInput()" [disabled]="importing()">
+      <mat-icon>upload</mat-icon>
+      {{ importing() ? 'Importing...' : 'Import Backup' }}
+    </button>
+    <input
+      id="import-file-input"
+      type="file"
+      accept=".json"
+      style="display:none"
+      (change)="onFileSelected($event)"
+    />
+
+    @if (importResult(); as result) {
+      <div class="result" [class.success]="result.success" [class.error]="!result.success">
+        <mat-icon>{{ result.success ? 'check_circle' : 'error' }}</mat-icon>
+        <span>{{ result.message }}</span>
+      </div>
+    }
+  </section>
+</div>

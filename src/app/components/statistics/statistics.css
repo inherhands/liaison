@@ -1,0 +1,201 @@
+.container {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+@media (max-width: 640px) {
+  .container { padding: 0.5rem; }
+  .filter-row { overflow-x: auto; justify-content: flex-start; padding-bottom: 4px; }
+  .chart { gap: 2px; }
+  .bar-label { font-size: 9px; }
+  .stat-label, .stat-value { padding: 7px 10px; font-size: 13px; }
+}
+
+/* ── Year nav ─────────────────────────────── */
+
+.year-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 0.75rem;
+}
+
+.year-label {
+  font-size: 1.4rem;
+  font-weight: 700;
+  min-width: 64px;
+  text-align: center;
+  color: var(--col-gold-light);
+}
+
+/* ── Filter row ───────────────────────────── */
+
+.filter-row {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  padding: 4px 14px;
+  border-radius: 16px;
+  border: 1px solid var(--col-border);
+  background: var(--col-surface-2);
+  color: var(--col-text-muted);
+  font-size: 13px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.filter-btn:hover {
+  border-color: var(--col-gold);
+  color: var(--col-text);
+}
+
+.filter-btn.active {
+  border-color: var(--col-gold);
+  color: var(--col-surface);
+  background: var(--col-gold);
+}
+
+/* Per-type active colours */
+.filter-btn-sex.active     { background: #c2607a; border-color: #c2607a; color: #fff; }
+.filter-btn-solo.active    { background: #9060b0; border-color: #9060b0; color: #fff; }
+.filter-btn-note.active    { background: #5080b0; border-color: #5080b0; color: #fff; }
+.filter-btn-refusal.active { background: var(--col-gold-dark); border-color: var(--col-gold-dark); color: #fff; }
+
+/* ── Chart ────────────────────────────────── */
+
+.chart-section {
+  background: var(--col-surface);
+  border: 1px solid var(--col-border);
+  border-radius: 8px;
+  padding: 1rem 0.75rem 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  height: 160px;
+}
+
+.bar-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.bar-wrap {
+  width: 100%;
+  height: 130px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  border-radius: 3px 3px 0 0;
+  overflow: hidden;
+}
+
+.bar-seg {
+  width: 100%;
+  min-height: 0;
+  transition: height 0.3s ease;
+}
+
+.seg-sex     { background: #c2607a; }
+.seg-solo    { background: #9060b0; }
+.seg-note    { background: #5080b0; }
+.seg-refusal { background: var(--col-gold-dark); }
+
+.bar-count {
+  font-size: 10px;
+  color: var(--col-text-muted);
+  height: 14px;
+  line-height: 14px;
+}
+
+.bar-label {
+  font-size: 10px;
+  color: var(--col-text-muted);
+  margin-top: 2px;
+}
+
+.chart-legend {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  margin-top: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: var(--col-text-muted);
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  display: inline-block;
+}
+
+/* ── Stats table ──────────────────────────── */
+
+.stats-section h3 {
+  margin: 0 0 0.75rem;
+  font-size: 1rem;
+  color: var(--col-gold);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0;
+  border: 1px solid var(--col-border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.stat-label,
+.stat-value {
+  padding: 9px 14px;
+  font-size: 14px;
+  border-bottom: 1px solid var(--col-border);
+}
+
+.stat-label:last-of-type,
+.stat-value:last-of-type {
+  border-bottom: none;
+}
+
+.stat-label { color: var(--col-text-muted); }
+
+.stat-value {
+  font-weight: 600;
+  color: var(--col-gold-light);
+  text-align: right;
+  white-space: nowrap;
+}
+
+.stats-grid > :nth-child(4n+1),
+.stats-grid > :nth-child(4n+2) {
+  background: var(--col-surface);
+}
+
+.stats-grid > :nth-child(4n+3),
+.stats-grid > :nth-child(4n+4) {
+  background: var(--col-surface-2);
+}

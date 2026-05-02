@@ -1,0 +1,130 @@
+<div class="container">
+  @if (dateFilter()) {
+    <div class="filter-bar">
+      <button mat-icon-button (click)="backToCalendar()">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <span class="filter-label">{{ filterLabel }}</span>
+      <button mat-icon-button (click)="clearFilter()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  } @else {
+    <h2>Events</h2>
+  }
+
+  @if (events().length === 0) {
+    <div class="empty-state">
+      @if (dateFilter()) {
+        <p>No events on this day.</p>
+      } @else {
+        <p>No events yet. <a routerLink="/add-event">Create one</a></p>
+      }
+    </div>
+  }
+
+  @for (event of events(); track event.id) {
+    <div class="event-card">
+      <div class="event-header">
+        <span class="event-type" [class]="'type-' + event.type.toLowerCase()">{{ event.type }}</span>
+        <span class="event-date">{{ formatDate(event.date) }}</span>
+        <button mat-icon-button (click)="editEvent(event.id)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" (click)="deleteEvent(event.id)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+
+      @if (event.type === 'Sex') {
+        <div class="event-body">
+          <div class="detail-row">
+            <mat-icon class="detail-icon">person</mat-icon>
+            <span>{{ asSex(event).partner }}</span>
+            <span class="muted">· initiated by {{ asSex(event).initiation }}</span>
+          </div>
+          @if (asSex(event).sexType.length > 0) {
+            <div class="tag-row">
+              @for (t of asSex(event).sexType; track t) {
+                <span class="chip chip-blue">{{ t }}</span>
+              }
+            </div>
+          }
+          <div class="counters-row">
+            <span class="counter-badge">× {{ asSex(event).count }}</span>
+            <span class="counter-badge">Me: {{ asSex(event).myOrgasms }} O</span>
+            <span class="counter-badge">Partner: {{ asSex(event).partnerOrgasms }} O</span>
+          </div>
+          @if (asSex(event).positions.length > 0) {
+            <div class="tag-row">
+              @for (p of asSex(event).positions; track p) {
+                <span class="chip chip-grey">{{ p }}</span>
+              }
+            </div>
+          }
+          @if (asSex(event).toys.length > 0) {
+            <div class="tag-row">
+              @for (t of asSex(event).toys; track t) {
+                <span class="chip chip-purple">{{ t }}</span>
+              }
+            </div>
+          }
+          @if (asSex(event).tags.length > 0) {
+            <div class="tag-row">
+              @for (t of asSex(event).tags; track t) {
+                <span class="chip chip-green">{{ t }}</span>
+              }
+            </div>
+          }
+          @if (asSex(event).notes) {
+            <p class="note-text muted">{{ asSex(event).notes }}</p>
+          }
+        </div>
+      }
+
+      @if (event.type === 'Note') {
+        <div class="event-body">
+          <p class="note-text">{{ asNote(event).text }}</p>
+        </div>
+      }
+
+      @if (event.type === 'Solo') {
+        <div class="event-body">
+          <div class="counters-row">
+            <span class="counter-badge">× {{ asSolo(event).count }}</span>
+            <span class="counter-badge">Me: {{ asSolo(event).myOrgasms }} O</span>
+          </div>
+          @if (asSolo(event).toys.length > 0) {
+            <div class="tag-row">
+              @for (t of asSolo(event).toys; track t) {
+                <span class="chip chip-purple">{{ t }}</span>
+              }
+            </div>
+          }
+          @if (asSolo(event).tags.length > 0) {
+            <div class="tag-row">
+              @for (t of asSolo(event).tags; track t) {
+                <span class="chip chip-green">{{ t }}</span>
+              }
+            </div>
+          }
+          @if (asSolo(event).notes) {
+            <p class="note-text muted">{{ asSolo(event).notes }}</p>
+          }
+        </div>
+      }
+
+      @if (event.type === 'Refusal') {
+        <div class="event-body">
+          <div class="detail-row">
+            <mat-icon class="detail-icon">person_off</mat-icon>
+            <span>{{ asRefusal(event).partner }}</span>
+          </div>
+          @if (asRefusal(event).text) {
+            <p class="note-text muted">{{ asRefusal(event).text }}</p>
+          }
+        </div>
+      }
+    </div>
+  }
+</div>

@@ -1,0 +1,270 @@
+<div class="container">
+  <h2>{{ isEditMode ? 'Edit Event' : 'New Event' }}</h2>
+
+  <!-- Base: Type + Date -->
+  <div class="section">
+    <mat-form-field class="full-width">
+      <mat-label>Event Type</mat-label>
+      <mat-select [(ngModel)]="selectedType">
+        @for (t of eventTypes; track t) {
+          <mat-option [value]="t">{{ t }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <div class="date-time-row">
+      <mat-form-field class="date-field">
+        <mat-label>Date</mat-label>
+        <input matInput [matDatepicker]="picker" [(ngModel)]="pickerDate" />
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field class="time-field">
+        <mat-label>Time</mat-label>
+        <input matInput type="time" [(ngModel)]="pickerTime" />
+        <mat-icon matSuffix>schedule</mat-icon>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <!-- ── Sex ── -->
+  @if (selectedType === 'Sex') {
+    <div class="section">
+      <mat-form-field class="full-width">
+        <mat-label>Partner</mat-label>
+        <mat-select [(ngModel)]="sexPartner">
+          @for (p of partners(); track p.id) {
+            <mat-option [value]="p.name">{{ p.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <p class="hint">Manage partners in the <a routerLink="/partners">Partners</a> page.</p>
+    </div>
+
+    <div class="section">
+      <label class="field-label">Sex Type</label>
+      <div class="chip-row">
+        @for (opt of sexTypeOptions(); track opt) {
+          <button mat-stroked-button type="button"
+            [class.chip-selected]="isSelected(sexTypeSelected, opt)"
+            (click)="toggleChip(sexTypeSelected, opt)">{{ opt }}</button>
+        }
+      </div>
+      <div class="add-chip-row">
+        <mat-form-field class="add-field">
+          <mat-label>Add sex type</mat-label>
+          <input matInput [(ngModel)]="newSexType" (keyup.enter)="addSexType()" />
+        </mat-form-field>
+        <button mat-icon-button type="button" (click)="addSexType()"><mat-icon>add</mat-icon></button>
+      </div>
+    </div>
+
+    <div class="section counters-grid">
+      <div class="counter-field">
+        <label class="field-label">Count</label>
+        <div class="counter">
+          <button mat-icon-button type="button" (click)="decrement('sexCount')"><mat-icon>remove</mat-icon></button>
+          <span class="counter-val">{{ sexCount }}</span>
+          <button mat-icon-button type="button" (click)="increment('sexCount')"><mat-icon>add</mat-icon></button>
+        </div>
+      </div>
+      <div class="counter-field">
+        <label class="field-label">My Orgasms</label>
+        <div class="counter">
+          <button mat-icon-button type="button" (click)="decrement('myOrgasms')"><mat-icon>remove</mat-icon></button>
+          <span class="counter-val">{{ myOrgasms }}</span>
+          <button mat-icon-button type="button" (click)="increment('myOrgasms')"><mat-icon>add</mat-icon></button>
+        </div>
+      </div>
+      <div class="counter-field">
+        <label class="field-label">Partner Orgasms</label>
+        <div class="counter">
+          <button mat-icon-button type="button" (click)="decrement('partnerOrgasms')"><mat-icon>remove</mat-icon></button>
+          <span class="counter-val">{{ partnerOrgasms }}</span>
+          <button mat-icon-button type="button" (click)="increment('partnerOrgasms')"><mat-icon>add</mat-icon></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <label class="field-label">Positions</label>
+      <div class="chip-row">
+        @for (opt of positionOptions(); track opt) {
+          <button mat-stroked-button type="button"
+            [class.chip-selected]="isSelected(positionsSelected, opt)"
+            (click)="toggleChip(positionsSelected, opt)">{{ opt }}</button>
+        }
+      </div>
+      <div class="add-chip-row">
+        <mat-form-field class="add-field">
+          <mat-label>Add position</mat-label>
+          <input matInput [(ngModel)]="newPosition" (keyup.enter)="addPosition()" />
+        </mat-form-field>
+        <button mat-icon-button type="button" (click)="addPosition()"><mat-icon>add</mat-icon></button>
+      </div>
+    </div>
+
+    <div class="section">
+      <label class="field-label">Toys</label>
+      <div class="chip-row">
+        @for (opt of toyOptions(); track opt) {
+          <button mat-stroked-button type="button"
+            [class.chip-selected]="isSelected(toysSelected, opt)"
+            (click)="toggleChip(toysSelected, opt)">{{ opt }}</button>
+        }
+      </div>
+      <div class="add-chip-row">
+        <mat-form-field class="add-field">
+          <mat-label>Add toy</mat-label>
+          <input matInput [(ngModel)]="newToy" (keyup.enter)="addToy()" />
+        </mat-form-field>
+        <button mat-icon-button type="button" (click)="addToy()"><mat-icon>add</mat-icon></button>
+      </div>
+    </div>
+
+    <div class="section">
+      <label class="field-label">Tags</label>
+      <div class="chip-row">
+        @for (opt of tagOptions(); track opt) {
+          <button mat-stroked-button type="button"
+            [class.chip-selected]="isSelected(tagsSelected, opt)"
+            (click)="toggleChip(tagsSelected, opt)">{{ opt }}</button>
+        }
+      </div>
+      <div class="add-chip-row">
+        <mat-form-field class="add-field">
+          <mat-label>Add tag</mat-label>
+          <input matInput [(ngModel)]="newTag" (keyup.enter)="addTag()" />
+        </mat-form-field>
+        <button mat-icon-button type="button" (click)="addTag()"><mat-icon>add</mat-icon></button>
+      </div>
+    </div>
+
+    <div class="section">
+      <label class="field-label">Initiation</label>
+      <mat-button-toggle-group [(ngModel)]="initiation" class="initiation-group">
+        <mat-button-toggle value="Me">Me</mat-button-toggle>
+        <mat-button-toggle value="Partner">Partner</mat-button-toggle>
+        <mat-button-toggle value="Both">Both</mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+
+    <div class="section">
+      <mat-form-field class="full-width">
+        <mat-label>Notes</mat-label>
+        <textarea matInput [(ngModel)]="sexNotes" rows="3" placeholder="Optional notes..."></textarea>
+      </mat-form-field>
+    </div>
+  }
+
+  <!-- ── Note ── -->
+  @if (selectedType === 'Note') {
+    <div class="section">
+      <mat-form-field class="full-width">
+        <mat-label>Note</mat-label>
+        <textarea matInput [(ngModel)]="noteText" rows="5" placeholder="Write your note here..."></textarea>
+      </mat-form-field>
+    </div>
+  }
+
+  <!-- ── Solo ── -->
+  @if (selectedType === 'Solo') {
+    <div class="section">
+      <label class="field-label">Toys</label>
+      <div class="chip-row">
+        @for (opt of soloToyOptions(); track opt) {
+          <button mat-stroked-button type="button"
+            [class.chip-selected]="isSelected(soloToysSelected, opt)"
+            (click)="toggleChip(soloToysSelected, opt)">{{ opt }}</button>
+        }
+      </div>
+      <div class="add-chip-row">
+        <mat-form-field class="add-field">
+          <mat-label>Add toy</mat-label>
+          <input matInput [(ngModel)]="newSoloToy" (keyup.enter)="addSoloToy()" />
+        </mat-form-field>
+        <button mat-icon-button type="button" (click)="addSoloToy()"><mat-icon>add</mat-icon></button>
+      </div>
+    </div>
+
+    <div class="section counters-grid">
+      <div class="counter-field">
+        <label class="field-label">Count</label>
+        <div class="counter">
+          <button mat-icon-button type="button" (click)="decrement('soloCount')"><mat-icon>remove</mat-icon></button>
+          <span class="counter-val">{{ soloCount }}</span>
+          <button mat-icon-button type="button" (click)="increment('soloCount')"><mat-icon>add</mat-icon></button>
+        </div>
+      </div>
+      <div class="counter-field">
+        <label class="field-label">My Orgasms</label>
+        <div class="counter">
+          <button mat-icon-button type="button" (click)="decrement('soloMyOrgasms')"><mat-icon>remove</mat-icon></button>
+          <span class="counter-val">{{ soloMyOrgasms }}</span>
+          <button mat-icon-button type="button" (click)="increment('soloMyOrgasms')"><mat-icon>add</mat-icon></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <label class="field-label">Tags</label>
+      <div class="chip-row">
+        @for (opt of soloTagOptions(); track opt) {
+          <button mat-stroked-button type="button"
+            [class.chip-selected]="isSelected(soloTagsSelected, opt)"
+            (click)="toggleChip(soloTagsSelected, opt)">{{ opt }}</button>
+        }
+      </div>
+      <div class="add-chip-row">
+        <mat-form-field class="add-field">
+          <mat-label>Add tag</mat-label>
+          <input matInput [(ngModel)]="newSoloTag" (keyup.enter)="addSoloTag()" />
+        </mat-form-field>
+        <button mat-icon-button type="button" (click)="addSoloTag()"><mat-icon>add</mat-icon></button>
+      </div>
+    </div>
+
+    <div class="section">
+      <mat-form-field class="full-width">
+        <mat-label>Notes</mat-label>
+        <textarea matInput [(ngModel)]="soloNotes" rows="3" placeholder="Optional notes..."></textarea>
+      </mat-form-field>
+    </div>
+  }
+
+  <!-- ── Refusal ── -->
+  @if (selectedType === 'Refusal') {
+    <div class="section">
+      <mat-form-field class="full-width">
+        <mat-label>Partner</mat-label>
+        <mat-select [(ngModel)]="refusalPartner">
+          @for (p of partners(); track p.id) {
+            <mat-option [value]="p.name">{{ p.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <p class="hint">Manage partners in the <a routerLink="/partners">Partners</a> page.</p>
+    </div>
+    <div class="section">
+      <mat-form-field class="full-width">
+        <mat-label>Notes</mat-label>
+        <textarea matInput [(ngModel)]="refusalText" rows="3" placeholder="Optional details..."></textarea>
+      </mat-form-field>
+    </div>
+  }
+
+  <!-- Actions -->
+  <div class="actions">
+    <button
+      mat-raised-button
+      color="primary"
+      type="button"
+      [disabled]="!canSubmit || submitting"
+      (click)="submitForm()"
+    >
+      {{ submitting ? 'Saving...' : isEditMode ? 'Update Event' : 'Save Event' }}
+    </button>
+    <a mat-stroked-button routerLink="/events">Cancel</a>
+  </div>
+</div>

@@ -1,0 +1,32 @@
+<div class="container">
+  <h2>Partners</h2>
+
+  <div class="add-row">
+    <mat-form-field class="name-field">
+      <mat-label>Partner name</mat-label>
+      <input matInput [(ngModel)]="newName" (keyup.enter)="addPartner()" placeholder="e.g. Mary" />
+    </mat-form-field>
+  </div>
+  <div class="add-action">
+    <button mat-raised-button color="primary" (click)="addPartner()" [disabled]="!newName.trim()">
+      <mat-icon>person_add</mat-icon>
+      Add Partner
+    </button>
+  </div>
+
+  @if (partners().length === 0) {
+    <div class="empty-state">
+      <p>No partners yet. Add one above.</p>
+    </div>
+  }
+
+  @for (partner of partners(); track partner.id) {
+    <div class="partner-row">
+      <mat-icon>person</mat-icon>
+      <span class="partner-name">{{ partner.name }}</span>
+      <button mat-icon-button color="warn" (click)="deletePartner(partner.id)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+  }
+</div>

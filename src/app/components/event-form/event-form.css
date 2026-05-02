@@ -1,0 +1,126 @@
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+@media (max-width: 640px) {
+  .container { padding: 8px; }
+  .date-time-row { flex-direction: column; gap: 0; }
+  .counters-grid { gap: 12px; }
+}
+
+h2 {
+  color: var(--col-gold);
+  margin-bottom: 8px;
+}
+
+.section {
+  margin-bottom: 20px;
+}
+
+.date-time-row {
+  display: flex;
+  gap: 12px;
+}
+
+.date-field { flex: 1; }
+.time-field { flex: 1; }
+.full-width  { width: 100%; }
+
+.field-label {
+  display: block;
+  font-size: 12px;
+  color: var(--col-text-muted);
+  margin-bottom: 8px;
+}
+
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.chip-row button {
+  border-radius: 16px;
+  padding: 0 12px;
+  height: 32px;
+  font-size: 13px;
+  border: 1px solid var(--col-border) !important;
+  color: var(--col-text) !important;
+  background: var(--col-surface-2) !important;
+}
+
+.chip-row button:hover {
+  border-color: var(--col-gold) !important;
+  background: var(--col-surface) !important;
+}
+
+.chip-row button.chip-selected {
+  background: var(--col-gold) !important;
+  background-color: var(--col-gold) !important;
+  border-color: var(--col-gold) !important;
+}
+
+.chip-row button.chip-selected .mdc-button__label,
+.chip-row button.chip-selected {
+  color: #1a0f0f !important;
+}
+
+.add-chip-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.add-field { flex: 1; }
+
+.counters-grid {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.counter-field {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 100px;
+}
+
+.counter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.counter-val {
+  font-size: 24px;
+  font-weight: 500;
+  min-width: 32px;
+  text-align: center;
+  color: var(--col-gold-light);
+}
+
+.initiation-group { width: 100%; }
+.initiation-group mat-button-toggle { flex: 1; }
+
+.hint {
+  font-size: 12px;
+  color: var(--col-text-muted);
+  margin: 4px 0 0;
+}
+
+.hint a { color: var(--col-gold); }
+
+.actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.actions button,
+.actions a {
+  flex: 1;
+}

@@ -1,0 +1,43 @@
+.container {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.section {
+  padding: 1.5rem 0;
+}
+
+.section h3 {
+  margin: 0 0 0.5rem;
+  color: var(--col-gold);
+}
+
+.section p {
+  margin: 0 0 1rem;
+  color: var(--col-text-muted);
+}
+
+.warn-text {
+  color: var(--col-danger) !important;
+}
+
+.result {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.result.success {
+  background: #1a2e1a;
+  color: #90c890;
+}
+
+.result.error {
+  background: #3a1a1a;
+  color: var(--col-danger);
+}

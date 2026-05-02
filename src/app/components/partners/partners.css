@@ -1,0 +1,40 @@
+.container {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+h2 {
+  color: var(--col-gold);
+  margin-bottom: 24px;
+}
+
+.add-row { margin-bottom: 8px; }
+
+.name-field { width: 100%; }
+
+.add-action {
+  margin-bottom: 16px;
+}
+
+.add-action button { width: 100%; }
+
+.partner-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 4px 0;
+  color: var(--col-text);
+}
+
+.partner-name {
+  flex: 1;
+  font-size: 16px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 32px 16px;
+  color: var(--col-text-muted);
+}

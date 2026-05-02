@@ -1,0 +1,72 @@
+<mat-toolbar color="primary">
+  <img src="icons/icon-96x96.png" alt="logo" class="toolbar-logo" />
+  <span class="toolbar-title">{{ title() }}</span>
+  <span class="spacer"></span>
+
+  <nav class="desktop-nav">
+    <button mat-button routerLink="/calendar">
+      <mat-icon>calendar_month</mat-icon>
+      Calendar
+    </button>
+    <button mat-button routerLink="/events">
+      <mat-icon>list</mat-icon>
+      Events
+    </button>
+    <button mat-button routerLink="/statistics">
+      <mat-icon>bar_chart</mat-icon>
+      Stats
+    </button>
+    <button mat-button routerLink="/add-event">
+      <mat-icon>add</mat-icon>
+      Add
+    </button>
+    <button mat-button routerLink="/partners">
+      <mat-icon>people</mat-icon>
+      Partners
+    </button>
+    <button mat-button routerLink="/import-export">
+      <mat-icon>settings</mat-icon>
+      Settings
+    </button>
+  </nav>
+</mat-toolbar>
+
+@if (updateAvailable()) {
+  <div class="update-banner">
+    <mat-icon>system_update</mat-icon>
+    <span>A new version is available</span>
+    <button mat-button (click)="applyUpdate()">Update now</button>
+  </div>
+}
+
+<div class="container">
+  <router-outlet></router-outlet>
+</div>
+
+<!-- Mobile bottom nav -->
+<nav class="mobile-nav">
+  <a routerLink="/calendar" routerLinkActive="active" class="mobile-nav-item">
+    <mat-icon>calendar_month</mat-icon>
+    <span>Calendar</span>
+  </a>
+  <a routerLink="/events" routerLinkActive="active" class="mobile-nav-item">
+    <mat-icon>list</mat-icon>
+    <span>Events</span>
+  </a>
+  <a routerLink="/statistics" routerLinkActive="active" class="mobile-nav-item">
+    <mat-icon>bar_chart</mat-icon>
+    <span>Stats</span>
+  </a>
+  <a routerLink="/add-event" routerLinkActive="active" class="mobile-nav-item mobile-nav-add">
+    <mat-icon>add</mat-icon>
+    <span>Add</span>
+  </a>
+  <a routerLink="/partners" routerLinkActive="active" class="mobile-nav-item">
+    <mat-icon>people</mat-icon>
+    <span>Partners</span>
+  </a>
+  <a routerLink="/import-export" routerLinkActive="active" class="mobile-nav-item">
+    <mat-icon>settings</mat-icon>
+    <span>Settings</span>
+  </a>
+</nav>
