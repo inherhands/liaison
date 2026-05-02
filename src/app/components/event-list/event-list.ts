@@ -43,7 +43,18 @@ export class EventListComponent implements OnInit {
   }
 
   backToCalendar(): void {
-    this.router.navigate(['/calendar']);
+    const filter = this.dateFilter();
+    if (filter) {
+      const date = new Date(filter + 'T00:00:00');
+      this.router.navigate(['/calendar'], {
+        queryParams: {
+          year: date.getFullYear(),
+          month: date.getMonth()
+        }
+      });
+    } else {
+      this.router.navigate(['/calendar']);
+    }
   }
 
   asSex(e: TrackerEvent): SexEvent { return e as SexEvent; }
@@ -59,7 +70,15 @@ export class EventListComponent implements OnInit {
   }
 
   editEvent(id: string): void {
-    this.router.navigate(['/edit-event', id]);
+    const params: any = {};
+    const filter = this.dateFilter();
+    if (filter) {
+      params.date = filter;
+      const date = new Date(filter + 'T00:00:00');
+      params.year = date.getFullYear();
+      params.month = date.getMonth();
+    }
+    this.router.navigate(['/edit-event', id], { queryParams: params });
   }
 
   deleteEvent(id: string): void {

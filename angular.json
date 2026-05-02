@@ -7,7 +7,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "tracker-app": {
+    "liaison": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -57,10 +57,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "tracker-app:build:production"
+              "buildTarget": "liaison:build:production"
             },
             "development": {
-              "buildTarget": "tracker-app:build:development"
+              "buildTarget": "liaison:build:development"
             }
           },
           "defaultConfiguration": "development"

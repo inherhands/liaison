@@ -114,6 +114,12 @@ h2 {
 
 .hint a { color: var(--col-gold); }
 
+.cancel-button {
+  border-width: 2px !important;
+  border-color: var(--col-gold) !important;
+  color: var(--col-gold) !important;
+}
+
 .actions {
   display: flex;
   gap: 12px;

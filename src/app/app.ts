@@ -14,7 +14,7 @@ import { filter } from 'rxjs/operators';
   styleUrl: './app.css',
 })
 export class App {
-  protected readonly title = signal('Liaison Vault');
+  protected readonly title = signal('Liaison');
   protected readonly updateAvailable = signal(false);
 
   constructor() {

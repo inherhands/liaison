@@ -42,6 +42,9 @@ export class EventFormComponent implements OnInit {
   private route = inject(ActivatedRoute);
 
   editId: string | null = null;
+  returnDate: string | null = null;
+  returnYear: number | null = null;
+  returnMonth: number | null = null;
   get isEditMode(): boolean { return !!this.editId; }
 
   eventTypes: EventType[] = ['Sex', 'Note', 'Solo', 'Refusal'];
@@ -105,6 +108,12 @@ export class EventFormComponent implements OnInit {
     this.tagOptionService.getOptions('soloTags').then(v => this.soloTagOptions.set(v));
 
     this.editId = this.route.snapshot.paramMap.get('id');
+    this.returnDate = this.route.snapshot.queryParamMap.get('date');
+    const year = this.route.snapshot.queryParamMap.get('year');
+    const month = this.route.snapshot.queryParamMap.get('month');
+    if (year) this.returnYear = parseInt(year, 10);
+    if (month !== null && month !== '') this.returnMonth = parseInt(month, 10);
+    
     if (this.editId) {
       const event = await this.eventService.getEvent(this.editId);
       if (event) this.populateFromEvent(event);
@@ -277,13 +286,37 @@ export class EventFormComponent implements OnInit {
         await this.eventService.createEvent(event);
       }
 
-      this.router.navigate(['/events']);
+      const params: any = {};
+      if (this.returnDate) {
+        params.date = this.returnDate;
+      }
+      if (this.returnYear !== null) {
+        params.year = this.returnYear;
+      }
+      if (this.returnMonth !== null) {
+        params.month = this.returnMonth;
+      }
+      this.router.navigate(['/events'], { queryParams: params });
     } catch (error) {
       console.error('Error saving event:', error);
       alert('Failed to save event');
     } finally {
       this.submitting = false;
     }
+  }
+
+  cancel(): void {
+    const params: any = {};
+    if (this.returnDate) {
+      params.date = this.returnDate;
+    }
+    if (this.returnYear !== null) {
+      params.year = this.returnYear;
+    }
+    if (this.returnMonth !== null) {
+      params.month = this.returnMonth;
+    }
+    this.router.navigate(['/events'], { queryParams: params });
   }
 
   get canSubmit(): boolean {

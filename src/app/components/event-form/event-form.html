@@ -265,6 +265,6 @@
     >
       {{ submitting ? 'Saving...' : isEditMode ? 'Update Event' : 'Save Event' }}
     </button>
-    <a mat-stroked-button routerLink="/events">Cancel</a>
+    <button mat-stroked-button class="cancel-button" type="button" (click)="cancel()">Cancel</button>
   </div>
 </div>

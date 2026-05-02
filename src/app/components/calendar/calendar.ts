@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, signal, computed } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { EventService } from '../../services/event';
@@ -19,6 +19,7 @@ interface CalendarDay {
 })
 export class CalendarComponent implements OnInit {
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
   private eventService = inject(EventService);
 
   today = new Date();
@@ -77,6 +78,15 @@ export class CalendarComponent implements OnInit {
 
   ngOnInit(): void {
     this.eventService.loadEvents();
+    
+    // Check for year and month query parameters (passed from event-list)
+    const year = this.route.snapshot.queryParamMap.get('year');
+    const month = this.route.snapshot.queryParamMap.get('month');
+    
+    if (year && month !== null) {
+      this.viewYear.set(parseInt(year, 10));
+      this.viewMonth.set(parseInt(month, 10));
+    }
   }
 
   prevMonth(): void {
