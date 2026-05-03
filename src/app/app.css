@@ -17,7 +17,7 @@
 .toolbar-title {
   font-size: 1.1rem;
   font-weight: 600;
-  color: var(--col-gold);
+  color: #ffffff;
   letter-spacing: 0.5px;
 }
 
@@ -35,13 +35,13 @@
   align-items: center;
   gap: 10px;
   padding: 8px 16px;
-  background: var(--col-gold-dark);
-  color: var(--col-text);
+  background: #283593;
+  color: #e8eaf6;
   font-size: 14px;
 }
 
 .update-banner mat-icon {
-  color: var(--col-gold-light) !important;
+  color: #aab6fb !important;
   font-size: 20px;
   width: 20px;
   height: 20px;
@@ -50,7 +50,7 @@
 .update-banner span { flex: 1; }
 
 .update-banner button {
-  color: var(--col-gold-light) !important;
+  color: #aab6fb !important;
   font-weight: 600;
 }
 
@@ -66,7 +66,6 @@
 
   .container {
     padding: 12px;
-    /* leave room for the bottom nav */
     padding-bottom: calc(64px + env(safe-area-inset-bottom));
   }
 
@@ -78,8 +77,8 @@
     right: 0;
     height: calc(56px + env(safe-area-inset-bottom));
     padding-bottom: env(safe-area-inset-bottom);
-    background: var(--col-surface);
-    border-top: 1px solid var(--col-border);
+    background: #1a237e;
+    border-top: 1px solid #283593;
     z-index: 100;
   }
 
@@ -90,7 +89,7 @@
     align-items: center;
     justify-content: center;
     gap: 2px;
-    color: var(--col-text-muted);
+    color: rgba(255,255,255,0.6);
     text-decoration: none;
     font-size: 10px;
     padding: 6px 2px;
@@ -105,11 +104,11 @@
   }
 
   .mobile-nav-item.active {
-    color: var(--col-gold);
+    color: #ffffff;
   }
 
   .mobile-nav-add {
-    color: var(--col-gold-dark);
+    color: rgba(255,255,255,0.6);
   }
 
   .mobile-nav-add mat-icon {
@@ -119,6 +118,6 @@
   }
 
   .mobile-nav-add.active {
-    color: var(--col-gold);
+    color: #ffffff;
   }
 }

@@ -11,7 +11,7 @@
 }
 
 h2 {
-  color: var(--col-gold);
+  color: var(--col-primary-light);
   margin-bottom: 8px;
 }
 
@@ -53,20 +53,19 @@ h2 {
 }
 
 .chip-row button:hover {
-  border-color: var(--col-gold) !important;
+  border-color: var(--col-primary) !important;
   background: var(--col-surface) !important;
 }
 
-.chip-row button.chip-selected {
-  background: var(--col-gold) !important;
-  background-color: var(--col-gold) !important;
-  border-color: var(--col-gold) !important;
-}
+/* Default selected state (fallback) */
+.chip-row button.chip-selected,
+.chip-row button.chip-selected .mdc-button__label { color: #ffffff !important; }
 
-.chip-row button.chip-selected .mdc-button__label,
-.chip-row button.chip-selected {
-  color: #1a0f0f !important;
-}
+/* Per-category selected colours */
+.chip-row-blue   button.chip-selected { background: var(--col-tag-blue)   !important; border-color: var(--col-tag-blue)   !important; }
+.chip-row-grey   button.chip-selected { background: var(--col-tag-grey)   !important; border-color: var(--col-tag-grey)   !important; }
+.chip-row-purple button.chip-selected { background: var(--col-tag-purple) !important; border-color: var(--col-tag-purple) !important; }
+.chip-row-green  button.chip-selected { background: var(--col-tag-green)  !important; border-color: var(--col-tag-green)  !important; }
 
 .add-chip-row {
   display: flex;
@@ -100,7 +99,7 @@ h2 {
   font-weight: 500;
   min-width: 32px;
   text-align: center;
-  color: var(--col-gold-light);
+  color: var(--col-primary-light);
 }
 
 .initiation-group { width: 100%; }
@@ -112,12 +111,12 @@ h2 {
   margin: 4px 0 0;
 }
 
-.hint a { color: var(--col-gold); }
+.hint a { color: var(--col-primary-light); }
 
 .cancel-button {
   border-width: 2px !important;
-  border-color: var(--col-gold) !important;
-  color: var(--col-gold) !important;
+  border-color: var(--col-primary) !important;
+  color: var(--col-primary-light) !important;
 }
 
 .actions {

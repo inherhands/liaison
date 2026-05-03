@@ -12,7 +12,7 @@
 
 h2 {
   margin-top: 0;
-  color: var(--col-gold);
+  color: var(--col-primary-light);
 }
 
 .filter-bar {
@@ -26,7 +26,7 @@ h2 {
   flex: 1;
   font-size: 1.1rem;
   font-weight: 600;
-  color: var(--col-gold);
+  color: var(--col-primary-light);
 }
 
 .empty-state {
@@ -36,7 +36,7 @@ h2 {
 }
 
 .empty-state a {
-  color: var(--col-gold);
+  color: var(--col-primary-light);
   text-decoration: none;
   font-weight: 500;
 }
@@ -66,10 +66,7 @@ h2 {
   border-radius: 4px;
 }
 
-.type-sex     { background: #af1c4e; color: #e797b2; }
-.type-note    { background: #0769b7; color: #92bcdf; }
-.type-solo    { background: #781e87; color: #c88bd3; }
-.type-refusal { background: #af6d0c; color: #ebb96c; }
+/* .type-* colours come from global styles.css */
 
 .event-date {
   flex: 1;
@@ -77,9 +74,7 @@ h2 {
   color: var(--col-text-muted);
 }
 
-.event-body {
-  padding: 12px;
-}
+.event-body { padding: 12px; }
 
 .detail-row {
   display: flex;
@@ -96,6 +91,8 @@ h2 {
   height: 18px;
   color: var(--col-text-muted);
 }
+
+/* .sex-icon-* colours come from global styles.css */
 
 .muted {
   color: var(--col-text-muted);
@@ -116,10 +113,7 @@ h2 {
   font-weight: 500;
 }
 
-.chip-blue   { background: #0d47a1; color: #90caf9; }
-.chip-grey   { background: var(--col-surface-2); color: var(--col-text-muted); }
-.chip-green  { background: #1b5e20; color: #a5d6a7; }
-.chip-purple { background: #4a148c; color: #ce93d8; }
+/* .chip-* colours come from global styles.css */
 
 .counters-row {
   display: flex;
@@ -128,15 +122,7 @@ h2 {
   margin-bottom: 8px;
 }
 
-.counter-badge {
-  background: var(--col-surface-2);
-  border: 1px solid var(--col-border);
-  border-radius: 4px;
-  padding: 2px 8px;
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--col-gold-light);
-}
+/* .counter-badge comes from global styles.css */
 
 .note-text {
   margin: 0;

@@ -3,6 +3,7 @@ import { RouterLink, Router, ActivatedRoute } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { EventService } from '../../services/event';
+import { PartnerService } from '../../services/partner';
 import { TrackerEvent, SexEvent, NoteEvent, SoloEvent, RefusalEvent } from '../../models/event.model';
 
 @Component({
@@ -13,6 +14,7 @@ import { TrackerEvent, SexEvent, NoteEvent, SoloEvent, RefusalEvent } from '../.
 })
 export class EventListComponent implements OnInit {
   private eventService = inject(EventService);
+  private partnerService = inject(PartnerService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
 
@@ -27,6 +29,7 @@ export class EventListComponent implements OnInit {
 
   ngOnInit(): void {
     this.eventService.loadEvents();
+    this.partnerService.loadPartners();
     const date = this.route.snapshot.queryParamMap.get('date');
     this.dateFilter.set(date);
   }
@@ -61,6 +64,26 @@ export class EventListComponent implements OnInit {
   asNote(e: TrackerEvent): NoteEvent { return e as NoteEvent; }
   asSolo(e: TrackerEvent): SoloEvent { const s = e as SoloEvent; return { ...s, tags: s.tags ?? [] }; }
   asRefusal(e: TrackerEvent): RefusalEvent { return e as RefusalEvent; }
+
+  partnerIcon(name: string, refused = false): string {
+    const partner = this.partnerService.partners().find(p => p.name === name);
+    if (refused) {
+      if (partner?.sex === 'female') return 'female_off';
+      if (partner?.sex === 'male') return 'male_off';
+      return 'person_off';
+    }
+    if (partner?.sex === 'female') return 'female';
+    if (partner?.sex === 'male') return 'male';
+    return 'person';
+  }
+
+  partnerIconClass(name: string): string {
+    const partner = this.partnerService.partners().find(p => p.name === name);
+    if (partner?.sex === 'female') return 'sex-icon-female';
+    if (partner?.sex === 'male') return 'sex-icon-male';
+    if (partner?.sex === 'other') return 'sex-icon-other';
+    return 'sex-icon-none';
+  }
 
   formatDate(iso: string): string {
     return new Date(iso).toLocaleString(undefined, {

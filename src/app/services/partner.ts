@@ -24,6 +24,11 @@ export class PartnerService {
     return id;
   }
 
+  updatePartner(partner: Partner): void {
+    this.partners.update(list => list.map(p => p.id === partner.id ? partner : p));
+    this.db.putPartner(partner).catch(e => console.error('Failed to update partner:', e));
+  }
+
   deletePartner(id: string): void {
     this.partners.update(list => list.filter(p => p.id !== id));
     this.db.deletePartner(id).catch(e => console.error('Failed to delete partner:', e));

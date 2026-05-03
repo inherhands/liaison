@@ -1,6 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 
-export type Theme = 'dark' | 'material';
+export type Theme = 'dark' | 'light';
 
 @Injectable({ providedIn: 'root' })
 export class ThemeService {
@@ -9,16 +9,18 @@ export class ThemeService {
   readonly theme = signal<Theme>(this.loadTheme());
 
   private loadTheme(): Theme {
-    return (localStorage.getItem(this.STORAGE_KEY) as Theme) ?? 'dark';
+    const stored = localStorage.getItem(this.STORAGE_KEY);
+    if (stored === 'material') return 'light'; // migrate old value
+    return (stored as Theme) ?? 'dark';
   }
 
   setTheme(theme: Theme): void {
     this.theme.set(theme);
     localStorage.setItem(this.STORAGE_KEY, theme);
-    document.body.classList.toggle('theme-material', theme === 'material');
+    document.body.classList.toggle('theme-light', theme === 'light');
   }
 
   init(): void {
-    document.body.classList.toggle('theme-material', this.theme() === 'material');
+    document.body.classList.toggle('theme-light', this.theme() === 'light');
   }
 }

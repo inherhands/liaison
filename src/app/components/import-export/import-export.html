@@ -3,15 +3,15 @@
 
   <section class="section">
     <h3>Theme</h3>
-    <p>Choose between the custom dark theme or the default Material look.</p>
+    <p>Choose between dark and light themes.</p>
     <mat-button-toggle-group [value]="theme()" (change)="setTheme($event.value)">
       <mat-button-toggle value="dark">
         <mat-icon>dark_mode</mat-icon>
         Dark
       </mat-button-toggle>
-      <mat-button-toggle value="material">
+      <mat-button-toggle value="light">
         <mat-icon>light_mode</mat-icon>
-        Material
+        Light
       </mat-button-toggle>
     </mat-button-toggle-group>
   </section>

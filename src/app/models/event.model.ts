@@ -45,6 +45,7 @@ export type TrackerEvent = SexEvent | NoteEvent | SoloEvent | RefusalEvent;
 export interface Partner {
   id: string;
   name: string;
+  sex?: 'male' | 'female' | 'other';
 }
 
 export type TagCategory = 'sexType' | 'positions' | 'tags' | 'toys' | 'soloToys' | 'soloTags';

@@ -1,11 +1,11 @@
 .container {
-  max-width: 500px;
+  max-width: 600px;
   margin: 0 auto;
   padding: 16px;
 }
 
 h2 {
-  color: var(--col-gold);
+  color: var(--col-primary-light);
   margin-bottom: 24px;
 }
 
@@ -14,27 +14,105 @@ h2 {
 .name-field { width: 100%; }
 
 .add-action {
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
 .add-action button { width: 100%; }
-
-.partner-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  width: 100%;
-  padding: 4px 0;
-  color: var(--col-text);
-}
-
-.partner-name {
-  flex: 1;
-  font-size: 16px;
-}
 
 .empty-state {
   text-align: center;
   padding: 32px 16px;
   color: var(--col-text-muted);
 }
+
+/* ── Partner card ── */
+
+.partner-card {
+  border: 1px solid var(--col-border);
+  border-radius: 8px;
+  margin-bottom: 12px;
+  overflow: hidden;
+  background: var(--col-surface);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  background: var(--col-surface-2);
+}
+
+.partner-name {
+  flex: 1;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--col-text);
+}
+
+.sex-icon {
+  font-size: 22px;
+  width: 22px;
+  height: 22px;
+}
+
+/* .sex-icon-* colours come from global styles.css */
+
+.card-body {
+  padding: 10px 12px 12px;
+}
+
+.stat-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: var(--col-text);
+  margin-bottom: 10px;
+}
+
+.stat-row.muted {
+  color: var(--col-text-muted);
+}
+
+.stat-icon {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+  color: var(--col-text-muted);
+}
+
+.stat-label {
+  color: var(--col-text-muted);
+}
+
+.stat-value {
+  font-weight: 500;
+}
+
+/* ── Chips ── */
+
+.stats-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 2px 10px 2px 6px;
+  border-radius: 12px;
+}
+
+.chip-icon {
+  font-size: 14px;
+  width: 14px;
+  height: 14px;
+}
+
+.chip-sex     { background: var(--col-sex);     color: var(--col-sex-light); }
+.chip-refusal { background: var(--col-refusal); color: var(--col-refusal-light); }

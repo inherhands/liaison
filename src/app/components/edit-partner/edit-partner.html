@@ -1,0 +1,26 @@
+<div class="container">
+  <h2>Edit Partner</h2>
+
+  <mat-form-field class="full-width">
+    <mat-label>Name</mat-label>
+    <input matInput [(ngModel)]="name" (keyup.enter)="save()" />
+  </mat-form-field>
+
+  <mat-form-field class="full-width">
+    <mat-label>Sex (optional)</mat-label>
+    <mat-select [(ngModel)]="sex">
+      <mat-option value="">Not specified</mat-option>
+      <mat-option value="female">Female</mat-option>
+      <mat-option value="male">Male</mat-option>
+      <mat-option value="other">Other</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div class="actions">
+    <button mat-button (click)="cancel()">Cancel</button>
+    <button mat-raised-button color="primary" (click)="save()" [disabled]="!name.trim()">
+      <mat-icon>save</mat-icon>
+      Save
+    </button>
+  </div>
+</div>

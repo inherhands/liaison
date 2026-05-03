@@ -44,7 +44,7 @@
 
     <div class="section">
       <label class="field-label">Sex Type</label>
-      <div class="chip-row">
+      <div class="chip-row chip-row-blue">
         @for (opt of sexTypeOptions(); track opt) {
           <button mat-stroked-button type="button"
             [class.chip-selected]="isSelected(sexTypeSelected, opt)"
@@ -89,7 +89,7 @@
 
     <div class="section">
       <label class="field-label">Positions</label>
-      <div class="chip-row">
+      <div class="chip-row chip-row-grey">
         @for (opt of positionOptions(); track opt) {
           <button mat-stroked-button type="button"
             [class.chip-selected]="isSelected(positionsSelected, opt)"
@@ -107,7 +107,7 @@
 
     <div class="section">
       <label class="field-label">Toys</label>
-      <div class="chip-row">
+      <div class="chip-row chip-row-purple">
         @for (opt of toyOptions(); track opt) {
           <button mat-stroked-button type="button"
             [class.chip-selected]="isSelected(toysSelected, opt)"
@@ -125,7 +125,7 @@
 
     <div class="section">
       <label class="field-label">Tags</label>
-      <div class="chip-row">
+      <div class="chip-row chip-row-green">
         @for (opt of tagOptions(); track opt) {
           <button mat-stroked-button type="button"
             [class.chip-selected]="isSelected(tagsSelected, opt)"
@@ -172,7 +172,7 @@
   @if (selectedType === 'Solo') {
     <div class="section">
       <label class="field-label">Toys</label>
-      <div class="chip-row">
+      <div class="chip-row chip-row-purple">
         @for (opt of soloToyOptions(); track opt) {
           <button mat-stroked-button type="button"
             [class.chip-selected]="isSelected(soloToysSelected, opt)"
@@ -209,7 +209,7 @@
 
     <div class="section">
       <label class="field-label">Tags</label>
-      <div class="chip-row">
+      <div class="chip-row chip-row-green">
         @for (opt of soloTagOptions(); track opt) {
           <button mat-stroked-button type="button"
             [class.chip-selected]="isSelected(soloTagsSelected, opt)"

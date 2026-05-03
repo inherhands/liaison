@@ -14,19 +14,52 @@
     </button>
   </div>
 
-  @if (partners().length === 0) {
+  @if (partnerCards().length === 0) {
     <div class="empty-state">
       <p>No partners yet. Add one above.</p>
     </div>
   }
 
-  @for (partner of partners(); track partner.id) {
-    <div class="partner-row">
-      <mat-icon>person</mat-icon>
-      <span class="partner-name">{{ partner.name }}</span>
-      <button mat-icon-button color="warn" (click)="deletePartner(partner.id)">
-        <mat-icon>delete</mat-icon>
-      </button>
+  @for (card of partnerCards(); track card.partner.id) {
+    <div class="partner-card">
+      <div class="card-header">
+        <mat-icon class="sex-icon sex-icon-{{ card.partner.sex ?? 'none' }}">{{ sexIcon(card.partner) }}</mat-icon>
+        <span class="partner-name">{{ card.partner.name }}</span>
+        <button mat-icon-button (click)="editPartner(card.partner.id)" title="Edit">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button class="danger" (click)="deletePartner(card.partner.id)" title="Delete">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+      <div class="card-body">
+        @if (card.lastSexLabel) {
+          <div class="stat-row">
+            <mat-icon class="stat-icon">schedule</mat-icon>
+            <span class="stat-label">Last time:</span>
+            <span class="stat-value">{{ card.lastSexLabel }}</span>
+          </div>
+        } @else {
+          <div class="stat-row muted">
+            <mat-icon class="stat-icon">schedule</mat-icon>
+            <span>No encounters recorded</span>
+          </div>
+        }
+        <div class="stats-chips">
+          @if (card.sexThisYear > 0) {
+            <span class="chip chip-sex">
+              <mat-icon class="chip-icon">favorite</mat-icon>
+              {{ card.sexThisYear }} this year
+            </span>
+          }
+          @if (card.refusalsThisYear > 0) {
+            <span class="chip chip-refusal">
+              <mat-icon class="chip-icon">block</mat-icon>
+              {{ card.refusalsThisYear }} refusal{{ card.refusalsThisYear === 1 ? '' : 's' }} this year
+            </span>
+          }
+        </div>
+      </div>
     </div>
   }
 </div>

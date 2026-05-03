@@ -28,7 +28,7 @@
         <button mat-icon-button (click)="editEvent(event.id)">
           <mat-icon>edit</mat-icon>
         </button>
-        <button mat-icon-button color="warn" (click)="deleteEvent(event.id)">
+        <button mat-icon-button class="danger" (click)="deleteEvent(event.id)">
           <mat-icon>delete</mat-icon>
         </button>
       </div>
@@ -36,7 +36,7 @@
       @if (event.type === 'Sex') {
         <div class="event-body">
           <div class="detail-row">
-            <mat-icon class="detail-icon">person</mat-icon>
+            <mat-icon class="detail-icon" [class]="partnerIconClass(asSex(event).partner)">{{ partnerIcon(asSex(event).partner) }}</mat-icon>
             <span>{{ asSex(event).partner }}</span>
             <span class="muted">· initiated by {{ asSex(event).initiation }}</span>
           </div>
@@ -114,7 +114,7 @@
       @if (event.type === 'Refusal') {
         <div class="event-body">
           <div class="detail-row">
-            <mat-icon class="detail-icon">person_off</mat-icon>
+            <mat-icon class="detail-icon" [class]="partnerIconClass(asRefusal(event).partner)">{{ partnerIcon(asRefusal(event).partner, true) }}</mat-icon>
             <span>{{ asRefusal(event).partner }}</span>
           </div>
           @if (asRefusal(event).text) {

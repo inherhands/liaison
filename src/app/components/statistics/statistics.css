@@ -27,7 +27,7 @@
   font-weight: 700;
   min-width: 64px;
   text-align: center;
-  color: var(--col-gold-light);
+  color: var(--col-primary-light);
 }
 
 /* ── Filter row ───────────────────────────── */
@@ -53,21 +53,26 @@
 }
 
 .filter-btn:hover {
-  border-color: var(--col-gold);
+  border-color: var(--col-primary);
   color: var(--col-text);
 }
 
 .filter-btn.active {
-  border-color: var(--col-gold);
-  color: var(--col-surface);
-  background: var(--col-gold);
+  border-color: #3f51b5;
+  color: #ffffff;
+  background: #3f51b5;
 }
 
-/* Per-type active colours */
-.filter-btn-sex.active     { background: #c2607a; border-color: #c2607a; color: #fff; }
-.filter-btn-solo.active    { background: #9060b0; border-color: #9060b0; color: #fff; }
-.filter-btn-note.active    { background: #5080b0; border-color: #5080b0; color: #fff; }
-.filter-btn-refusal.active { background: var(--col-gold-dark); border-color: var(--col-gold-dark); color: #fff; }
+/* Per-type hover + active colours */
+.filter-btn-sex:hover     { border-color: var(--col-sex); }
+.filter-btn-solo:hover    { border-color: var(--col-solo); }
+.filter-btn-note:hover    { border-color: var(--col-note); }
+.filter-btn-refusal:hover { border-color: var(--col-refusal); }
+
+.filter-btn-sex.active     { background: var(--col-sex);     border-color: var(--col-sex);     color: #fff; }
+.filter-btn-solo.active    { background: var(--col-solo);    border-color: var(--col-solo);    color: #fff; }
+.filter-btn-note.active    { background: var(--col-note);    border-color: var(--col-note);    color: #fff; }
+.filter-btn-refusal.active { background: var(--col-refusal); border-color: var(--col-refusal); color: #fff; }
 
 /* ── Chart ────────────────────────────────── */
 
@@ -109,10 +114,7 @@
   transition: height 0.3s ease;
 }
 
-.seg-sex     { background: #c2607a; }
-.seg-solo    { background: #9060b0; }
-.seg-note    { background: #5080b0; }
-.seg-refusal { background: var(--col-gold-dark); }
+/* .seg-* and .dot-* colours come from global styles.css */
 
 .bar-count {
   font-size: 10px;
@@ -155,7 +157,7 @@
 .stats-section h3 {
   margin: 0 0 0.75rem;
   font-size: 1rem;
-  color: var(--col-gold);
+  color: var(--col-primary-light);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -185,7 +187,7 @@
 
 .stat-value {
   font-weight: 600;
-  color: var(--col-gold-light);
+  color: var(--col-primary-light);
   text-align: right;
   white-space: nowrap;
 }
