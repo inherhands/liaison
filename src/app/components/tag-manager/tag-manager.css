@@ -1,0 +1,79 @@
+.container {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+h2 {
+  color: var(--col-primary-light);
+  margin-bottom: 0.25rem;
+}
+
+.category-section {
+  padding: 1.25rem 0 0.75rem;
+}
+
+.category-section h3 {
+  margin: 0 0 0.75rem;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--col-text-muted);
+}
+
+.chip-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 0.75rem;
+  min-height: 32px;
+}
+
+/* .chip-* colours come from global styles.css */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px 4px 3px 10px;
+  border-radius: 16px;
+  font-size: 13px;
+}
+
+.chip-delete {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  color: inherit;
+  opacity: 0.7;
+  line-height: 1;
+}
+
+.chip-delete:hover { opacity: 1; }
+
+.chip-delete .mat-icon {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+  color: inherit !important;
+}
+
+.empty-hint {
+  font-size: 13px;
+  color: var(--col-text-muted);
+  font-style: italic;
+}
+
+.add-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.add-field { flex: 1; }
+
+.back-row {
+  padding: 1rem 0 0.5rem;
+}

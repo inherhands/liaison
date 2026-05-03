@@ -244,6 +244,28 @@ export class Database {
     });
   }
 
+  async countTagOptions(): Promise<number> {
+    await this.ensureReady();
+    const tx = this.db!.transaction(this.tagOptionsStore, 'readonly');
+    const store = tx.objectStore(this.tagOptionsStore);
+    const request = store.count();
+    return new Promise((resolve, reject) => {
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+  }
+
+  async deleteTagOption(id: string): Promise<void> {
+    await this.ensureReady();
+    const tx = this.db!.transaction(this.tagOptionsStore, 'readwrite');
+    const store = tx.objectStore(this.tagOptionsStore);
+    const request = store.delete(id);
+    return new Promise((resolve, reject) => {
+      request.onsuccess = () => resolve();
+      request.onerror = () => reject(request.error);
+    });
+  }
+
   async clearTagOptions(): Promise<void> {
     await this.ensureReady();
     const tx = this.db!.transaction(this.tagOptionsStore, 'readwrite');

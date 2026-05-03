@@ -5,6 +5,7 @@ import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
 import { ThemeService } from './services/theme';
+import { TagOptionService } from './services/tag-option';
 import { filter } from 'rxjs/operators';
 
 @Component({
@@ -19,6 +20,7 @@ export class App {
 
   constructor() {
     inject(ThemeService).init();
+    inject(TagOptionService).seedIfEmpty();
 
     const swUpdate = inject(SwUpdate, { optional: true });
     if (swUpdate?.isEnabled) {

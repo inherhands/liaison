@@ -19,6 +19,28 @@
   <mat-divider></mat-divider>
 
   <section class="section">
+    <h3>Partners</h3>
+    <p>Manage your partners and their details.</p>
+    <a mat-raised-button color="primary" routerLink="/partners">
+      <mat-icon>people</mat-icon>
+      Manage Partners
+    </a>
+  </section>
+
+  <mat-divider></mat-divider>
+
+  <section class="section">
+    <h3>Tag Options</h3>
+    <p>Manage the options available in the event form for sex types, positions, toys and tags.</p>
+    <a mat-raised-button color="primary" routerLink="/tag-manager">
+      <mat-icon>sell</mat-icon>
+      Manage Tags
+    </a>
+  </section>
+
+  <mat-divider></mat-divider>
+
+  <section class="section">
     <h3>Export</h3>
     <p>Download all your data as a JSON backup file.</p>
     <button mat-raised-button color="primary" (click)="exportData()" [disabled]="exporting()">

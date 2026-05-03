@@ -1,0 +1,42 @@
+<div class="container">
+  <h2>Tag Options</h2>
+
+  @for (group of groups(); track group.category) {
+    <section class="category-section">
+      <h3>{{ group.label }}</h3>
+
+      <div class="chip-list">
+        @for (opt of group.options; track opt.id) {
+          <span class="chip {{ group.chipClass }}">
+            {{ opt.value }}
+            <button class="chip-delete" (click)="deleteOption(group, opt)" title="Remove">
+              <mat-icon>close</mat-icon>
+            </button>
+          </span>
+        }
+        @if (group.options.length === 0) {
+          <span class="empty-hint">No options yet.</span>
+        }
+      </div>
+
+      <div class="add-row">
+        <mat-form-field class="add-field">
+          <mat-label>Add option</mat-label>
+          <input matInput [(ngModel)]="group.newValue" (keydown)="onKeydown($event, group)" />
+        </mat-form-field>
+        <button mat-icon-button (click)="addOption(group)" [disabled]="!group.newValue.trim()" title="Add">
+          <mat-icon>add_circle</mat-icon>
+        </button>
+      </div>
+    </section>
+
+    <mat-divider></mat-divider>
+  }
+
+  <div class="back-row">
+    <a mat-button routerLink="/import-export">
+      <mat-icon>arrow_back</mat-icon>
+      Back to Settings
+    </a>
+  </div>
+</div>

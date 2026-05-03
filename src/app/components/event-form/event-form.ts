@@ -58,17 +58,17 @@ export class EventFormComponent implements OnInit {
 
   // Sex fields
   sexPartner = '';
-  sexTypeOptions = signal(['Vaginal', 'Anal']);
+  sexTypeOptions = signal<string[]>([]);
   sexTypeSelected = signal<string[]>([]);
   sexCount = 1;
   myOrgasms = 0;
   partnerOrgasms = 0;
-  positionOptions = signal(['Woman on top', 'Man on top', '69', 'Doggy']);
+  positionOptions = signal<string[]>([]);
   positionsSelected = signal<string[]>([]);
-  tagOptions = signal(['Sleepy', 'Quick', 'Romantic']);
+  tagOptions = signal<string[]>([]);
   tagsSelected = signal<string[]>([]);
   initiation: 'Me' | 'Partner' | 'Both' = 'Both';
-  toyOptions = signal(['Dildo', 'Vibrator', 'Butt Plug']);
+  toyOptions = signal<string[]>([]);
   toysSelected = signal<string[]>([]);
 
   // Note fields
@@ -77,9 +77,9 @@ export class EventFormComponent implements OnInit {
   // Solo fields
   soloCount = 1;
   soloMyOrgasms = 0;
-  soloToyOptions = signal(['Dildo', 'Vibrator', 'Butt Plug']);
+  soloToyOptions = signal<string[]>([]);
   soloToysSelected = signal<string[]>([]);
-  soloTagOptions = signal(['Quick', 'Sleepy', 'Edging']);
+  soloTagOptions = signal<string[]>([]);
   soloTagsSelected = signal<string[]>([]);
   soloNotes = '';
 
@@ -105,7 +105,7 @@ export class EventFormComponent implements OnInit {
     this.tagOptionService.getOptions('positions').then(v => this.positionOptions.set(v));
     this.tagOptionService.getOptions('tags').then(v => this.tagOptions.set(v));
     this.tagOptionService.getOptions('toys').then(v => this.toyOptions.set(v));
-    this.tagOptionService.getOptions('soloToys').then(v => this.soloToyOptions.set(v));
+    this.tagOptionService.getOptions('toys').then(v => this.soloToyOptions.set(v));
     this.tagOptionService.getOptions('soloTags').then(v => this.soloTagOptions.set(v));
 
     this.editId = this.route.snapshot.paramMap.get('id');
@@ -210,7 +210,7 @@ export class EventFormComponent implements OnInit {
     if (val && !this.soloToyOptions().includes(val)) {
       this.soloToyOptions.update(o => [...o, val]);
       this.soloToysSelected.update(s => [...s, val]);
-      this.tagOptionService.ensureOption('soloToys', val);
+      this.tagOptionService.ensureOption('toys', val);
     }
   }
 

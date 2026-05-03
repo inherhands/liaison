@@ -57,6 +57,11 @@ h2 {
   background: var(--col-surface) !important;
 }
 
+.chip-row-blue   button:hover { border-color: var(--col-tag-blue)   !important; }
+.chip-row-grey   button:hover { border-color: var(--col-tag-grey)   !important; }
+.chip-row-purple button:hover { border-color: var(--col-tag-purple) !important; }
+.chip-row-green  button:hover { border-color: var(--col-tag-green)  !important; }
+
 /* Default selected state (fallback) */
 .chip-row button.chip-selected,
 .chip-row button.chip-selected .mdc-button__label { color: #ffffff !important; }

@@ -116,3 +116,7 @@ h2 {
 
 .chip-sex     { background: var(--col-sex);     color: var(--col-sex-light); }
 .chip-refusal { background: var(--col-refusal); color: var(--col-refusal-light); }
+
+.back-row {
+  padding: 1rem 0 0.5rem;
+}

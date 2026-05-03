@@ -48,10 +48,11 @@ export interface Partner {
   sex?: 'male' | 'female' | 'other';
 }
 
-export type TagCategory = 'sexType' | 'positions' | 'tags' | 'toys' | 'soloToys' | 'soloTags';
+export type TagCategory = 'sexType' | 'positions' | 'tags' | 'toys' | 'soloTags';
 
 export interface TagOption {
   id: string; // `${category}:${value}`
   category: TagCategory;
   value: string;
+  createdAt?: number;
 }

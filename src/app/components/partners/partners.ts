@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, computed } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -21,6 +21,7 @@ interface PartnerCard {
   selector: 'app-partners',
   imports: [
     FormsModule,
+    RouterLink,
     MatButtonModule,
     MatIconModule,
     MatInputModule,

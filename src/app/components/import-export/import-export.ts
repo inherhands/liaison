@@ -1,4 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
@@ -20,7 +21,7 @@ interface BackupData {
 
 @Component({
   selector: 'app-import-export',
-  imports: [MatButtonModule, MatIconModule, MatDividerModule, MatButtonToggleModule],
+  imports: [RouterLink, MatButtonModule, MatIconModule, MatDividerModule, MatButtonToggleModule],
   templateUrl: './import-export.html',
   styleUrl: './import-export.css',
 })

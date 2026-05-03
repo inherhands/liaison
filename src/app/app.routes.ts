@@ -6,6 +6,7 @@ import { EditPartnerComponent } from './components/edit-partner/edit-partner';
 import { ImportExportComponent } from './components/import-export/import-export';
 import { CalendarComponent } from './components/calendar/calendar';
 import { StatisticsComponent } from './components/statistics/statistics';
+import { TagManagerComponent } from './components/tag-manager/tag-manager';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'calendar', pathMatch: 'full' },
@@ -15,6 +16,7 @@ export const routes: Routes = [
   { path: 'partners', component: PartnersComponent },
   { path: 'edit-partner/:id', component: EditPartnerComponent },
   { path: 'import-export', component: ImportExportComponent },
+  { path: 'tag-manager', component: TagManagerComponent },
   { path: 'calendar', component: CalendarComponent },
   { path: 'statistics', component: StatisticsComponent },
 ];
