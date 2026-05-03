@@ -51,6 +51,7 @@
   gap: 3px;
   transition: background 0.1s;
   user-select: none;
+  background-color: #271b1b;
 }
 
 .day-cell.clickable { cursor: pointer; }
@@ -100,10 +101,10 @@
   display: inline-block;
 }
 
-.dot-sex     { background: #e8a0b0; }
-.dot-solo    { background: #c0a0d8; }
-.dot-note    { background: #9abcda; }
-.dot-refusal { background: var(--col-gold); }
+.dot-sex     { background: #e91e63; }
+.dot-solo    { background: #9c27b0; }
+.dot-note    { background: #2196f3; }
+.dot-refusal { background: #ff9800; }
 
 .legend {
   display: flex;

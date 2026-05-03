@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -40,6 +40,7 @@ export class EventFormComponent implements OnInit {
   private tagOptionService = inject(TagOptionService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
+  private cdr = inject(ChangeDetectorRef);
 
   editId: string | null = null;
   returnDate: string | null = null;
@@ -51,7 +52,7 @@ export class EventFormComponent implements OnInit {
   partners = this.partnerService.partners;
   submitting = false;
 
-  selectedType: EventType = 'Sex';
+  selectedType: EventType | null = null;
   pickerDate: Date = new Date();
   pickerTime: string = new Date().toTimeString().slice(0, 5);
 
@@ -117,6 +118,9 @@ export class EventFormComponent implements OnInit {
     if (this.editId) {
       const event = await this.eventService.getEvent(this.editId);
       if (event) this.populateFromEvent(event);
+      this.cdr.detectChanges();
+    } else {
+      this.selectedType = 'Sex';
     }
   }
 
@@ -321,6 +325,7 @@ export class EventFormComponent implements OnInit {
 
   get canSubmit(): boolean {
     const type = this.selectedType;
+    if (!type) return false;
     if (type === 'Sex') return !!this.sexPartner;
     if (type === 'Note') return !!this.noteText.trim();
     if (type === 'Refusal') return !!this.refusalPartner;

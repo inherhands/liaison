@@ -421,6 +421,12 @@ body.theme-material .day-cell.today .day-num {
   color: #ffffff;
 }
 
+/* ── Calendar day cells ────────────────────────────────────────────────── */
+body.theme-material .day-cell {
+  background-color: #f1f1f1 !important;
+}
+
+
 /* ── Calendar hover ─────────────────────────────────────────────────────── */
 body.theme-material .day-cell.clickable:hover {
   background: #e8eaf6;
