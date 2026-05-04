@@ -73,4 +73,23 @@
       </div>
     }
   </section>
+
+  <mat-divider></mat-divider>
+
+  <section class="section">
+    <h3>Erase All Data</h3>
+    <p class="warn-text">This will permanently remove all events, partners, tag options and settings from this device and cannot be undone.</p>
+    <p>The app will restart fresh, as if newly installed. Ensure you have exported a backup before proceeding.</p>
+    <button mat-raised-button color="accent" (click)="eraseAllData()" [disabled]="erasing()">
+      <mat-icon>delete_forever</mat-icon>
+      {{ erasing() ? 'Erasing...' : 'Erase All Data' }}
+    </button>
+
+    @if (eraseResult(); as result) {
+      <div class="result" [class.success]="result.success" [class.error]="!result.success">
+        <mat-icon>{{ result.success ? 'check_circle' : 'error' }}</mat-icon>
+        <span>{{ result.message }}</span>
+      </div>
+    }
+  </section>
 </div>

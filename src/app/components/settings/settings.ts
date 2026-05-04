@@ -20,12 +20,12 @@ interface BackupData {
 }
 
 @Component({
-  selector: 'app-import-export',
+  selector: 'app-settings',
   imports: [RouterLink, MatButtonModule, MatIconModule, MatDividerModule, MatButtonToggleModule],
-  templateUrl: './import-export.html',
-  styleUrl: './import-export.css',
+  templateUrl: './settings.html',
+  styleUrl: './settings.css',
 })
-export class ImportExportComponent {
+export class SettingsComponent {
   private db = inject(Database);
   private eventService = inject(EventService);
   private partnerService = inject(PartnerService);
@@ -36,7 +36,9 @@ export class ImportExportComponent {
 
   exporting = signal(false);
   importing = signal(false);
+  erasing = signal(false);
   importResult = signal<{ success: boolean; message: string } | null>(null);
+  eraseResult = signal<{ success: boolean; message: string } | null>(null);
 
   setTheme(t: Theme): void {
     this.themeService.setTheme(t);
@@ -76,6 +78,29 @@ export class ImportExportComponent {
     document.getElementById('import-file-input')?.click();
   }
 
+  async eraseAllData(): Promise<void> {
+    const confirmed = confirm(
+      'Are you sure you want to erase everything?\n\nAll events, partners, tag options and settings will be permanently removed from this device. The app will restart fresh, as if newly installed.\n\nThis cannot be undone. Ensure you have exported a backup first.'
+    );
+    if (!confirmed) return;
+
+    this.erasing.set(true);
+    try {
+      this.db.close();
+      await new Promise<void>((resolve, reject) => {
+        const req = indexedDB.deleteDatabase('liaison-events');
+        req.onsuccess = () => resolve();
+        req.onerror = () => reject(req.error);
+        req.onblocked = () => reject(new Error('Database is blocked'));
+      });
+      localStorage.clear();
+      window.location.href = '/liaison/';
+    } catch (e) {
+      this.eraseResult.set({ success: false, message: 'Failed to erase data: ' + (e as Error).message });
+      this.erasing.set(false);
+    }
+  }
+
   async onFileSelected(event: Event): Promise<void> {
     const input = event.target as HTMLInputElement;
     const file = input.files?.[0];
@@ -109,9 +134,10 @@ export class ImportExportComponent {
       await this.eventService.loadEvents();
       await this.partnerService.loadPartners();
 
+      const tagCount = (data.tagOptions ?? []).length;
       this.importResult.set({
         success: true,
-        message: `Restored ${data.events.length} events, ${data.partners.length} partners.`,
+        message: `Restored ${data.events.length} event${data.events.length === 1 ? '' : 's'}, ${data.partners.length} partner${data.partners.length === 1 ? '' : 's'} and ${tagCount} tag option${tagCount === 1 ? '' : 's'}.`,
       });
     } catch (e) {
       this.importResult.set({ success: false, message: 'Failed to import: ' + (e as Error).message });

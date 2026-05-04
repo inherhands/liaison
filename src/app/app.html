@@ -20,7 +20,7 @@
       <mat-icon>bar_chart</mat-icon>
       Stats
     </button>
-    <button mat-button routerLink="/import-export">
+    <button mat-button routerLink="/settings">
       <mat-icon>settings</mat-icon>
       Settings
     </button>
@@ -38,6 +38,10 @@
 <div class="container">
   <router-outlet></router-outlet>
 </div>
+
+@if (onboarding.active()) {
+  <app-onboarding></app-onboarding>
+}
 
 <!-- Mobile bottom nav -->
 <nav class="mobile-nav">
@@ -57,7 +61,7 @@
     <mat-icon>bar_chart</mat-icon>
     <span>Stats</span>
   </a>
-  <a routerLink="/import-export" routerLinkActive="active" class="mobile-nav-item">
+  <a routerLink="/settings" routerLinkActive="active" class="mobile-nav-item">
     <mat-icon>settings</mat-icon>
     <span>Settings</span>
   </a>

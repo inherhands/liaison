@@ -24,8 +24,8 @@
           <mat-label>Add option</mat-label>
           <input matInput [(ngModel)]="group.newValue" (keydown)="onKeydown($event, group)" />
         </mat-form-field>
-        <button mat-icon-button (click)="addOption(group)" [disabled]="!group.newValue.trim()" title="Add">
-          <mat-icon>add_circle</mat-icon>
+        <button mat-icon-button [class]="'add-btn-' + group.chipClass.replace('chip-', '')" (click)="addOption(group)" [disabled]="!group.newValue.trim()" title="Add">
+          <span class="add-icon-stack"><mat-icon class="add-icon-bg">circle</mat-icon><mat-icon class="add-icon-fg">add</mat-icon></span>
         </button>
       </div>
     </section>
@@ -34,7 +34,7 @@
   }
 
   <div class="back-row">
-    <a mat-button routerLink="/import-export">
+    <a mat-button routerLink="/settings">
       <mat-icon>arrow_back</mat-icon>
       Back to Settings
     </a>

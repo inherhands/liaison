@@ -6,11 +6,11 @@ import { TrackerEvent, Partner, TagOption, TagCategory } from '../models/event.m
 })
 export class Database {
   private db: IDBDatabase | null = null;
-  private dbName = 'tracker-events';
+  private dbName = 'liaison-events';
   private eventsStore = 'events';
   private partnersStore = 'partners';
   private tagOptionsStore = 'tagOptions';
-  private dbVersion = 3;
+  private dbVersion = 4;
   private initPromise: Promise<void> | null = null;
 
   private ensureReady(): Promise<void> {
@@ -242,6 +242,12 @@ export class Database {
       request.onsuccess = () => resolve();
       request.onerror = () => reject(request.error);
     });
+  }
+
+  close(): void {
+    this.db?.close();
+    this.db = null;
+    this.initPromise = null;
   }
 
   async countTagOptions(): Promise<number> {

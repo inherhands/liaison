@@ -5,7 +5,7 @@ import { TagCategory, TagOption } from '../models/event.model';
 export const TAG_DEFAULTS: Record<TagCategory, string[]> = {
   sexType:   ['Vaginal', 'Anal'],
   positions: ['Woman on top', 'Man on top', '69', 'Doggy'],
-  tags:      ['Sleepy', 'Quick', 'Romantic'],
+  tags:      ['Quick', 'Sleepy', 'Romantic'],
   toys:      ['Dildo', 'Vibrator', 'Butt Plug'],
   soloTags:  ['Quick', 'Sleepy', 'Edging'],
 };

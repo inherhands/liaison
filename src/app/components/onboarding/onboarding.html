@@ -1,0 +1,152 @@
+<div class="overlay">
+  <div class="card">
+
+    <!-- Step indicator -->
+    <div class="steps">
+      @for (i of [0,1,2,3]; track i) {
+        <span class="step-dot" [class.active]="step() === i" [class.done]="step() > i"></span>
+      }
+    </div>
+
+    <!-- ── Step 0: Welcome ── -->
+    @if (step() === 0) {
+      <div class="step-content">
+        <img src="icons/icon-192x192.png" alt="Liaison" class="hero-logo" />
+        <h1>Welcome to Liaison</h1>
+        <p class="subtitle">Your private relationship journal.</p>
+
+        <div class="feature-list">
+          <div class="feature">
+            <mat-icon>phone_android</mat-icon>
+            <div>
+              <strong>100% on-device</strong>
+              <span>All data stays on your device. Nothing is sent to any server, ever.</span>
+            </div>
+          </div>
+          <div class="feature">
+            <mat-icon>no_accounts</mat-icon>
+            <div>
+              <strong>No account required</strong>
+              <span>No login, no email, no personal information collected.</span>
+            </div>
+          </div>
+          <div class="feature">
+            <mat-icon>cookie</mat-icon>
+            <div>
+              <strong>No cookies or tracking</strong>
+              <span>No analytics, no ads, no third-party scripts.</span>
+            </div>
+          </div>
+          <div class="feature">
+            <mat-icon>workspace_premium</mat-icon>
+            <div>
+              <strong>No subscriptions or premium</strong>
+              <span>Everything is free. There is no paid tier.</span>
+            </div>
+          </div>
+          <div class="feature">
+            <mat-icon>system_update</mat-icon>
+            <div>
+              <strong>Updates delivered automatically</strong>
+              <span>As a PWA, updates are downloaded silently in the background.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button mat-raised-button color="primary" (click)="next()">
+            Get Started
+            <mat-icon>arrow_forward</mat-icon>
+          </button>
+        </div>
+      </div>
+    }
+
+    <!-- ── Step 1: Add a partner ── -->
+    @if (step() === 1) {
+      <div class="step-content">
+        <mat-icon class="hero-icon">people</mat-icon>
+        <h2>Add your first partner</h2>
+        <p>Events are linked to partners. Add at least one to get started. You can add more later in Settings.</p>
+
+        @if (!partnerAdded()) {
+          <mat-form-field class="full-width">
+            <mat-label>Partner name</mat-label>
+            <input matInput [(ngModel)]="partnerName" (keyup.enter)="addPartner()" placeholder="e.g. Mary" />
+          </mat-form-field>
+          <div class="actions">
+            <button mat-button (click)="next()">Skip</button>
+            <button mat-raised-button color="primary" (click)="addPartner()" [disabled]="!partnerName.trim()">
+              <mat-icon>person_add</mat-icon>
+              Add Partner
+            </button>
+          </div>
+        } @else {
+          <div class="success-row">
+            <mat-icon class="success-icon">check_circle</mat-icon>
+            <span>Partner added! You can add more in Settings → Partners.</span>
+          </div>
+          <div class="actions">
+            <button mat-raised-button color="primary" (click)="next()">
+              Continue
+              <mat-icon>arrow_forward</mat-icon>
+            </button>
+          </div>
+        }
+      </div>
+    }
+
+    <!-- ── Step 2: Tags ── -->
+    @if (step() === 2) {
+      <div class="step-content">
+        <mat-icon class="hero-icon">sell</mat-icon>
+        <h2>Customise your tags</h2>
+        <p>Liaison comes with a default set of tags for sex types, positions, toys and more. You can add, remove or rename any of them.</p>
+        <p>Head to <strong>Settings → Manage Tags</strong> at any time to customise the lists that appear when logging an event.</p>
+
+        <div class="actions">
+          <button mat-raised-button color="primary" (click)="next()">
+            Continue
+            <mat-icon>arrow_forward</mat-icon>
+          </button>
+        </div>
+        <p class="manage-hint">You can manage tags any time in <strong>Settings → Manage Tags</strong>.</p>
+      </div>
+    }
+
+    <!-- ── Step 3: Backup ── -->
+    @if (step() === 3) {
+      <div class="step-content">
+        <mat-icon class="hero-icon">backup</mat-icon>
+        <h2>Back up your data</h2>
+        <p>Because everything lives on your device, there is no cloud backup. If you clear your browser data or switch devices, your data could be lost.</p>
+
+        <div class="feature-list">
+          <div class="feature">
+            <mat-icon>download</mat-icon>
+            <div>
+              <strong>Export</strong>
+              <span>Download a JSON backup file at any time from Settings.</span>
+            </div>
+          </div>
+          <div class="feature">
+            <mat-icon>upload</mat-icon>
+            <div>
+              <strong>Import</strong>
+              <span>Restore from a backup file on any device with the app installed.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button mat-raised-button color="primary" (click)="finish()">
+            <mat-icon>check</mat-icon>
+            Let's go
+          </button>
+        </div>
+      </div>
+    }
+
+    <button mat-button class="skip-btn" (click)="skip()">Skip setup</button>
+  </div>
+</div>

@@ -6,21 +6,29 @@ import { MatIcon } from '@angular/material/icon';
 import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
 import { ThemeService } from './services/theme';
 import { TagOptionService } from './services/tag-option';
+import { OnboardingService } from './services/onboarding';
+import { OnboardingComponent } from './components/onboarding/onboarding';
+import { Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, MatToolbar, MatButton, MatIcon],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, MatToolbar, MatButton, MatIcon, OnboardingComponent],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
 export class App {
   protected readonly title = signal('Liaison');
   protected readonly updateAvailable = signal(false);
+  protected readonly onboarding = inject(OnboardingService);
 
   constructor() {
     inject(ThemeService).init();
-    inject(TagOptionService).seedIfEmpty();
+    this.onboarding.init();
+    if (!this.onboarding.active()) {
+      inject(TagOptionService).seedIfEmpty();
+      inject(Router).navigate(['/calendar']);
+    }
 
     const swUpdate = inject(SwUpdate, { optional: true });
     if (swUpdate?.isEnabled) {
