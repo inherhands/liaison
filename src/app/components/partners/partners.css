@@ -9,9 +9,16 @@ h2 {
   margin-bottom: 24px;
 }
 
-.add-row { margin-bottom: 8px; }
+.add-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 8px;
+}
 
 .name-field { width: 100%; }
+
+.gender-toggle { align-self: flex-start; }
 
 .add-action {
   margin-bottom: 20px;

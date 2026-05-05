@@ -15,6 +15,7 @@ export const routes: Routes = [
   { path: 'add-event', component: EventFormComponent },
   { path: 'edit-event/:id', component: EventFormComponent },
   { path: 'partners', component: PartnersComponent },
+  { path: 'add-partner', component: EditPartnerComponent },
   { path: 'edit-partner/:id', component: EditPartnerComponent },
   { path: 'settings', component: SettingsComponent },
   { path: 'tag-manager', component: TagManagerComponent },

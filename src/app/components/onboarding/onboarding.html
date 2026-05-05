@@ -74,6 +74,12 @@
             <mat-label>Partner name</mat-label>
             <input matInput [(ngModel)]="partnerName" (keyup.enter)="addPartner()" placeholder="e.g. Mary" />
           </mat-form-field>
+          <mat-button-toggle-group [(ngModel)]="partnerSex" class="gender-toggle full-width">
+            <mat-button-toggle value=""><mat-icon>do_not_disturb</mat-icon> None</mat-button-toggle>
+            <mat-button-toggle value="female"><mat-icon>female</mat-icon> Female</mat-button-toggle>
+            <mat-button-toggle value="male"><mat-icon>male</mat-icon> Male</mat-button-toggle>
+            <mat-button-toggle value="other"><mat-icon>person</mat-icon> Other</mat-button-toggle>
+          </mat-button-toggle-group>
           <div class="actions">
             <button mat-button (click)="next()">Skip</button>
             <button mat-raised-button color="primary" (click)="addPartner()" [disabled]="!partnerName.trim()">
@@ -147,6 +153,8 @@
       </div>
     }
 
-    <button mat-button class="skip-btn" (click)="skip()">Skip setup</button>
+    @if (step() !== 3) {
+      <button mat-button class="skip-btn" (click)="skip()">Skip setup</button>
+    }
   </div>
 </div>

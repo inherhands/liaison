@@ -13,7 +13,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { EventService } from '../../services/event';
 import { PartnerService } from '../../services/partner';
 import { TagOptionService } from '../../services/tag-option';
-import { EventType, SexEvent, NoteEvent, SoloEvent, RefusalEvent, TrackerEvent } from '../../models/event.model';
+import { EventType, SexEvent, NoteEvent, SoloEvent, RefusalEvent, HealthEvent, TrackerEvent } from '../../models/event.model';
 import { generateId } from '../../utils/uuid';
 
 @Component({
@@ -48,7 +48,7 @@ export class EventFormComponent implements OnInit {
   returnMonth: number | null = null;
   get isEditMode(): boolean { return !!this.editId; }
 
-  eventTypes: EventType[] = ['Sex', 'Note', 'Solo', 'Refusal'];
+  eventTypes: EventType[] = ['Sex', 'Note', 'Solo', 'Refusal', 'Health'];
   partners = this.partnerService.partners;
   submitting = false;
 
@@ -85,10 +85,22 @@ export class EventFormComponent implements OnInit {
 
   // Refusal fields
   refusalPartner = '';
+  refusalTagOptions = signal<string[]>([]);
+  refusalTagsSelected = signal<string[]>([]);
   refusalText = '';
+  newRefusalTag = '';
 
   // Sex notes
   sexNotes = '';
+
+  // Health fields
+  healthAffected: 'Me' | 'Partner' | 'Both' = 'Me';
+  healthPartner = '';
+  healthSeverity: 'Mild' | 'Moderate' | 'Severe' = 'Mild';
+  healthSymptomOptions = signal<string[]>([]);
+  healthSymptomsSelected = signal<string[]>([]);
+  healthNotes = '';
+  newHealthSymptom = '';
 
   // New tag/option inputs
   newSexType = '';
@@ -99,29 +111,47 @@ export class EventFormComponent implements OnInit {
   newSoloTag = '';
 
   async ngOnInit(): Promise<void> {
-    this.partnerService.loadPartners();
-
-    this.tagOptionService.getOptions('sexType').then(v => this.sexTypeOptions.set(v));
-    this.tagOptionService.getOptions('positions').then(v => this.positionOptions.set(v));
-    this.tagOptionService.getOptions('tags').then(v => this.tagOptions.set(v));
-    this.tagOptionService.getOptions('toys').then(v => this.toyOptions.set(v));
-    this.tagOptionService.getOptions('toys').then(v => this.soloToyOptions.set(v));
-    this.tagOptionService.getOptions('soloTags').then(v => this.soloTagOptions.set(v));
-
     this.editId = this.route.snapshot.paramMap.get('id');
     this.returnDate = this.route.snapshot.queryParamMap.get('date');
     const year = this.route.snapshot.queryParamMap.get('year');
     const month = this.route.snapshot.queryParamMap.get('month');
     if (year) this.returnYear = parseInt(year, 10);
     if (month !== null && month !== '') this.returnMonth = parseInt(month, 10);
-    
-    if (this.editId) {
-      const event = await this.eventService.getEvent(this.editId);
-      if (event) this.populateFromEvent(event);
-      this.cdr.detectChanges();
+
+    const [, sexTypes, positions, tags, toys, soloTags, healthSymptoms, refusalTags, event] = await Promise.all([
+      this.partnerService.loadPartners(),
+      this.tagOptionService.getOptions('sexType'),
+      this.tagOptionService.getOptions('positions'),
+      this.tagOptionService.getOptions('tags'),
+      this.tagOptionService.getOptions('toys'),
+      this.tagOptionService.getOptions('soloTags'),
+      this.tagOptionService.getOptions('healthSymptoms'),
+      this.tagOptionService.getOptions('refusalTags'),
+      this.editId ? this.eventService.getEvent(this.editId) : Promise.resolve(null),
+    ]);
+
+    this.sexTypeOptions.set(sexTypes);
+    this.positionOptions.set(positions);
+    this.tagOptions.set(tags);
+    this.toyOptions.set(toys);
+    this.soloToyOptions.set(toys);
+    this.soloTagOptions.set(soloTags);
+    this.healthSymptomOptions.set(healthSymptoms);
+    this.refusalTagOptions.set(refusalTags);
+
+    if (event) {
+      this.populateFromEvent(event);
     } else {
       this.selectedType = 'Sex';
+      const partners = this.partnerService.partners();
+      if (partners.length === 1) {
+        this.sexPartner = partners[0].name;
+        this.refusalPartner = partners[0].name;
+        this.healthPartner = partners[0].name;
+      }
     }
+
+    this.cdr.detectChanges();
   }
 
   private populateFromEvent(event: TrackerEvent): void {
@@ -151,7 +181,14 @@ export class EventFormComponent implements OnInit {
       this.soloNotes = event.notes ?? '';
     } else if (event.type === 'Refusal') {
       this.refusalPartner = event.partner;
+      this.refusalTagsSelected.set([...(event.tags ?? [])]);
       this.refusalText = event.text;
+    } else if (event.type === 'Health') {
+      this.healthAffected = event.affectedParty;
+      this.healthPartner = event.partner ?? '';
+      this.healthSeverity = event.severity;
+      this.healthSymptomsSelected.set([...event.symptoms]);
+      this.healthNotes = event.notes ?? '';
     }
   }
 
@@ -224,6 +261,26 @@ export class EventFormComponent implements OnInit {
     }
   }
 
+  addHealthSymptom(): void {
+    const val = this.newHealthSymptom.trim();
+    this.newHealthSymptom = '';
+    if (val && !this.healthSymptomOptions().includes(val)) {
+      this.healthSymptomOptions.update(o => [...o, val]);
+      this.healthSymptomsSelected.update(s => [...s, val]);
+      this.tagOptionService.ensureOption('healthSymptoms', val);
+    }
+  }
+
+  addRefusalTag(): void {
+    const val = this.newRefusalTag.trim();
+    this.newRefusalTag = '';
+    if (val && !this.refusalTagOptions().includes(val)) {
+      this.refusalTagOptions.update(o => [...o, val]);
+      this.refusalTagsSelected.update(s => [...s, val]);
+      this.tagOptionService.ensureOption('refusalTags', val);
+    }
+  }
+
   increment(field: 'sexCount' | 'myOrgasms' | 'partnerOrgasms' | 'soloCount' | 'soloMyOrgasms'): void {
     (this[field] as number)++;
   }
@@ -278,8 +335,23 @@ export class EventFormComponent implements OnInit {
           ...base,
           type: 'Refusal',
           partner: this.refusalPartner,
+          tags: this.refusalTagsSelected(),
           text: this.refusalText,
         };
+      } else if (type === 'Health') {
+        const healthEvent: HealthEvent = {
+          id: this.editId ?? generateId(),
+          ...base,
+          type: 'Health',
+          affectedParty: this.healthAffected,
+          severity: this.healthSeverity,
+          symptoms: this.healthSymptomsSelected(),
+          notes: this.healthNotes.trim() || undefined,
+        };
+        if (this.healthAffected !== 'Me') {
+          healthEvent.partner = this.healthPartner;
+        }
+        event = healthEvent;
       }
 
       if (!event) return;
@@ -329,6 +401,7 @@ export class EventFormComponent implements OnInit {
     if (type === 'Sex') return !!this.sexPartner;
     if (type === 'Note') return !!this.noteText.trim();
     if (type === 'Refusal') return !!this.refusalPartner;
+    if (type === 'Health' && this.healthAffected !== 'Me') return !!this.healthPartner;
     return true;
   }
 }

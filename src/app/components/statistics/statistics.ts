@@ -4,8 +4,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { EventService } from '../../services/event';
 import { SexEvent, SoloEvent } from '../../models/event.model';
 
-type EventType = 'Sex' | 'Solo' | 'Note' | 'Refusal';
-const ALL_TYPES: EventType[] = ['Sex', 'Solo', 'Note', 'Refusal'];
+type EventType = 'Sex' | 'Solo' | 'Note' | 'Refusal' | 'Health';
+const ALL_TYPES: EventType[] = ['Sex', 'Solo', 'Note', 'Refusal', 'Health'];
 
 interface MonthBar {
   label: string;
@@ -13,6 +13,7 @@ interface MonthBar {
   solo: number;
   note: number;
   refusal: number;
+  health: number;
   total: number;
 }
 
@@ -80,11 +81,13 @@ export class StatisticsComponent implements OnInit {
       const solo    = month.filter(e => e.type === 'Solo').length;
       const note    = month.filter(e => e.type === 'Note').length;
       const refusal = month.filter(e => e.type === 'Refusal').length;
+      const health  = month.filter(e => e.type === 'Health').length;
       const total = (filters.size === 0 || filters.has('Sex')     ? sex     : 0)
                   + (filters.size === 0 || filters.has('Solo')    ? solo    : 0)
                   + (filters.size === 0 || filters.has('Note')    ? note    : 0)
-                  + (filters.size === 0 || filters.has('Refusal') ? refusal : 0);
-      return { label, sex, solo, note, refusal, total };
+                  + (filters.size === 0 || filters.has('Refusal') ? refusal : 0)
+                  + (filters.size === 0 || filters.has('Health')  ? health  : 0);
+      return { label, sex, solo, note, refusal, health, total };
     });
   });
 
@@ -94,7 +97,8 @@ export class StatisticsComponent implements OnInit {
       return (filters.size === 0 || filters.has('Sex')     ? b.sex     : 0)
            + (filters.size === 0 || filters.has('Solo')    ? b.solo    : 0)
            + (filters.size === 0 || filters.has('Note')    ? b.note    : 0)
-           + (filters.size === 0 || filters.has('Refusal') ? b.refusal : 0);
+           + (filters.size === 0 || filters.has('Refusal') ? b.refusal : 0)
+           + (filters.size === 0 || filters.has('Health')  ? b.health  : 0);
     }), 1);
   });
 

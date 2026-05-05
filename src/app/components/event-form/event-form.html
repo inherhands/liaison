@@ -44,7 +44,7 @@
 
     <div class="section">
       <label class="field-label">Sex Type</label>
-      <div class="chip-row chip-row-blue">
+      <div class="chip-row chip-row-pink">
         @for (opt of sexTypeOptions(); track opt) {
           <button mat-stroked-button type="button"
             [class.chip-selected]="isSelected(sexTypeSelected, opt)"
@@ -56,7 +56,7 @@
           <mat-label>Add sex type</mat-label>
           <input matInput [(ngModel)]="newSexType" (keyup.enter)="addSexType()" />
         </mat-form-field>
-        <button mat-icon-button type="button" class="add-btn-blue" (click)="addSexType()"><span class="add-icon-stack"><mat-icon class="add-icon-bg">circle</mat-icon><mat-icon class="add-icon-fg">add</mat-icon></span></button>
+        <button mat-icon-button type="button" class="add-btn-pink" (click)="addSexType()"><span class="add-icon-stack"><mat-icon class="add-icon-bg">circle</mat-icon><mat-icon class="add-icon-fg">add</mat-icon></span></button>
       </div>
     </div>
 
@@ -89,7 +89,7 @@
 
     <div class="section">
       <label class="field-label">Positions</label>
-      <div class="chip-row chip-row-grey">
+      <div class="chip-row chip-row-blue">
         @for (opt of positionOptions(); track opt) {
           <button mat-stroked-button type="button"
             [class.chip-selected]="isSelected(positionsSelected, opt)"
@@ -101,7 +101,7 @@
           <mat-label>Add position</mat-label>
           <input matInput [(ngModel)]="newPosition" (keyup.enter)="addPosition()" />
         </mat-form-field>
-        <button mat-icon-button type="button" class="add-btn-grey" (click)="addPosition()"><span class="add-icon-stack"><mat-icon class="add-icon-bg">circle</mat-icon><mat-icon class="add-icon-fg">add</mat-icon></span></button>
+        <button mat-icon-button type="button" class="add-btn-blue" (click)="addPosition()"><span class="add-icon-stack"><mat-icon class="add-icon-bg">circle</mat-icon><mat-icon class="add-icon-fg">add</mat-icon></span></button>
       </div>
     </div>
 
@@ -247,9 +247,81 @@
       <p class="hint">Manage partners in the <a routerLink="/partners">Partners</a> page.</p>
     </div>
     <div class="section">
+      <label class="field-label">Reason</label>
+      <div class="chip-row chip-row-orange">
+        @for (opt of refusalTagOptions(); track opt) {
+          <button mat-stroked-button type="button"
+            [class.chip-selected]="isSelected(refusalTagsSelected, opt)"
+            (click)="toggleChip(refusalTagsSelected, opt)">{{ opt }}</button>
+        }
+      </div>
+      <div class="add-chip-row">
+        <mat-form-field class="add-field">
+          <mat-label>Add reason</mat-label>
+          <input matInput [(ngModel)]="newRefusalTag" (keyup.enter)="addRefusalTag()" />
+        </mat-form-field>
+        <button mat-icon-button type="button" class="add-btn-orange" (click)="addRefusalTag()"><span class="add-icon-stack"><mat-icon class="add-icon-bg">circle</mat-icon><mat-icon class="add-icon-fg">add</mat-icon></span></button>
+      </div>
+    </div>
+    <div class="section">
       <mat-form-field class="full-width">
         <mat-label>Notes</mat-label>
         <textarea matInput [(ngModel)]="refusalText" rows="3" placeholder="Optional details..."></textarea>
+      </mat-form-field>
+    </div>
+  }
+
+  <!-- ── Health ── -->
+  @if (selectedType === 'Health') {
+    <div class="section">
+      <label class="field-label">Affected</label>
+      <mat-button-toggle-group [(ngModel)]="healthAffected" class="affectedGroup">
+        <mat-button-toggle value="Me">Me</mat-button-toggle>
+        <mat-button-toggle value="Partner">Partner</mat-button-toggle>
+        <mat-button-toggle value="Both">Both</mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+    @if (healthAffected === 'Partner' || healthAffected === 'Both') {
+      <div class="section">
+        <mat-form-field class="full-width">
+          <mat-label>Partner</mat-label>
+          <mat-select [(ngModel)]="healthPartner">
+            @for (p of partners(); track p.id) {
+              <mat-option [value]="p.name">{{ p.name }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </div>
+    }
+    <div class="section">
+      <label class="field-label">Severity</label>
+      <mat-button-toggle-group [(ngModel)]="healthSeverity" class="healthSeverityGroup">
+        <mat-button-toggle value="Mild">Mild</mat-button-toggle>
+        <mat-button-toggle value="Moderate">Moderate</mat-button-toggle>
+        <mat-button-toggle value="Severe">Severe</mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+    <div class="section">
+      <label class="field-label">Symptoms</label>
+      <div class="chip-row chip-row-teal">
+        @for (opt of healthSymptomOptions(); track opt) {
+          <button mat-stroked-button type="button"
+            [class.chip-selected]="isSelected(healthSymptomsSelected, opt)"
+            (click)="toggleChip(healthSymptomsSelected, opt)">{{ opt }}</button>
+        }
+      </div>
+      <div class="add-chip-row">
+        <mat-form-field class="add-field">
+          <mat-label>Add symptom</mat-label>
+          <input matInput [(ngModel)]="newHealthSymptom" (keyup.enter)="addHealthSymptom()" />
+        </mat-form-field>
+        <button mat-icon-button type="button" class="add-btn-teal" (click)="addHealthSymptom()"><span class="add-icon-stack"><mat-icon class="add-icon-bg">circle</mat-icon><mat-icon class="add-icon-fg">add</mat-icon></span></button>
+      </div>
+    </div>
+    <div class="section">
+      <mat-form-field class="full-width">
+        <mat-label>Notes</mat-label>
+        <textarea matInput [(ngModel)]="healthNotes" rows="3" placeholder="Optional notes..."></textarea>
       </mat-form-field>
     </div>
   }

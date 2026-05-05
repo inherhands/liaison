@@ -5,6 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatSelectModule } from '@angular/material/select';
 import { PartnerService } from '../../services/partner';
 import { Partner } from '../../models/event.model';
@@ -14,6 +15,7 @@ import { Partner } from '../../models/event.model';
   imports: [
     FormsModule,
     MatButtonModule,
+    MatButtonToggleModule,
     MatIconModule,
     MatInputModule,
     MatFormFieldModule,
@@ -29,12 +31,16 @@ export class EditPartnerComponent implements OnInit {
 
   name = '';
   sex: 'male' | 'female' | 'other' | '' = '';
+  isNew = false;
   private partnerId = '';
 
   ngOnInit(): void {
     this.partnerService.loadPartners();
     const id = this.route.snapshot.paramMap.get('id');
-    if (!id) { this.router.navigate(['/partners']); return; }
+    if (!id) {
+      this.isNew = true;
+      return;
+    }
     this.partnerId = id;
     const partner = this.partnerService.partners().find(p => p.id === id);
     if (!partner) { this.router.navigate(['/partners']); return; }
@@ -45,12 +51,13 @@ export class EditPartnerComponent implements OnInit {
   save(): void {
     const name = this.name.trim();
     if (!name) return;
-    const updated: Partner = {
-      id: this.partnerId,
-      name,
-      ...(this.sex ? { sex: this.sex as 'male' | 'female' | 'other' } : {}),
-    };
-    this.partnerService.updatePartner(updated);
+    const sex = this.sex || undefined;
+    if (this.isNew) {
+      this.partnerService.createPartner(name, sex);
+    } else {
+      const updated: Partner = { id: this.partnerId, name, ...(sex ? { sex } : {}) };
+      this.partnerService.updatePartner(updated);
+    }
     this.router.navigate(['/partners']);
   }
 

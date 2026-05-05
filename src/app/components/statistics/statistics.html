@@ -27,6 +27,9 @@
       @for (bar of monthBars(); track bar.label) {
         <div class="bar-col">
           <div class="bar-wrap">
+            @if (showSeg('Health')) {
+              <div class="bar-seg seg-health" [style.height.%]="barSegmentPct(bar.health)" [title]="'Health: ' + bar.health"></div>
+            }
             @if (showSeg('Refusal')) {
               <div class="bar-seg seg-refusal" [style.height.%]="barSegmentPct(bar.refusal)" [title]="'Refusal: ' + bar.refusal"></div>
             }
@@ -51,6 +54,7 @@
       <span class="legend-item"><span class="dot seg-solo"></span> Solo</span>
       <span class="legend-item"><span class="dot seg-note"></span> Note</span>
       <span class="legend-item"><span class="dot seg-refusal"></span> Refusal</span>
+      <span class="legend-item"><span class="dot seg-health"></span> Health</span>
     </div>
   </div>
 

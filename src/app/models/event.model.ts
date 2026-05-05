@@ -1,4 +1,4 @@
-export type EventType = 'Sex' | 'Note' | 'Solo' | 'Refusal';
+export type EventType = 'Sex' | 'Note' | 'Solo' | 'Refusal' | 'Health';
 
 export interface BaseEvent {
   id: string;
@@ -37,10 +37,20 @@ export interface SoloEvent extends BaseEvent {
 export interface RefusalEvent extends BaseEvent {
   type: 'Refusal';
   partner: string;
+  tags: string[];
   text: string;
 }
 
-export type TrackerEvent = SexEvent | NoteEvent | SoloEvent | RefusalEvent;
+export interface HealthEvent extends BaseEvent {
+  type: 'Health';
+  affectedParty: 'Me' | 'Partner' | 'Both';
+  partner?: string;
+  severity: 'Mild' | 'Moderate' | 'Severe';
+  symptoms: string[];
+  notes?: string;
+}
+
+export type TrackerEvent = SexEvent | NoteEvent | SoloEvent | RefusalEvent | HealthEvent;
 
 export interface Partner {
   id: string;
@@ -48,7 +58,7 @@ export interface Partner {
   sex?: 'male' | 'female' | 'other';
 }
 
-export type TagCategory = 'sexType' | 'positions' | 'tags' | 'toys' | 'soloTags';
+export type TagCategory = 'sexType' | 'positions' | 'tags' | 'toys' | 'soloTags' | 'healthSymptoms' | 'refusalTags';
 
 export interface TagOption {
   id: string; // `${category}:${value}`

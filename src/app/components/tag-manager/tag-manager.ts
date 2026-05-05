@@ -18,11 +18,13 @@ interface CategoryGroup {
 }
 
 const CATEGORY_META: { category: TagCategory; label: string; chipClass: string }[] = [
-  { category: 'sexType',   label: 'Sex Types',       chipClass: 'chip-blue' },
-  { category: 'positions', label: 'Positions',        chipClass: 'chip-grey' },
-  { category: 'toys',      label: 'Toys',             chipClass: 'chip-purple' },
-  { category: 'tags',      label: 'Sex Tags',         chipClass: 'chip-green' },
-  { category: 'soloTags',  label: 'Solo Tags',        chipClass: 'chip-green' },
+  { category: 'sexType',        label: 'Sex Types',        chipClass: 'chip-pink' },
+  { category: 'positions',     label: 'Positions',         chipClass: 'chip-blue' },
+  { category: 'toys',          label: 'Toys',              chipClass: 'chip-purple' },
+  { category: 'tags',          label: 'Sex Tags',          chipClass: 'chip-green' },
+  { category: 'soloTags',      label: 'Solo Tags',         chipClass: 'chip-green' },
+  { category: 'healthSymptoms', label: 'Health Symptoms',  chipClass: 'chip-teal' },
+  { category: 'refusalTags',   label: 'Refusal Reasons',  chipClass: 'chip-orange' },
 ];
 
 @Component({

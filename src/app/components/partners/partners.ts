@@ -1,10 +1,7 @@
 import { Component, inject, OnInit, computed } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { PartnerService } from '../../services/partner';
 import { EventService } from '../../services/event';
 import { Partner, SexEvent, RefusalEvent } from '../../models/event.model';
@@ -20,12 +17,9 @@ interface PartnerCard {
 @Component({
   selector: 'app-partners',
   imports: [
-    FormsModule,
     RouterLink,
     MatButtonModule,
     MatIconModule,
-    MatInputModule,
-    MatFormFieldModule,
   ],
   templateUrl: './partners.html',
   styleUrl: './partners.css',
@@ -36,7 +30,6 @@ export class PartnersComponent implements OnInit {
   private router = inject(Router);
 
   partners = this.partnerService.partners;
-  newName = '';
 
   partnerCards = computed<PartnerCard[]>(() => {
     const partners = this.partnerService.partners();
@@ -89,13 +82,6 @@ export class PartnersComponent implements OnInit {
     if (partner.sex === 'female') return 'female';
     if (partner.sex === 'male') return 'male';
     return 'person';
-  }
-
-  addPartner(): void {
-    const name = this.newName.trim();
-    if (!name) return;
-    this.newName = '';
-    this.partnerService.createPartner(name);
   }
 
   editPartner(id: string): void {

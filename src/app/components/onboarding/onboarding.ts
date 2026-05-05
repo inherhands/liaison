@@ -1,16 +1,18 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { OnboardingService } from '../../services/onboarding';
 import { PartnerService } from '../../services/partner';
 import { TagOptionService } from '../../services/tag-option';
+import { Partner } from '../../models/event.model';
 
 @Component({
   selector: 'app-onboarding',
-  imports: [FormsModule, MatButtonModule, MatIconModule, MatFormFieldModule, MatInputModule],
+  imports: [FormsModule, MatButtonModule, MatButtonToggleModule, MatIconModule, MatFormFieldModule, MatInputModule],
   templateUrl: './onboarding.html',
   styleUrl: './onboarding.css',
 })
@@ -21,6 +23,7 @@ export class OnboardingComponent {
 
   step = signal(0);
   partnerName = '';
+  partnerSex: Partner['sex'] | '' = '';
   partnerAdded = signal(false);
 
   next(): void {
@@ -31,8 +34,10 @@ export class OnboardingComponent {
   addPartner(): void {
     const name = this.partnerName.trim();
     if (!name) return;
-    this.partnerService.createPartner(name);
+    const sex = this.partnerSex || undefined;
+    this.partnerService.createPartner(name, sex);
     this.partnerName = '';
+    this.partnerSex = '';
     this.partnerAdded.set(true);
   }
 

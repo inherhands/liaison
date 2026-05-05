@@ -68,11 +68,13 @@
 .filter-btn-solo:hover    { border-color: var(--col-solo); }
 .filter-btn-note:hover    { border-color: var(--col-note); }
 .filter-btn-refusal:hover { border-color: var(--col-refusal); }
+.filter-btn-health:hover  { border-color: var(--col-health); }
 
 .filter-btn-sex.active     { background: var(--col-sex);     border-color: var(--col-sex);     color: #fff; }
 .filter-btn-solo.active    { background: var(--col-solo);    border-color: var(--col-solo);    color: #fff; }
 .filter-btn-note.active    { background: var(--col-note);    border-color: var(--col-note);    color: #fff; }
 .filter-btn-refusal.active { background: var(--col-refusal); border-color: var(--col-refusal); color: #fff; }
+.filter-btn-health.active  { background: var(--col-health);  border-color: var(--col-health);  color: #fff; }
 
 /* ── Chart ────────────────────────────────── */
 

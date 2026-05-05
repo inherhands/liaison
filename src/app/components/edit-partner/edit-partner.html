@@ -1,26 +1,26 @@
 <div class="container">
-  <h2>Edit Partner</h2>
+  <h2>{{ isNew ? 'Add Partner' : 'Edit Partner' }}</h2>
 
   <mat-form-field class="full-width">
     <mat-label>Name</mat-label>
     <input matInput [(ngModel)]="name" (keyup.enter)="save()" />
   </mat-form-field>
 
-  <mat-form-field class="full-width">
-    <mat-label>Sex (optional)</mat-label>
-    <mat-select [(ngModel)]="sex">
-      <mat-option value="">Not specified</mat-option>
-      <mat-option value="female">Female</mat-option>
-      <mat-option value="male">Male</mat-option>
-      <mat-option value="other">Other</mat-option>
-    </mat-select>
-  </mat-form-field>
+  <div class="field-group">
+    <label class="field-label">Sex (optional)</label>
+    <mat-button-toggle-group [(ngModel)]="sex" class="full-width">
+      <mat-button-toggle value=""><mat-icon>do_not_disturb</mat-icon> None</mat-button-toggle>
+      <mat-button-toggle value="female"><mat-icon>female</mat-icon> Female</mat-button-toggle>
+      <mat-button-toggle value="male"><mat-icon>male</mat-icon> Male</mat-button-toggle>
+      <mat-button-toggle value="other"><mat-icon>person</mat-icon> Other</mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
 
   <div class="actions">
     <button mat-button (click)="cancel()">Cancel</button>
     <button mat-raised-button color="primary" (click)="save()" [disabled]="!name.trim()">
-      <mat-icon>save</mat-icon>
-      Save
+      <mat-icon>{{ isNew ? 'person_add' : 'save' }}</mat-icon>
+      {{ isNew ? 'Add Partner' : 'Save' }}
     </button>
   </div>
 </div>

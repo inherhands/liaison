@@ -138,6 +138,18 @@ p {
   margin-bottom: 8px;
 }
 
+.gender-toggle {
+  margin-bottom: 16px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+mat-button-toggle-group.full-width mat-button-toggle {
+  flex: 1;
+}
+
 /* ── Success ── */
 .success-row {
   display: flex;

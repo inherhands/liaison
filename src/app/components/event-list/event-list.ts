@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { EventService } from '../../services/event';
 import { PartnerService } from '../../services/partner';
-import { TrackerEvent, SexEvent, NoteEvent, SoloEvent, RefusalEvent } from '../../models/event.model';
+import { TrackerEvent, SexEvent, NoteEvent, SoloEvent, RefusalEvent, HealthEvent } from '../../models/event.model';
 
 @Component({
   selector: 'app-event-list',
@@ -63,7 +63,8 @@ export class EventListComponent implements OnInit {
   asSex(e: TrackerEvent): SexEvent { return e as SexEvent; }
   asNote(e: TrackerEvent): NoteEvent { return e as NoteEvent; }
   asSolo(e: TrackerEvent): SoloEvent { const s = e as SoloEvent; return { ...s, tags: s.tags ?? [] }; }
-  asRefusal(e: TrackerEvent): RefusalEvent { return e as RefusalEvent; }
+  asRefusal(e: TrackerEvent): RefusalEvent { const r = e as RefusalEvent; return { ...r, tags: r.tags ?? [] }; }
+  asHealth(e: TrackerEvent): HealthEvent { return e as HealthEvent; }
 
   partnerIcon(name: string, refused = false): string {
     const partner = this.partnerService.partners().find(p => p.name === name);

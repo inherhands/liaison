@@ -43,7 +43,7 @@
           @if (asSex(event).sexType.length > 0) {
             <div class="tag-row">
               @for (t of asSex(event).sexType; track t) {
-                <span class="chip chip-blue">{{ t }}</span>
+                <span class="chip chip-pink">{{ t }}</span>
               }
             </div>
           }
@@ -55,7 +55,7 @@
           @if (asSex(event).positions.length > 0) {
             <div class="tag-row">
               @for (p of asSex(event).positions; track p) {
-                <span class="chip chip-grey">{{ p }}</span>
+                <span class="chip chip-blue">{{ p }}</span>
               }
             </div>
           }
@@ -117,8 +117,35 @@
             <mat-icon class="detail-icon" [class]="partnerIconClass(asRefusal(event).partner)">{{ partnerIcon(asRefusal(event).partner, true) }}</mat-icon>
             <span>{{ asRefusal(event).partner }}</span>
           </div>
+          @if (asRefusal(event).tags.length) {
+            <div class="tag-row">
+              @for (t of asRefusal(event).tags; track t) {
+                <span class="chip chip-orange">{{ t }}</span>
+              }
+            </div>
+          }
           @if (asRefusal(event).text) {
             <p class="note-text muted">{{ asRefusal(event).text }}</p>
+          }
+        </div>
+      }
+
+      @if (event.type === 'Health') {
+        <div class="event-body">
+          <div class="detail-row">
+            <mat-icon class="detail-icon">monitor_heart</mat-icon>
+            <span>{{ asHealth(event).severity }}</span>
+            <span class="muted">· {{ asHealth(event).affectedParty }}{{ asHealth(event).partner ? ' (' + asHealth(event).partner + ')' : '' }}</span>
+          </div>
+          @if (asHealth(event).symptoms.length > 0) {
+            <div class="tag-row">
+              @for (s of asHealth(event).symptoms; track s) {
+                <span class="chip chip-teal">{{ s }}</span>
+              }
+            </div>
+          }
+          @if (asHealth(event).notes) {
+            <p class="note-text muted">{{ asHealth(event).notes }}</p>
           }
         </div>
       }

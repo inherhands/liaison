@@ -35,17 +35,29 @@
   --col-refusal:        #f57c00;
   --col-refusal-light:  #ffe1b5;
 
-  /* ── Tag category: sexType (blue) ────────── */
+  /* ── Event type: Health (teal) ───────────── */
+  --col-health:         #00897b;
+  --col-health-light:   #b2dfdb;
+
+  /* ── Tag category: healthSymptoms (teal) ─── */
+  --col-tag-teal:       #00695c;
+  --col-tag-teal-light: #80cbc4;
+
+  /* ── Tag category: refusalTags (orange) ──── */
+  --col-tag-orange:       #e65100;
+  --col-tag-orange-light: #ffe0b2;
+
+  /* ── Tag category: sexType (pink) ──────── */
+  --col-tag-pink:       #d31ab4;
+  --col-tag-pink-light: #ffb9f3;
+
+  /* ── Tag category: positions (blue) ─────── */
   --col-tag-blue:       #1565c0;
   --col-tag-blue-light: #90caf9;
 
-  /* ── Tag category: positions (grey) ─────── */
-  --col-tag-grey:       #424242;
-  --col-tag-grey-light: #bdbdbd;
-
   /* ── Tag category: toys (purple) ── */
   --col-tag-purple:       #6a1b9a;
-  --col-tag-purple-light: #dda5e7;
+  --col-tag-purple-light: #ebbbff;
 
   /* ── Tag category: tags (green) ─── */
   --col-tag-green:       #2e7d32;
@@ -165,14 +177,18 @@ mat-toolbar .mat-mdc-button .mat-mdc-button-persistent-ripple::before { opacity:
 
 /* ── Add-option button colours (match chip category) ───────────────────── */
 /* Dark theme: circle = deep colour, plus = light shade */
+.mat-mdc-icon-button.add-btn-pink   .add-icon-bg { color: var(--col-tag-pink)         !important; }
+.mat-mdc-icon-button.add-btn-pink   .add-icon-fg { color: white   !important; }
 .mat-mdc-icon-button.add-btn-blue   .add-icon-bg { color: var(--col-tag-blue)         !important; }
-.mat-mdc-icon-button.add-btn-blue   .add-icon-fg { color: var(--col-tag-blue-light)   !important; }
-.mat-mdc-icon-button.add-btn-grey   .add-icon-bg { color: var(--col-tag-grey)         !important; }
-.mat-mdc-icon-button.add-btn-grey   .add-icon-fg { color: var(--col-tag-grey-light)   !important; }
+.mat-mdc-icon-button.add-btn-blue   .add-icon-fg { color: white   !important; }
 .mat-mdc-icon-button.add-btn-purple .add-icon-bg { color: var(--col-tag-purple)       !important; }
-.mat-mdc-icon-button.add-btn-purple .add-icon-fg { color: var(--col-tag-purple-light) !important; }
+.mat-mdc-icon-button.add-btn-purple .add-icon-fg { color: white !important; }
 .mat-mdc-icon-button.add-btn-green  .add-icon-bg { color: var(--col-tag-green)        !important; }
-.mat-mdc-icon-button.add-btn-green  .add-icon-fg { color: var(--col-tag-green-light)  !important; }
+.mat-mdc-icon-button.add-btn-green  .add-icon-fg { color: white  !important; }
+.mat-mdc-icon-button.add-btn-teal   .add-icon-bg { color: var(--col-tag-teal)         !important; }
+.mat-mdc-icon-button.add-btn-teal   .add-icon-fg { color: white   !important; }
+.mat-mdc-icon-button.add-btn-orange .add-icon-bg { color: var(--col-tag-orange)       !important; }
+.mat-mdc-icon-button.add-btn-orange .add-icon-fg { color: white !important; }
 
 .mat-mdc-icon-button.danger,
 .mat-mdc-icon-button.danger .mat-icon { color: var(--col-icon-danger) !important; }
@@ -257,12 +273,15 @@ mat-toolbar .mat-mdc-button .mat-mdc-button-persistent-ripple::before { opacity:
 .type-note    { background: var(--col-note);    color: var(--col-note-light); }
 .type-solo    { background: var(--col-solo);    color: var(--col-solo-light); }
 .type-refusal { background: var(--col-refusal); color: var(--col-refusal-light); }
+.type-health  { background: var(--col-health);  color: var(--col-health-light); }
 
 /* ── Event detail chips (dark theme) ───────────────────────────────────── */
+.chip-pink   { background: var(--col-tag-pink);   color: var(--col-tag-pink-light); }
 .chip-blue   { background: var(--col-tag-blue);   color: var(--col-tag-blue-light); }
-.chip-grey   { background: var(--col-tag-grey);   color: var(--col-tag-grey-light); }
 .chip-green  { background: var(--col-tag-green);  color: var(--col-tag-green-light); }
 .chip-purple { background: var(--col-tag-purple); color: var(--col-tag-purple-light); }
+.chip-teal   { background: var(--col-tag-teal);   color: var(--col-tag-teal-light); }
+.chip-orange { background: var(--col-tag-orange); color: var(--col-tag-orange-light); }
 
 /* ── Counter badges (dark theme) ───────────────────────────────────────── */
 .counter-badge {
@@ -280,12 +299,14 @@ mat-toolbar .mat-mdc-button .mat-mdc-button-persistent-ripple::before { opacity:
 .dot-solo    { background: var(--col-solo); }
 .dot-note    { background: var(--col-note); }
 .dot-refusal { background: var(--col-refusal); }
+.dot-health  { background: var(--col-health); }
 
 /* ── Statistics bar segments ────────────────────────────────────────────── */
 .seg-sex     { background: var(--col-sex); }
 .seg-solo    { background: var(--col-solo); }
 .seg-note    { background: var(--col-note); }
 .seg-refusal { background: var(--col-refusal); }
+.seg-health  { background: var(--col-health); }
 
 /* ── Gender icons ───────────────────────────────────────────────────────── */
 .sex-icon-female { color: var(--col-female) !important; }
@@ -319,12 +340,15 @@ body.theme-light .type-sex     { background: var(--col-sex-light);     color: va
 body.theme-light .type-note    { background: var(--col-note-light);    color: var(--col-note); }
 body.theme-light .type-solo    { background: var(--col-solo-light);    color: var(--col-solo); }
 body.theme-light .type-refusal { background: var(--col-refusal-light); color: var(--col-refusal); }
+body.theme-light .type-health  { background: var(--col-health-light);  color: var(--col-health); }
 
 /* ── Light theme: event detail chips ───────────────────────────────────── */
+body.theme-light .chip-pink   { background: var(--col-tag-pink-light);   color: var(--col-tag-pink); }
 body.theme-light .chip-blue   { background: var(--col-tag-blue-light);   color: var(--col-tag-blue); }
-body.theme-light .chip-grey   { background: var(--col-tag-grey-light);   color: var(--col-tag-grey); }
 body.theme-light .chip-green  { background: var(--col-tag-green-light);  color: var(--col-tag-green); }
 body.theme-light .chip-purple { background: var(--col-tag-purple-light); color: var(--col-tag-purple); }
+body.theme-light .chip-teal   { background: var(--col-tag-teal-light);   color: var(--col-tag-teal); }
+body.theme-light .chip-orange { background: var(--col-tag-orange-light); color: var(--col-tag-orange); }
 
 /* ── Light theme: counter badges ───────────────────────────────────────── */
 body.theme-light .counter-badge {
@@ -346,14 +370,18 @@ body.theme-light .mat-mdc-button .mat-icon { color: var(--col-icon) !important; 
 body.theme-light mat-toolbar .mat-icon,
 body.theme-light mat-toolbar .mat-mdc-button .mat-icon { color: var(--col-toolbar-icon) !important; }
 /* Light theme: circle = light shade, plus = deep colour */
-body.theme-light .mat-mdc-icon-button.add-btn-blue   .add-icon-bg { color: var(--col-tag-blue-light)   !important; }
-body.theme-light .mat-mdc-icon-button.add-btn-blue   .add-icon-fg { color: var(--col-tag-blue)         !important; }
-body.theme-light .mat-mdc-icon-button.add-btn-grey   .add-icon-bg { color: var(--col-tag-grey-light)   !important; }
-body.theme-light .mat-mdc-icon-button.add-btn-grey   .add-icon-fg { color: var(--col-tag-grey)         !important; }
-body.theme-light .mat-mdc-icon-button.add-btn-purple .add-icon-bg { color: var(--col-tag-purple-light) !important; }
-body.theme-light .mat-mdc-icon-button.add-btn-purple .add-icon-fg { color: var(--col-tag-purple)       !important; }
-body.theme-light .mat-mdc-icon-button.add-btn-green  .add-icon-bg { color: var(--col-tag-green-light)  !important; }
-body.theme-light .mat-mdc-icon-button.add-btn-green  .add-icon-fg { color: var(--col-tag-green)        !important; }
+body.theme-light .mat-mdc-icon-button.add-btn-pink   .add-icon-bg { color: var(--col-tag-pink)   !important; }
+body.theme-light .mat-mdc-icon-button.add-btn-pink   .add-icon-fg { color: white         !important; }
+body.theme-light .mat-mdc-icon-button.add-btn-blue   .add-icon-bg { color: var(--col-tag-blue)   !important; }
+body.theme-light .mat-mdc-icon-button.add-btn-blue   .add-icon-fg { color: white         !important; }
+body.theme-light .mat-mdc-icon-button.add-btn-purple .add-icon-bg { color: var(--col-tag-purple) !important; }
+body.theme-light .mat-mdc-icon-button.add-btn-purple .add-icon-fg { color: white        !important; }
+body.theme-light .mat-mdc-icon-button.add-btn-green  .add-icon-bg { color: var(--col-tag-green)  !important; }
+body.theme-light .mat-mdc-icon-button.add-btn-green  .add-icon-fg { color: white         !important; }
+body.theme-light .mat-mdc-icon-button.add-btn-teal   .add-icon-bg { color: var(--col-tag-teal)   !important; }
+body.theme-light .mat-mdc-icon-button.add-btn-teal   .add-icon-fg { color: white         !important; }
+body.theme-light .mat-mdc-icon-button.add-btn-orange .add-icon-bg { color: var(--col-tag-orange) !important; }
+body.theme-light .mat-mdc-icon-button.add-btn-orange .add-icon-fg { color: white        !important; }
 
 body.theme-light .mat-mdc-icon-button.danger,
 body.theme-light .mat-mdc-icon-button.danger .mat-icon { color: var(--col-icon-danger) !important; }
@@ -387,10 +415,12 @@ body.theme-light .chip-row button.chip-selected {
 body.theme-light .chip-row button.chip-selected .mdc-button__label { color: #ffffff !important; }
 
 /* ── Light theme: chip-row selected, per tag category ───────────────────── */
+body.theme-light .chip-row-pink   button.chip-selected { background: var(--col-tag-pink)   !important; border-color: var(--col-tag-pink)   !important; color: #fff !important; }
 body.theme-light .chip-row-blue   button.chip-selected { background: var(--col-tag-blue)   !important; border-color: var(--col-tag-blue)   !important; color: #fff !important; }
-body.theme-light .chip-row-grey   button.chip-selected { background: var(--col-tag-grey)   !important; border-color: var(--col-tag-grey)   !important; color: #fff !important; }
 body.theme-light .chip-row-purple button.chip-selected { background: var(--col-tag-purple) !important; border-color: var(--col-tag-purple) !important; color: #fff !important; }
 body.theme-light .chip-row-green  button.chip-selected { background: var(--col-tag-green)  !important; border-color: var(--col-tag-green)  !important; color: #fff !important; }
+body.theme-light .chip-row-teal   button.chip-selected { background: var(--col-tag-teal)   !important; border-color: var(--col-tag-teal)   !important; color: #fff !important; }
+body.theme-light .chip-row-orange button.chip-selected { background: var(--col-tag-orange) !important; border-color: var(--col-tag-orange) !important; color: #fff !important; }
 
 /* ── Light theme: mobile nav ────────────────────────────────────────────── */
 body.theme-light .mobile-nav { background: var(--col-toolbar); border-top-color: var(--col-toolbar-border); }
@@ -416,10 +446,12 @@ body.theme-light .filter-btn-sex:hover     { border-color: var(--col-sex); }
 body.theme-light .filter-btn-solo:hover    { border-color: var(--col-solo); }
 body.theme-light .filter-btn-note:hover    { border-color: var(--col-note); }
 body.theme-light .filter-btn-refusal:hover { border-color: var(--col-refusal); }
+body.theme-light .filter-btn-health:hover  { border-color: var(--col-health); }
 body.theme-light .filter-btn-sex.active     { background: var(--col-sex);     border-color: var(--col-sex); }
 body.theme-light .filter-btn-solo.active    { background: var(--col-solo);    border-color: var(--col-solo); }
 body.theme-light .filter-btn-note.active    { background: var(--col-note);    border-color: var(--col-note); }
 body.theme-light .filter-btn-refusal.active { background: var(--col-refusal); border-color: var(--col-refusal); }
+body.theme-light .filter-btn-health.active  { background: var(--col-health);  border-color: var(--col-health); }
 
 /* ── Light theme: datepicker ────────────────────────────────────────────── */
 body.theme-light .mat-calendar-body-selected { color: #ffffff !important; }

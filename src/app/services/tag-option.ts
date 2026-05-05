@@ -3,11 +3,13 @@ import { Database } from './database';
 import { TagCategory, TagOption } from '../models/event.model';
 
 export const TAG_DEFAULTS: Record<TagCategory, string[]> = {
-  sexType:   ['Vaginal', 'Anal'],
-  positions: ['Woman on top', 'Man on top', '69', 'Doggy'],
-  tags:      ['Quick', 'Sleepy', 'Romantic'],
-  toys:      ['Dildo', 'Vibrator', 'Butt Plug'],
-  soloTags:  ['Quick', 'Sleepy', 'Edging'],
+  sexType:        ['Vaginal', 'Anal', 'Oral'],
+  positions:      ['Woman on top', 'Man on top', '69', 'Doggy'],
+  tags:           ['Quick', 'Sleepy', 'Romantic'],
+  toys:           ['Dildo', 'Vibrator', 'Butt Plug'],
+  soloTags:       ['Quick', 'Sleepy', 'Edging'],
+  healthSymptoms: ['Cold', 'Flu', 'Fatigue', 'Headache', 'Nausea', 'Pulled muscle', 'Back pain'],
+  refusalTags:    ['Tired', 'Stressed', 'Not in the mood', 'Unwell', 'Argument'],
 };
 
 @Injectable({ providedIn: 'root' })

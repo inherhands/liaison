@@ -1,14 +1,8 @@
 <div class="container">
   <h2>Partners</h2>
 
-  <div class="add-row">
-    <mat-form-field class="name-field">
-      <mat-label>Partner name</mat-label>
-      <input matInput [(ngModel)]="newName" (keyup.enter)="addPartner()" placeholder="e.g. Mary" />
-    </mat-form-field>
-  </div>
   <div class="add-action">
-    <button mat-raised-button color="primary" (click)="addPartner()" [disabled]="!newName.trim()">
+    <button mat-raised-button color="primary" routerLink="/add-partner">
       <mat-icon>person_add</mat-icon>
       Add Partner
     </button>

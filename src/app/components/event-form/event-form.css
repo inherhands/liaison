@@ -57,20 +57,24 @@ h2 {
   background: var(--col-surface) !important;
 }
 
+.chip-row-pink   button:hover { border-color: var(--col-tag-pink)   !important; }
 .chip-row-blue   button:hover { border-color: var(--col-tag-blue)   !important; }
-.chip-row-grey   button:hover { border-color: var(--col-tag-grey)   !important; }
 .chip-row-purple button:hover { border-color: var(--col-tag-purple) !important; }
 .chip-row-green  button:hover { border-color: var(--col-tag-green)  !important; }
+.chip-row-teal   button:hover { border-color: var(--col-tag-teal)   !important; }
+.chip-row-orange button:hover { border-color: var(--col-tag-orange) !important; }
 
 /* Default selected state (fallback) */
 .chip-row button.chip-selected,
 .chip-row button.chip-selected .mdc-button__label { color: #ffffff !important; }
 
 /* Per-category selected colours */
+.chip-row-pink   button.chip-selected { background: var(--col-tag-pink)   !important; border-color: var(--col-tag-pink)   !important; }
 .chip-row-blue   button.chip-selected { background: var(--col-tag-blue)   !important; border-color: var(--col-tag-blue)   !important; }
-.chip-row-grey   button.chip-selected { background: var(--col-tag-grey)   !important; border-color: var(--col-tag-grey)   !important; }
 .chip-row-purple button.chip-selected { background: var(--col-tag-purple) !important; border-color: var(--col-tag-purple) !important; }
 .chip-row-green  button.chip-selected { background: var(--col-tag-green)  !important; border-color: var(--col-tag-green)  !important; }
+.chip-row-teal   button.chip-selected { background: var(--col-tag-teal)   !important; border-color: var(--col-tag-teal)   !important; }
+.chip-row-orange button.chip-selected { background: var(--col-tag-orange) !important; border-color: var(--col-tag-orange) !important; }
 
 .add-chip-row {
   display: flex;
@@ -88,6 +92,7 @@ h2 {
 
 .counter-field {
   display: flex;
+  flex: 1;
   flex-direction: column;
   align-items: center;
   min-width: 100px;
@@ -109,6 +114,12 @@ h2 {
 
 .initiation-group { width: 100%; }
 .initiation-group mat-button-toggle { flex: 1; }
+
+.affectedGroup { width: 100%; }
+.affectedGroup mat-button-toggle { flex: 1; }
+
+.healthSeverityGroup { width: 100%; }
+.healthSeverityGroup mat-button-toggle { flex: 1; }
 
 .hint {
   font-size: 12px;

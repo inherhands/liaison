@@ -16,9 +16,9 @@ export class PartnerService {
     this.partners.set(partners);
   }
 
-  createPartner(name: string): string {
+  createPartner(name: string, sex?: Partner['sex']): string {
     const id = generateId();
-    const partner: Partner = { id, name };
+    const partner: Partner = { id, name, ...(sex ? { sex } : {}) };
     this.partners.update(list => [...list, partner]);
     this.db.addPartner(partner).catch(e => console.error('Failed to save partner:', e));
     return id;
