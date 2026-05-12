@@ -1,11 +1,20 @@
-import { Component, inject, OnInit, signal, computed } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal, computed } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { EventService } from '../../services/event';
+import { TimerService } from '../../services/timer.service';
 import { SexEvent, SoloEvent } from '../../models/event.model';
 
 type EventType = 'Sex' | 'Solo' | 'Note' | 'Refusal' | 'Health';
 const ALL_TYPES: EventType[] = ['Sex', 'Solo', 'Note', 'Refusal', 'Health'];
+
+interface DeviceStat {
+  deviceName: string;
+  totalMs: number;
+  sessionCount: number;
+  avgMs: number;
+  longestMs: number;
+}
 
 interface MonthBar {
   label: string;
@@ -28,14 +37,19 @@ interface StatRow {
   templateUrl: './statistics.html',
   styleUrl: './statistics.css',
 })
-export class StatisticsComponent implements OnInit {
+export class StatisticsComponent implements OnInit, OnDestroy {
   private eventService = inject(EventService);
+  private timerService = inject(TimerService);
 
   MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   ALL_TYPES = ALL_TYPES;
 
   today = new Date();
   viewYear = signal(this.today.getFullYear());
+  viewTab = signal<'events' | 'timers'>('events');
+
+  private tick = signal(Date.now());
+  private tickInterval: ReturnType<typeof setInterval> | null = null;
 
   // Set of active type filters; empty set = All
   activeFilters = signal<Set<EventType>>(new Set());
@@ -174,8 +188,59 @@ export class StatisticsComponent implements OnInit {
     ];
   });
 
+  timerStats = computed<DeviceStat[]>(() => {
+    const now = this.tick();
+    const sessions = this.timerService.sessions();
+    const active = this.timerService.activeTimers();
+
+    const map = new Map<string, DeviceStat>();
+
+    const ensure = (id: string, name: string): DeviceStat => {
+      if (!map.has(id)) map.set(id, { deviceName: name, totalMs: 0, sessionCount: 0, avgMs: 0, longestMs: 0 });
+      return map.get(id)!;
+    };
+
+    for (const s of sessions) {
+      const d = ensure(s.deviceId, s.deviceName);
+      d.totalMs += s.durationMs;
+      d.sessionCount++;
+      if (s.durationMs > d.longestMs) d.longestMs = s.durationMs;
+    }
+
+    for (const a of active) {
+      const d = ensure(a.deviceId, a.deviceName);
+      d.totalMs += now - a.startedAt;
+      d.sessionCount++;
+    }
+
+    for (const d of map.values()) {
+      d.avgMs = d.sessionCount > 0 ? Math.round(d.totalMs / d.sessionCount) : 0;
+    }
+
+    return [...map.values()].sort((a, b) => b.totalMs - a.totalMs);
+  });
+
+  timerOverall = computed<DeviceStat>(() => {
+    const stats = this.timerStats();
+    const totalMs = stats.reduce((s, d) => s + d.totalMs, 0);
+    const sessionCount = stats.reduce((s, d) => s + d.sessionCount, 0);
+    const longestMs = stats.reduce((s, d) => Math.max(s, d.longestMs), 0);
+    return {
+      deviceName: 'Overall',
+      totalMs,
+      sessionCount,
+      avgMs: sessionCount > 0 ? Math.round(totalMs / sessionCount) : 0,
+      longestMs,
+    };
+  });
+
   ngOnInit(): void {
     this.eventService.loadEvents();
+    this.tickInterval = setInterval(() => this.tick.set(Date.now()), 1000);
+  }
+
+  ngOnDestroy(): void {
+    if (this.tickInterval) clearInterval(this.tickInterval);
   }
 
   prevYear(): void { this.viewYear.update(y => y - 1); }
@@ -183,6 +248,16 @@ export class StatisticsComponent implements OnInit {
 
   barSegmentPct(count: number): number {
     return (count / this.maxBarValue()) * 100;
+  }
+
+  formatDuration(ms: number): string {
+    const totalSeconds = Math.floor(ms / 1000);
+    const days = Math.floor(totalSeconds / 86400);
+    const hours = Math.floor((totalSeconds % 86400) / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    if (days > 0) return `${days}d ${hours}h ${minutes}m`;
+    if (hours > 0) return `${hours}h ${minutes}m`;
+    return `${minutes}m`;
   }
 
   private topItem(items: string[]): string | null {

@@ -8,8 +8,11 @@ import { Database } from '../../services/database';
 import { EventService } from '../../services/event';
 import { PartnerService } from '../../services/partner';
 import { TagOptionService } from '../../services/tag-option';
+import { TimerDeviceService } from '../../services/timer-device.service';
+import { TimerService } from '../../services/timer.service';
 import { ThemeService, Theme } from '../../services/theme';
 import { TrackerEvent, Partner, TagOption } from '../../models/event.model';
+import { TimerDevice, TimerSession, ActiveTimer } from '../../models/timer.model';
 
 interface BackupData {
   version: number;
@@ -17,6 +20,9 @@ interface BackupData {
   events: TrackerEvent[];
   partners: Partner[];
   tagOptions: TagOption[];
+  timerDevices?: TimerDevice[];
+  timerSessions?: TimerSession[];
+  activeTimers?: ActiveTimer[];
 }
 
 @Component({
@@ -30,6 +36,8 @@ export class SettingsComponent {
   private eventService = inject(EventService);
   private partnerService = inject(PartnerService);
   private tagOptionService = inject(TagOptionService);
+  private timerDeviceService = inject(TimerDeviceService);
+  private timerService = inject(TimerService);
   private themeService = inject(ThemeService);
 
   theme = this.themeService.theme;
@@ -47,18 +55,23 @@ export class SettingsComponent {
   async exportData(): Promise<void> {
     this.exporting.set(true);
     try {
-      const [events, partners, tagOptions] = await Promise.all([
+      const [events, partners, tagOptions, timerDevices, timerSessions] = await Promise.all([
         this.db.getAllEvents(),
         this.db.getAllPartners(),
         this.db.getAllTagOptions(),
+        this.db.getAllTimerDevices(),
+        this.db.getAllTimerSessions(),
       ]);
 
       const backup: BackupData = {
-        version: 1,
+        version: 3,
         exportedAt: new Date().toISOString(),
         events,
         partners,
         tagOptions,
+        timerDevices,
+        timerSessions,
+        activeTimers: this.timerService.activeTimers(),
       };
 
       const json = JSON.stringify(backup, null, 2);
@@ -122,22 +135,29 @@ export class SettingsComponent {
         this.db.clearAll(),
         this.db.clearPartners(),
         this.db.clearTagOptions(),
+        this.db.clearTimerDevices(),
+        this.db.clearTimerSessions(),
       ]);
 
       await Promise.all([
         ...data.events.map(e => this.db.putEvent(e)),
         ...data.partners.map(p => this.db.putPartner(p)),
         ...(data.tagOptions ?? []).map(t => this.db.putTagOption(t)),
+        ...(data.timerDevices ?? []).map(d => this.db.putTimerDevice(d)),
+        ...(data.timerSessions ?? []).map(s => this.db.addTimerSession(s)),
       ]);
 
       this.tagOptionService.clearCache();
       await this.eventService.loadEvents();
       await this.partnerService.loadPartners();
+      await this.timerDeviceService.load();
+      await this.timerService.loadSessions();
+      this.timerService.restoreActiveTimers(data.activeTimers ?? []);
 
       const tagCount = (data.tagOptions ?? []).length;
       this.importResult.set({
         success: true,
-        message: `Restored ${data.events.length} event${data.events.length === 1 ? '' : 's'}, ${data.partners.length} partner${data.partners.length === 1 ? '' : 's'} and ${tagCount} tag option${tagCount === 1 ? '' : 's'}.`,
+        message: `Restored ${data.events.length} event${data.events.length === 1 ? '' : 's'}, ${data.partners.length} partner${data.partners.length === 1 ? '' : 's'}, ${tagCount} tag option${tagCount === 1 ? '' : 's'} and ${(data.timerSessions ?? []).length} timer session${(data.timerSessions ?? []).length === 1 ? '' : 's'}.`,
       });
     } catch (e) {
       this.importResult.set({ success: false, message: 'Failed to import: ' + (e as Error).message });

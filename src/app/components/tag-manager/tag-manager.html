@@ -33,6 +33,36 @@
     <mat-divider></mat-divider>
   }
 
+  <section class="category-section">
+    <h3>Timer Devices</h3>
+
+    <div class="chip-list">
+      @for (device of deviceService.devices(); track device.id) {
+        <span class="chip chip-indigo">
+          {{ device.name }}
+          <button class="chip-delete" (click)="deleteDevice(device.id)" title="Remove">
+            <mat-icon>close</mat-icon>
+          </button>
+        </span>
+      }
+      @if (deviceService.devices().length === 0) {
+        <span class="empty-hint">No devices yet.</span>
+      }
+    </div>
+
+    <div class="add-row">
+      <mat-form-field class="add-field">
+        <mat-label>Add device</mat-label>
+        <input matInput [(ngModel)]="newDeviceName" (keydown)="onDeviceKeydown($event)" />
+      </mat-form-field>
+      <button mat-icon-button class="add-btn-indigo" (click)="addDevice()" [disabled]="!newDeviceName.trim()" title="Add">
+        <span class="add-icon-stack"><mat-icon class="add-icon-bg">circle</mat-icon><mat-icon class="add-icon-fg">add</mat-icon></span>
+      </button>
+    </div>
+  </section>
+
+  <mat-divider></mat-divider>
+
   <div class="back-row">
     <a mat-button routerLink="/settings">
       <mat-icon>arrow_back</mat-icon>

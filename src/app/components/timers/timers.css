@@ -1,0 +1,208 @@
+.container {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.page-header h2 {
+  color: var(--col-primary-light);
+  margin: 0;
+}
+
+/* ── New timer panel ─────────────────────────────────────────────────────── */
+.new-timer-panel {
+  background: var(--col-surface);
+  border: 1px solid var(--col-border);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.new-timer-panel h3 {
+  margin: 0 0 0.75rem;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--col-text-muted);
+}
+
+.notes-field {
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.action-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 0.75rem;
+}
+
+/* ── Sections ────────────────────────────────────────────────────────────── */
+.section {
+  padding: 1rem 0 0.75rem;
+}
+
+.section-label {
+  margin: 0 0 0.75rem;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--col-text-muted);
+}
+
+/* ── Timer cards ─────────────────────────────────────────────────────────── */
+.timer-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  border: 1px solid var(--col-border);
+  background: var(--col-surface);
+}
+
+.active-card {
+  border-color: var(--col-primary-dark);
+  background: var(--col-surface-2);
+}
+
+.timer-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.device-name {
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--col-text);
+}
+
+.timer-notes {
+  font-size: 0.8rem;
+  color: var(--col-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.timer-started {
+  font-size: 0.75rem;
+  color: var(--col-text-muted);
+}
+
+.timer-right {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.elapsed {
+  font-size: 1.25rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--col-primary-light);
+  min-width: 6ch;
+  text-align: right;
+}
+
+.duration {
+  font-size: 1rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--col-text-muted);
+  min-width: 5ch;
+  text-align: right;
+}
+
+.stop-btn .mat-icon { color: var(--col-sex) !important; }
+.stop-btn:hover .mat-icon { color: var(--col-sex) !important; }
+
+/* ── Device chip selection (matches event-form chip-row pattern) ─────────── */
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.chip-row button {
+  border-radius: 16px;
+  padding: 0 12px;
+  height: 32px;
+  font-size: 13px;
+  border: 1px solid var(--col-border) !important;
+  color: var(--col-text) !important;
+  background: var(--col-surface-2) !important;
+}
+
+.chip-row button:hover {
+  border-color: var(--col-primary) !important;
+  background: var(--col-surface) !important;
+}
+
+.chip-row-indigo button:hover { border-color: #5c6bc0 !important; }
+
+.chip-row button.chip-selected,
+.chip-row button.chip-selected .mdc-button__label { color: #ffffff !important; }
+
+.chip-row-indigo button.chip-selected {
+  background: #283593 !important;
+  border-color: #283593 !important;
+}
+
+.empty-hint {
+  font-size: 13px;
+  color: var(--col-text-muted);
+  font-style: italic;
+}
+
+/* ── Edit panel ──────────────────────────────────────────────────────────── */
+.edit-panel {
+  background: var(--col-surface-2);
+  border: 1px solid var(--col-primary-dark);
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  padding: 0.75rem 1rem 0.75rem;
+  margin-top: -6px;
+  margin-bottom: 0.5rem;
+}
+
+.edit-label {
+  margin: 0 0 0.75rem;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--col-text-muted);
+}
+
+.datetime-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.datetime-row .date-field { flex: 1.4; }
+.datetime-row .time-field { flex: 1; }
+
+.field-error .mdc-text-field--filled:not(.mdc-text-field--disabled) .mdc-line-ripple::before {
+  border-bottom-color: var(--col-danger) !important;
+}
+
+.error-hint {
+  font-size: 12px;
+  color: var(--col-danger);
+  margin: 0 0 0.5rem;
+}

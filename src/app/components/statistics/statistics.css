@@ -12,6 +12,38 @@
   .stat-label, .stat-value { padding: 7px 10px; font-size: 13px; }
 }
 
+/* ── Tab row ──────────────────────────────── */
+
+.tab-row {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+}
+
+.tab-btn {
+  padding: 4px 20px;
+  border-radius: 16px;
+  border: 1px solid var(--col-border);
+  background: var(--col-surface-2);
+  color: var(--col-text-muted);
+  font-size: 13px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.tab-btn:hover {
+  border-color: var(--col-primary);
+  color: var(--col-text);
+}
+
+.tab-btn.active {
+  background: #3f51b5;
+  border-color: #3f51b5;
+  color: #ffffff;
+}
+
 /* ── Year nav ─────────────────────────────── */
 
 .year-nav {
@@ -202,4 +234,15 @@
 .stats-grid > :nth-child(4n+3),
 .stats-grid > :nth-child(4n+4) {
   background: var(--col-surface-2);
+}
+
+.device-section {
+  margin-top: 1.25rem;
+}
+
+.empty-hint {
+  text-align: center;
+  color: var(--col-text-muted);
+  font-style: italic;
+  margin-top: 2rem;
 }

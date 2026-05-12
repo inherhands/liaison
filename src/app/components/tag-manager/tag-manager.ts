@@ -7,6 +7,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDividerModule } from '@angular/material/divider';
 import { TagOptionService } from '../../services/tag-option';
+import { TimerDeviceService } from '../../services/timer-device.service';
+import { TimerService } from '../../services/timer.service';
 import { TagCategory, TagOption } from '../../models/event.model';
 
 interface CategoryGroup {
@@ -35,8 +37,11 @@ const CATEGORY_META: { category: TagCategory; label: string; chipClass: string }
 })
 export class TagManagerComponent implements OnInit {
   private tagOptionService = inject(TagOptionService);
+  protected readonly deviceService = inject(TimerDeviceService);
+  private timerService = inject(TimerService);
 
   groups = signal<CategoryGroup[]>([]);
+  newDeviceName = '';
 
   async ngOnInit(): Promise<void> {
     const byCategory = await this.tagOptionService.getAllByCategory();
@@ -67,5 +72,33 @@ export class TagManagerComponent implements OnInit {
 
   onKeydown(event: KeyboardEvent, group: CategoryGroup): void {
     if (event.key === 'Enter') this.addOption(group);
+  }
+
+  async addDevice(): Promise<void> {
+    const name = this.newDeviceName.trim();
+    if (!name) return;
+    await this.deviceService.addDevice(name);
+    this.newDeviceName = '';
+  }
+
+  onDeviceKeydown(event: KeyboardEvent): void {
+    if (event.key === 'Enter') this.addDevice();
+  }
+
+  async deleteDevice(id: string): Promise<void> {
+    const activeCount = this.timerService.activeTimers().filter(t => t.deviceId === id).length;
+    const sessionCount = this.timerService.sessions().filter(s => s.deviceId === id).length;
+
+    if (activeCount > 0 || sessionCount > 0) {
+      const parts: string[] = [];
+      if (activeCount > 0) parts.push(`${activeCount} active timer${activeCount === 1 ? '' : 's'}`);
+      if (sessionCount > 0) parts.push(`${sessionCount} session${sessionCount === 1 ? '' : 's'} in history`);
+      const confirmed = confirm(
+        `This device has ${parts.join(' and ')}. Removing it won't delete those records, but they'll no longer match a device. Remove anyway?`
+      );
+      if (!confirmed) return;
+    }
+
+    await this.deviceService.deleteDevice(id);
   }
 }

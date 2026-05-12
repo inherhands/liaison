@@ -63,6 +63,10 @@
   --col-tag-green:       #2e7d32;
   --col-tag-green-light: #afddb0;
 
+  /* ── Tag category: other (indigo) ─── */
+  --col-tag-indigo:       #283593;
+  --col-tag-indigo-light: #9fa8da;
+  
   /* ── Gender ──────────────────────────────── */
   --col-female: #e91e8c;
   --col-male:   #1e88e5;
@@ -349,6 +353,7 @@ body.theme-light .chip-green  { background: var(--col-tag-green-light);  color: 
 body.theme-light .chip-purple { background: var(--col-tag-purple-light); color: var(--col-tag-purple); }
 body.theme-light .chip-teal   { background: var(--col-tag-teal-light);   color: var(--col-tag-teal); }
 body.theme-light .chip-orange { background: var(--col-tag-orange-light); color: var(--col-tag-orange); }
+body.theme-light .chip-indigo { background: var(--col-tag-indigo-light); color: var(--col-tag-indigo); }
 
 /* ── Light theme: counter badges ───────────────────────────────────────── */
 body.theme-light .counter-badge {

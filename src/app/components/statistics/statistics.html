@@ -1,72 +1,124 @@
 <div class="container">
 
-  <!-- Year navigation -->
-  <div class="year-nav">
-    <button mat-icon-button (click)="prevYear()">
-      <mat-icon>chevron_left</mat-icon>
-    </button>
-    <span class="year-label">{{ viewYear() }}</span>
-    <button mat-icon-button (click)="nextYear()">
-      <mat-icon>chevron_right</mat-icon>
-    </button>
+  <!-- Tab selector -->
+  <div class="tab-row">
+    <button class="tab-btn" [class.active]="viewTab() === 'events'" (click)="viewTab.set('events')">Events</button>
+    <button class="tab-btn" [class.active]="viewTab() === 'timers'" (click)="viewTab.set('timers')">Timers</button>
   </div>
 
-  <!-- Multi-select filter -->
-  <div class="filter-row">
-    <button class="filter-btn" [class.active]="isAll()" (click)="selectAll()">All</button>
-    @for (type of ALL_TYPES; track type) {
-      <button class="filter-btn filter-btn-{{ type.toLowerCase() }}"
-              [class.active]="activeFilters().has(type)"
-              (click)="toggleFilter(type)">{{ type }}</button>
-    }
-  </div>
+  @if (viewTab() === 'events') {
 
-  <!-- Stacked bar chart -->
-  <div class="chart-section">
-    <div class="chart">
-      @for (bar of monthBars(); track bar.label) {
-        <div class="bar-col">
-          <div class="bar-wrap">
-            @if (showSeg('Health')) {
-              <div class="bar-seg seg-health" [style.height.%]="barSegmentPct(bar.health)" [title]="'Health: ' + bar.health"></div>
-            }
-            @if (showSeg('Refusal')) {
-              <div class="bar-seg seg-refusal" [style.height.%]="barSegmentPct(bar.refusal)" [title]="'Refusal: ' + bar.refusal"></div>
-            }
-            @if (showSeg('Note')) {
-              <div class="bar-seg seg-note" [style.height.%]="barSegmentPct(bar.note)" [title]="'Note: ' + bar.note"></div>
-            }
-            @if (showSeg('Solo')) {
-              <div class="bar-seg seg-solo" [style.height.%]="barSegmentPct(bar.solo)" [title]="'Solo: ' + bar.solo"></div>
-            }
-            @if (showSeg('Sex')) {
-              <div class="bar-seg seg-sex" [style.height.%]="barSegmentPct(bar.sex)" [title]="'Sex: ' + bar.sex"></div>
-            }
+    <!-- Year navigation -->
+    <div class="year-nav">
+      <button mat-icon-button (click)="prevYear()">
+        <mat-icon>chevron_left</mat-icon>
+      </button>
+      <span class="year-label">{{ viewYear() }}</span>
+      <button mat-icon-button (click)="nextYear()">
+        <mat-icon>chevron_right</mat-icon>
+      </button>
+    </div>
+
+    <!-- Multi-select filter -->
+    <div class="filter-row">
+      <button class="filter-btn" [class.active]="isAll()" (click)="selectAll()">All</button>
+      @for (type of ALL_TYPES; track type) {
+        <button class="filter-btn filter-btn-{{ type.toLowerCase() }}"
+                [class.active]="activeFilters().has(type)"
+                (click)="toggleFilter(type)">{{ type }}</button>
+      }
+    </div>
+
+    <!-- Stacked bar chart -->
+    <div class="chart-section">
+      <div class="chart">
+        @for (bar of monthBars(); track bar.label) {
+          <div class="bar-col">
+            <div class="bar-wrap">
+              @if (showSeg('Health')) {
+                <div class="bar-seg seg-health" [style.height.%]="barSegmentPct(bar.health)" [title]="'Health: ' + bar.health"></div>
+              }
+              @if (showSeg('Refusal')) {
+                <div class="bar-seg seg-refusal" [style.height.%]="barSegmentPct(bar.refusal)" [title]="'Refusal: ' + bar.refusal"></div>
+              }
+              @if (showSeg('Note')) {
+                <div class="bar-seg seg-note" [style.height.%]="barSegmentPct(bar.note)" [title]="'Note: ' + bar.note"></div>
+              }
+              @if (showSeg('Solo')) {
+                <div class="bar-seg seg-solo" [style.height.%]="barSegmentPct(bar.solo)" [title]="'Solo: ' + bar.solo"></div>
+              }
+              @if (showSeg('Sex')) {
+                <div class="bar-seg seg-sex" [style.height.%]="barSegmentPct(bar.sex)" [title]="'Sex: ' + bar.sex"></div>
+              }
+            </div>
+            <div class="bar-count">{{ bar.total > 0 ? bar.total : '' }}</div>
+            <div class="bar-label">{{ bar.label }}</div>
           </div>
-          <div class="bar-count">{{ bar.total > 0 ? bar.total : '' }}</div>
-          <div class="bar-label">{{ bar.label }}</div>
+        }
+      </div>
+
+      <div class="chart-legend">
+        <span class="legend-item"><span class="dot seg-sex"></span> Sex</span>
+        <span class="legend-item"><span class="dot seg-solo"></span> Solo</span>
+        <span class="legend-item"><span class="dot seg-note"></span> Note</span>
+        <span class="legend-item"><span class="dot seg-refusal"></span> Refusal</span>
+        <span class="legend-item"><span class="dot seg-health"></span> Health</span>
+      </div>
+    </div>
+
+    <!-- Stats table -->
+    <div class="stats-section">
+      <h3>Year Stats</h3>
+      <div class="stats-grid">
+        @for (row of stats(); track row.label) {
+          <div class="stat-label">{{ row.label }}</div>
+          <div class="stat-value">{{ row.value }}</div>
+        }
+      </div>
+    </div>
+
+  }
+
+  @if (viewTab() === 'timers') {
+
+    @if (timerStats().length === 0) {
+      <p class="empty-hint">No timer sessions recorded yet.</p>
+    } @else {
+
+      <!-- Overall summary -->
+      <div class="stats-section">
+        <h3>Overall</h3>
+        <div class="stats-grid">
+          <div class="stat-label">Total sessions</div>
+          <div class="stat-value">{{ timerOverall().sessionCount }}</div>
+          <div class="stat-label">Total time</div>
+          <div class="stat-value">{{ formatDuration(timerOverall().totalMs) }}</div>
+          <div class="stat-label">Average session</div>
+          <div class="stat-value">{{ formatDuration(timerOverall().avgMs) }}</div>
+          <div class="stat-label">Longest session</div>
+          <div class="stat-value">{{ timerOverall().longestMs > 0 ? formatDuration(timerOverall().longestMs) : '—' }}</div>
+        </div>
+      </div>
+
+      <!-- Per-device -->
+      @for (device of timerStats(); track device.deviceName) {
+        <div class="stats-section device-section">
+          <h3>{{ device.deviceName }}</h3>
+          <div class="stats-grid">
+            <div class="stat-label">Sessions</div>
+            <div class="stat-value">{{ device.sessionCount }}</div>
+            <div class="stat-label">Total time</div>
+            <div class="stat-value">{{ formatDuration(device.totalMs) }}</div>
+            <div class="stat-label">Average session</div>
+            <div class="stat-value">{{ formatDuration(device.avgMs) }}</div>
+            <div class="stat-label">Longest session</div>
+            <div class="stat-value">{{ device.longestMs > 0 ? formatDuration(device.longestMs) : '—' }}</div>
+          </div>
         </div>
       }
-    </div>
 
-    <div class="chart-legend">
-      <span class="legend-item"><span class="dot seg-sex"></span> Sex</span>
-      <span class="legend-item"><span class="dot seg-solo"></span> Solo</span>
-      <span class="legend-item"><span class="dot seg-note"></span> Note</span>
-      <span class="legend-item"><span class="dot seg-refusal"></span> Refusal</span>
-      <span class="legend-item"><span class="dot seg-health"></span> Health</span>
-    </div>
-  </div>
+    }
 
-  <!-- Stats table -->
-  <div class="stats-section">
-    <h3>Year Stats</h3>
-    <div class="stats-grid">
-      @for (row of stats(); track row.label) {
-        <div class="stat-label">{{ row.label }}</div>
-        <div class="stat-value">{{ row.value }}</div>
-      }
-    </div>
-  </div>
+  }
 
 </div>

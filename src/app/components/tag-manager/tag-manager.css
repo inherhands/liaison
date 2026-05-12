@@ -77,3 +77,11 @@ h2 {
 .back-row {
   padding: 1rem 0 0.5rem;
 }
+
+.chip-indigo {
+  background: #283593;
+  color: #c5cae9;
+}
+
+.mat-mdc-icon-button.add-btn-indigo .add-icon-bg { color: #283593 !important; }
+.mat-mdc-icon-button.add-btn-indigo .add-icon-fg { color: white !important; }

@@ -1,0 +1,162 @@
+<div class="container">
+  <div class="page-header">
+    <h2>Timers</h2>
+    @if (!showNewTimer()) {
+      <button mat-raised-button color="primary" (click)="showNewTimer.set(true)">
+        <mat-icon>timer</mat-icon>
+        Start Timer
+      </button>
+    }
+  </div>
+
+  @if (showNewTimer()) {
+    <section class="new-timer-panel">
+      <h3>Select Device</h3>
+      <div class="chip-row chip-row-indigo">
+        @for (device of deviceService.devices(); track device.id) {
+          <button mat-stroked-button type="button"
+            [class.chip-selected]="selectedDevice()?.id === device.id"
+            (click)="selectDevice(device)">
+            {{ device.name }}
+          </button>
+        }
+        @if (deviceService.devices().length === 0) {
+          <span class="empty-hint">No devices yet — manage them in Tag Options.</span>
+        }
+      </div>
+
+      <mat-form-field class="notes-field">
+        <mat-label>Notes (optional)</mat-label>
+        <input matInput [ngModel]="newTimerNotes()" (ngModelChange)="newTimerNotes.set($event)" />
+      </mat-form-field>
+
+      <div class="action-row">
+        <button mat-button (click)="cancelNewTimer()">Cancel</button>
+        <button mat-raised-button color="primary" [disabled]="!selectedDevice()" (click)="startTimer()">
+          <mat-icon>play_arrow</mat-icon>
+          Start
+        </button>
+      </div>
+    </section>
+
+    <mat-divider></mat-divider>
+  }
+
+  <!-- Active Timers -->
+  @if (timerService.activeTimers().length > 0) {
+    <section class="section">
+      <h3 class="section-label">Active</h3>
+      @for (timer of timerService.activeTimers(); track timer.id) {
+        <div class="timer-card active-card">
+          <div class="timer-info">
+            <span class="device-name">{{ timer.deviceName }}</span>
+            @if (timer.notes) {
+              <span class="timer-notes">{{ timer.notes }}</span>
+            }
+            <span class="timer-started">Started {{ formatDate(timer.startedAt) }}</span>
+          </div>
+          <div class="timer-right">
+            <span class="elapsed">{{ elapsed(timer.startedAt) }}</span>
+            <button mat-icon-button (click)="openEditActive(timer)" title="Edit start time">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button class="stop-btn" (click)="stopTimer(timer.id)" title="Stop timer">
+              <mat-icon>stop_circle</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        @if (editState()?.id === timer.id) {
+          <div class="edit-panel">
+            <h4 class="edit-label">Edit start time</h4>
+            <div class="datetime-row">
+              <mat-form-field class="date-field">
+                <mat-label>Start date</mat-label>
+                <input matInput type="date" [ngModel]="editState()!.startDate"
+                  (ngModelChange)="editState.update(s => s ? {...s, startDate: $event} : s)" />
+              </mat-form-field>
+              <mat-form-field class="time-field">
+                <mat-label>Start time</mat-label>
+                <input matInput type="time" [ngModel]="editState()!.startTime"
+                  (ngModelChange)="editState.update(s => s ? {...s, startTime: $event} : s)" />
+              </mat-form-field>
+            </div>
+            <div class="action-row">
+              <button mat-button (click)="cancelEdit()">Cancel</button>
+              <button mat-raised-button color="primary" (click)="saveEdit()">Save</button>
+            </div>
+          </div>
+        }
+      }
+    </section>
+
+    <mat-divider></mat-divider>
+  }
+
+  <!-- Session History -->
+  <section class="section">
+    <h3 class="section-label">History</h3>
+    @if (timerService.sessions().length === 0) {
+      <p class="empty-hint">No completed sessions yet.</p>
+    } @else {
+      @for (session of timerService.sessions(); track session.id) {
+        <div class="timer-card session-card">
+          <div class="timer-info">
+            <span class="device-name">{{ session.deviceName }}</span>
+            @if (session.notes) {
+              <span class="timer-notes">{{ session.notes }}</span>
+            }
+            <span class="timer-started">{{ formatDate(session.startedAt) }} → {{ formatDate(session.endedAt) }}</span>
+          </div>
+          <div class="timer-right">
+            <span class="duration">{{ formatSession(session.durationMs) }}</span>
+            <button mat-icon-button (click)="openEditSession(session)" title="Edit times">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button class="danger" (click)="deleteSession(session.id)" title="Delete">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        @if (editState()?.id === session.id) {
+          <div class="edit-panel">
+            <h4 class="edit-label">Edit times</h4>
+            <div class="datetime-row">
+              <mat-form-field class="date-field">
+                <mat-label>Start date</mat-label>
+                <input matInput type="date" [ngModel]="editState()!.startDate"
+                  (ngModelChange)="editState.update(s => s ? {...s, startDate: $event} : s)" />
+              </mat-form-field>
+              <mat-form-field class="time-field">
+                <mat-label>Start time</mat-label>
+                <input matInput type="time" [ngModel]="editState()!.startTime"
+                  (ngModelChange)="editState.update(s => s ? {...s, startTime: $event} : s)" />
+              </mat-form-field>
+            </div>
+            <div class="datetime-row">
+              <mat-form-field class="date-field">
+                <mat-label>End date</mat-label>
+                <input matInput type="date" [ngModel]="editState()!.endDate"
+                  (ngModelChange)="editState.update(s => s ? {...s, endDate: $event} : s)" />
+              </mat-form-field>
+              <mat-form-field class="time-field" [class.field-error]="editEndInvalid()">
+                <mat-label>End time</mat-label>
+                <input matInput type="time" [ngModel]="editState()!.endTime"
+                  (ngModelChange)="editState.update(s => s ? {...s, endTime: $event} : s)" />
+              </mat-form-field>
+            </div>
+            @if (editEndInvalid()) {
+              <p class="error-hint">End must be after start.</p>
+            }
+            <div class="action-row">
+              <button mat-button (click)="cancelEdit()">Cancel</button>
+              <button mat-raised-button color="primary" [disabled]="editEndInvalid()" (click)="saveEdit()">Save</button>
+            </div>
+          </div>
+        }
+      }
+    }
+  </section>
+
+</div>

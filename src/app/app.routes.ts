@@ -8,6 +8,7 @@ import { CalendarComponent } from './components/calendar/calendar';
 import { StatisticsComponent } from './components/statistics/statistics';
 import { TagManagerComponent } from './components/tag-manager/tag-manager';
 import { OnboardingPlaceholderComponent } from './components/onboarding/onboarding-placeholder';
+import { TimersComponent } from './components/timers/timers';
 
 export const routes: Routes = [
   { path: '', component: OnboardingPlaceholderComponent, pathMatch: 'full' },
@@ -21,4 +22,5 @@ export const routes: Routes = [
   { path: 'tag-manager', component: TagManagerComponent },
   { path: 'calendar', component: CalendarComponent },
   { path: 'statistics', component: StatisticsComponent },
+  { path: 'timers', component: TimersComponent },
 ];
