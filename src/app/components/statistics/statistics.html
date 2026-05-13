@@ -1,5 +1,16 @@
 <div class="container">
 
+  <!-- Year navigation -->
+  <div class="year-nav">
+    <button mat-icon-button (click)="prevYear()">
+      <mat-icon>chevron_left</mat-icon>
+    </button>
+    <span class="year-label">{{ viewYear() }}</span>
+    <button mat-icon-button (click)="nextYear()">
+      <mat-icon>chevron_right</mat-icon>
+    </button>
+  </div>
+
   <!-- Tab selector -->
   <div class="tab-row">
     <button class="tab-btn" [class.active]="viewTab() === 'events'" (click)="viewTab.set('events')">Events</button>
@@ -7,17 +18,6 @@
   </div>
 
   @if (viewTab() === 'events') {
-
-    <!-- Year navigation -->
-    <div class="year-nav">
-      <button mat-icon-button (click)="prevYear()">
-        <mat-icon>chevron_left</mat-icon>
-      </button>
-      <span class="year-label">{{ viewYear() }}</span>
-      <button mat-icon-button (click)="nextYear()">
-        <mat-icon>chevron_right</mat-icon>
-      </button>
-    </div>
 
     <!-- Multi-select filter -->
     <div class="filter-row">

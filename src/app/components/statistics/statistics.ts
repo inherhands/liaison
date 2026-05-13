@@ -190,8 +190,9 @@ export class StatisticsComponent implements OnInit, OnDestroy {
 
   timerStats = computed<DeviceStat[]>(() => {
     const now = this.tick();
-    const sessions = this.timerService.sessions();
-    const active = this.timerService.activeTimers();
+    const year = this.viewYear();
+    const sessions = this.timerService.sessions().filter(s => new Date(s.startedAt).getFullYear() === year);
+    const active = this.timerService.activeTimers().filter(a => new Date(a.startedAt).getFullYear() === year);
 
     const map = new Map<string, DeviceStat>();
 
