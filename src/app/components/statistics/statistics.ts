@@ -191,8 +191,15 @@ export class StatisticsComponent implements OnInit, OnDestroy {
   timerStats = computed<DeviceStat[]>(() => {
     const now = this.tick();
     const year = this.viewYear();
-    const sessions = this.timerService.sessions().filter(s => new Date(s.startedAt).getFullYear() === year);
-    const active = this.timerService.activeTimers().filter(a => new Date(a.startedAt).getFullYear() === year);
+    const yearStart = new Date(year, 0, 1).getTime();
+    const yearEnd   = new Date(year + 1, 0, 1).getTime();
+
+    // Clamp a [start, end) interval to the year window and return the overlap in ms.
+    const clamp = (start: number, end: number): number =>
+      Math.max(0, Math.min(end, yearEnd) - Math.max(start, yearStart));
+
+    const sessions = this.timerService.sessions().filter(s => s.startedAt < yearEnd && s.endedAt > yearStart);
+    const active   = this.timerService.activeTimers().filter(a => a.startedAt < yearEnd);
 
     const map = new Map<string, DeviceStat>();
 
@@ -202,15 +209,19 @@ export class StatisticsComponent implements OnInit, OnDestroy {
     };
 
     for (const s of sessions) {
+      const ms = clamp(s.startedAt, s.endedAt);
+      if (ms <= 0) continue;
       const d = ensure(s.deviceId, s.deviceName);
-      d.totalMs += s.durationMs;
+      d.totalMs += ms;
       d.sessionCount++;
-      if (s.durationMs > d.longestMs) d.longestMs = s.durationMs;
+      if (ms > d.longestMs) d.longestMs = ms;
     }
 
     for (const a of active) {
+      const ms = clamp(a.startedAt, now);
+      if (ms <= 0) continue;
       const d = ensure(a.deviceId, a.deviceName);
-      d.totalMs += now - a.startedAt;
+      d.totalMs += ms;
       d.sessionCount++;
     }
 
