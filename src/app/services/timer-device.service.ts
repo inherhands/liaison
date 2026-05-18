@@ -8,13 +8,18 @@ const DEVICE_DEFAULTS = ['Chastity cage', 'Butt plug'];
 @Injectable({ providedIn: 'root' })
 export class TimerDeviceService {
   readonly devices = signal<TimerDevice[]>([]);
-  private seeded = false;
+  private seedPromise: Promise<void> | null = null;
 
   constructor(private db: Database) {}
 
-  async seedIfEmpty(): Promise<void> {
-    if (this.seeded) return;
-    this.seeded = true;
+  seedIfEmpty(): Promise<void> {
+    if (!this.seedPromise) {
+      this.seedPromise = this._seed();
+    }
+    return this.seedPromise;
+  }
+
+  private async _seed(): Promise<void> {
     const count = await this.db.countTimerDevices();
     if (count === 0) {
       let t = Date.now();
@@ -23,10 +28,15 @@ export class TimerDeviceService {
         await this.db.putTimerDevice(device);
       }
     }
-    await this.load();
+    await this._load();
   }
 
   async load(): Promise<void> {
+    if (this.seedPromise) await this.seedPromise;
+    await this._load();
+  }
+
+  private async _load(): Promise<void> {
     const all = await this.db.getAllTimerDevices();
     all.sort((a, b) => (a.createdAt ?? 0) - (b.createdAt ?? 0));
     this.devices.set(all);

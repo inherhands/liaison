@@ -1,9 +1,12 @@
 import { Component, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { DatePipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
+import { filter } from 'rxjs/operators';
 import { Database } from '../../services/database';
 import { EventService } from '../../services/event';
 import { PartnerService } from '../../services/partner';
@@ -27,7 +30,7 @@ interface BackupData {
 
 @Component({
   selector: 'app-settings',
-  imports: [RouterLink, MatButtonModule, MatIconModule, MatDividerModule, MatButtonToggleModule],
+  imports: [RouterLink, DatePipe, MatButtonModule, MatIconModule, MatDividerModule, MatButtonToggleModule],
   templateUrl: './settings.html',
   styleUrl: './settings.css',
 })
@@ -42,11 +45,51 @@ export class SettingsComponent {
 
   theme = this.themeService.theme;
 
+  private swUpdate = inject(SwUpdate, { optional: true });
+
   exporting = signal(false);
   importing = signal(false);
   erasing = signal(false);
+  checkingForUpdate = signal(false);
+  updateAvailable = signal(false);
+  updateChecked = signal(false);
+  lastChecked = signal<Date | null>(
+    localStorage.getItem('lastUpdateCheck') ? new Date(localStorage.getItem('lastUpdateCheck')!) : null
+  );
+  updateSource = signal(window.location.hostname);
   importResult = signal<{ success: boolean; message: string } | null>(null);
   eraseResult = signal<{ success: boolean; message: string } | null>(null);
+
+  constructor() {
+    if (this.swUpdate?.isEnabled) {
+      this.swUpdate.versionUpdates
+        .pipe(filter((e): e is VersionReadyEvent => e.type === 'VERSION_READY'))
+        .subscribe(() => this.updateAvailable.set(true));
+    }
+  }
+
+  async checkForUpdate(): Promise<void> {
+    if (!this.swUpdate?.isEnabled) {
+      this.updateChecked.set(true);
+      return;
+    }
+    this.checkingForUpdate.set(true);
+    this.updateChecked.set(false);
+    try {
+      await this.swUpdate.checkForUpdate();
+      const now = new Date();
+      this.lastChecked.set(now);
+      localStorage.setItem('lastUpdateCheck', now.toISOString());
+      this.updateChecked.set(true);
+    } finally {
+      this.checkingForUpdate.set(false);
+    }
+  }
+
+  applyUpdate(): void {
+    localStorage.setItem('updateApplied', 'true');
+    window.location.reload();
+  }
 
   setTheme(t: Theme): void {
     this.themeService.setTheme(t);
@@ -107,7 +150,7 @@ export class SettingsComponent {
         req.onblocked = () => reject(new Error('Database is blocked'));
       });
       localStorage.clear();
-      window.location.href = '/liaison/';
+      window.location.reload();
     } catch (e) {
       this.eraseResult.set({ success: false, message: 'Failed to erase data: ' + (e as Error).message });
       this.erasing.set(false);

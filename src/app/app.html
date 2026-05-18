@@ -31,14 +31,6 @@
   </nav>
 </mat-toolbar>
 
-@if (updateAvailable()) {
-  <div class="update-banner">
-    <mat-icon>system_update</mat-icon>
-    <span>A new version is available</span>
-    <button mat-button (click)="applyUpdate()">Update now</button>
-  </div>
-}
-
 <div class="container">
   <router-outlet></router-outlet>
 </div>

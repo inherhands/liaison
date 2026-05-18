@@ -3,7 +3,7 @@
 
     <!-- Step indicator -->
     <div class="steps">
-      @for (i of [0,1,2,3]; track i) {
+      @for (i of [0,1,2,3,4]; track i) {
         <span class="step-dot" [class.active]="step() === i" [class.done]="step() > i"></span>
       }
     </div>
@@ -47,8 +47,8 @@
           <div class="feature">
             <mat-icon>system_update</mat-icon>
             <div>
-              <strong>Updates delivered automatically</strong>
-              <span>As a PWA, updates are downloaded silently in the background.</span>
+              <strong>Updates on your terms</strong>
+              <span>The app never phones home automatically. Manually trigger updates from Settings.</span>
             </div>
           </div>
         </div>
@@ -67,9 +67,8 @@
       <div class="step-content">
         <mat-icon class="hero-icon">people</mat-icon>
         <h2>Add your first partner</h2>
-        <p>Events are linked to partners. Add at least one to get started. You can add more later in Settings.</p>
-
         @if (!partnerAdded()) {
+          <p>Events are linked to partners. Add at least one to get started. You can add more later in Settings.</p>
           <mat-form-field class="full-width">
             <mat-label>Partner name</mat-label>
             <input matInput [(ngModel)]="partnerName" (keyup.enter)="addPartner()" placeholder="e.g. Mary" />
@@ -102,12 +101,44 @@
       </div>
     }
 
-    <!-- ── Step 2: Tags ── -->
+    <!-- ── Step 2: Events and timers ── -->
     @if (step() === 2) {
+      <div class="step-content">
+        <mat-icon class="hero-icon">event_note</mat-icon>
+        <h2>Events and timers</h2>
+
+        <div class="feature-list">
+          <div class="feature">
+            <mat-icon>favorite</mat-icon>
+            <div>
+              <strong>Events</strong>
+              <span>Log encounters with a partner. Each event can include a date, sex type, positions, toys, and free-form tags so you can track whatever matters to you.</span>
+            </div>
+          </div>
+          <div class="feature">
+            <mat-icon>timer</mat-icon>
+            <div>
+              <strong>Device timers</strong>
+              <span>Track time spent with devices (or anything else) from the Timers page. Start and stop sessions by device tag and review your history and totals in Statistics.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button mat-raised-button color="primary" (click)="next()">
+            Continue
+            <mat-icon>arrow_forward</mat-icon>
+          </button>
+        </div>
+      </div>
+    }
+
+    <!-- ── Step 3: Tags ── -->
+    @if (step() === 3) {
       <div class="step-content">
         <mat-icon class="hero-icon">sell</mat-icon>
         <h2>Customise your tags</h2>
-        <p>Liaison comes with a default set of tags for sex types, positions, toys and more. You can add, remove or rename any of them.</p>
+        <p>Liaison comes with a default set of tags for sex types, positions, toys and more. You can add or remove any of them.</p>
         <p>Head to <strong>Settings → Manage Tags</strong> at any time to customise the lists that appear when logging an event.</p>
 
         <div class="actions">
@@ -120,11 +151,11 @@
       </div>
     }
 
-    <!-- ── Step 3: Backup ── -->
-    @if (step() === 3) {
+    <!-- ── Step 4: Keeping your data safe ── -->
+    @if (step() === 4) {
       <div class="step-content">
-        <mat-icon class="hero-icon">backup</mat-icon>
-        <h2>Back up your data</h2>
+        <mat-icon class="hero-icon">verified_user</mat-icon>
+        <h2>Keeping your data safe</h2>
         <p>Because everything lives on your device, there is no cloud backup. If you clear your browser data or switch devices, your data could be lost.</p>
 
         <div class="feature-list">
@@ -139,7 +170,21 @@
             <mat-icon>upload</mat-icon>
             <div>
               <strong>Import</strong>
-              <span>Restore from a backup file on any device with the app installed.</span>
+              <span>Restore from a backup file on any device. This replaces all current data, so export first if you want to keep what you have.</span>
+            </div>
+          </div>
+          <div class="feature">
+            <mat-icon>delete_forever</mat-icon>
+            <div>
+              <strong>Erase all data</strong>
+              <span>Settings also has an option to wipe everything and start fresh. This cannot be undone, so make sure you have a backup first.</span>
+            </div>
+          </div>
+          <div class="feature">
+            <mat-icon>system_update</mat-icon>
+            <div>
+              <strong>Updates</strong>
+              <span>The app never checks for updates automatically. When you want to check, go to Settings and tap Check for Updates. It only contacts the server you installed the app from and never sends any data.</span>
             </div>
           </div>
         </div>
@@ -153,7 +198,7 @@
       </div>
     }
 
-    @if (step() !== 3) {
+    @if (step() !== 4) {
       <button mat-button class="skip-btn" (click)="skip()">Skip setup</button>
     }
   </div>

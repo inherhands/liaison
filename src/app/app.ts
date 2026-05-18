@@ -3,7 +3,7 @@ import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { MatToolbar } from '@angular/material/toolbar';
 import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
-import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ThemeService } from './services/theme';
 import { TagOptionService } from './services/tag-option';
 import { OnboardingService } from './services/onboarding';
@@ -11,7 +11,6 @@ import { TimerDeviceService } from './services/timer-device.service';
 import { TimerService } from './services/timer.service';
 import { OnboardingComponent } from './components/onboarding/onboarding';
 import { Router } from '@angular/router';
-import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -21,7 +20,6 @@ import { filter } from 'rxjs/operators';
 })
 export class App {
   protected readonly title = signal('Liaison');
-  protected readonly updateAvailable = signal(false);
   protected readonly onboarding = inject(OnboardingService);
 
   constructor() {
@@ -35,19 +33,9 @@ export class App {
       inject(Router).navigate(['/calendar']);
     }
 
-    const swUpdate = inject(SwUpdate, { optional: true });
-    if (swUpdate?.isEnabled) {
-      swUpdate.versionUpdates
-        .pipe(filter((e): e is VersionReadyEvent => e.type === 'VERSION_READY'))
-        .subscribe(() => this.updateAvailable.set(true));
-
-      // Check for update on launch, then every 6 hours
-      swUpdate.checkForUpdate();
-      setInterval(() => swUpdate.checkForUpdate(), 6 * 60 * 60 * 1000);
+    if (localStorage.getItem('updateApplied') === 'true') {
+      localStorage.removeItem('updateApplied');
+      inject(MatSnackBar).open('App updated successfully.', 'Dismiss', { duration: 4000 });
     }
-  }
-
-  applyUpdate(): void {
-    window.location.reload();
   }
 }

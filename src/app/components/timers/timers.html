@@ -21,9 +21,21 @@
           </button>
         }
         @if (deviceService.devices().length === 0) {
-          <span class="empty-hint">No devices yet — manage them in Tag Options.</span>
+          <span class="empty-hint">No devices yet. Add one below.</span>
         }
       </div>
+
+      <div class="add-device-row">
+        <mat-form-field class="add-device-field">
+          <mat-label>Add device</mat-label>
+          <input matInput [ngModel]="newDeviceName()" (ngModelChange)="newDeviceName.set($event)" (keydown)="onDeviceKeydown($event)" />
+        </mat-form-field>
+        <button mat-icon-button class="add-btn-indigo" (click)="addDevice()" [disabled]="!newDeviceName().trim()" title="Add device">
+          <span class="add-icon-stack"><mat-icon class="add-icon-bg">circle</mat-icon><mat-icon class="add-icon-fg">add</mat-icon></span>
+        </button>
+      </div>
+
+      <mat-divider></mat-divider>
 
       <mat-form-field class="notes-field">
         <mat-label>Notes (optional)</mat-label>
@@ -47,7 +59,7 @@
     <section class="section">
       <h3 class="section-label">Active</h3>
       @for (timer of timerService.activeTimers(); track timer.id) {
-        <div class="timer-card active-card">
+        <div class="timer-card active-card" [class.editing]="editState()?.id === timer.id">
           <div class="timer-info">
             <span class="device-name">{{ timer.deviceName }}</span>
             @if (timer.notes) {
@@ -57,9 +69,11 @@
           </div>
           <div class="timer-right">
             <span class="elapsed">{{ elapsed(timer.startedAt) }}</span>
-            <button mat-icon-button (click)="openEditActive(timer)" title="Edit start time">
-              <mat-icon>edit</mat-icon>
-            </button>
+            @if (editState()?.id !== timer.id) {
+              <button mat-icon-button (click)="openEditActive(timer)" title="Edit start time">
+                <mat-icon>edit</mat-icon>
+              </button>
+            }
             <button mat-icon-button class="stop-btn" (click)="stopTimer(timer.id)" title="Stop timer">
               <mat-icon>stop_circle</mat-icon>
             </button>
@@ -100,7 +114,7 @@
       <p class="empty-hint">No completed sessions yet.</p>
     } @else {
       @for (session of timerService.sessions(); track session.id) {
-        <div class="timer-card session-card">
+        <div class="timer-card session-card" [class.editing]="editState()?.id === session.id">
           <div class="timer-info">
             <span class="device-name">{{ session.deviceName }}</span>
             @if (session.notes) {
@@ -110,9 +124,11 @@
           </div>
           <div class="timer-right">
             <span class="duration">{{ formatSession(session.durationMs) }}</span>
-            <button mat-icon-button (click)="openEditSession(session)" title="Edit times">
-              <mat-icon>edit</mat-icon>
-            </button>
+            @if (editState()?.id !== session.id) {
+              <button mat-icon-button (click)="openEditSession(session)" title="Edit times">
+                <mat-icon>edit</mat-icon>
+              </button>
+            }
             <button mat-icon-button class="danger" (click)="deleteSession(session.id)" title="Delete">
               <mat-icon>delete</mat-icon>
             </button>

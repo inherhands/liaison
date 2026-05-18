@@ -1,99 +1,60 @@
 # Liaison
 
-A private, offline-first event and partnership tracking application. Manage your events, partnerships, and statistics all locally in your browser.
-
-## Privacy & Security
-
-**Your data stays on your device.** Liaison is designed with privacy as the top priority:
-
-- All data is stored locally in your browser using IndexedDB
-- No data is **ever** sent to external servers
-- No tracking, analytics, or telemetry
-- No accounts, logins, or cloud synchronization required
-- Complete offline functionality
+A private, offline-first app for tracking events, partnerships, and device usage. Everything lives in your browser -- no accounts, no servers, no cloud sync.
 
 ## Features
 
-- **Event Management** - Create, track, and manage events with custom tags
-- **Partnership Tracking** - Keep records of your partnerships and collaborations
-- **Calendar View** - Visualize your events in an intuitive calendar interface
-- **Statistics** - Get insights into your event data and patterns
-- **Import/Export** - Backup your data by exporting to JSON or restore from backups
-- **Responsive Design** - Works seamlessly on desktop and mobile devices
+**Events and partnerships.** Create and manage events with custom tags and positions. Keep records of partners and browse your history by calendar or list.
 
-## Progressive Web App (PWA)
+**Timers.** Track time spent on devices. Start and stop timers per device, review sessions, and see breakdowns by device and year in the statistics page.
 
-Liaison is a Progressive Web App, which means you can install it as a native app on your device:
+**Statistics.** See summaries of your event data and timer sessions, broken down by partner, tag, and time period.
 
-### Installing as an App
+**Import and export.** Back up everything to a JSON file and restore it on any device.
 
-**Desktop (Chrome, Edge, Firefox):**
-1. Visit https://inherhands.github.io/liaison/
-2. Click the **Install** button in the address bar (or use the menu)
-3. Click **Install** in the dialog that appears
-4. The app will be added to your applications
+**Responsive design.** Works on desktop and mobile. Can be installed as a PWA from the browser.
 
-**Mobile (iOS/Android):**
-- **Android**: Open the app in Chrome, tap the menu (⋮), select "Install app" or "Add to Home screen"
-- **iOS**: Open the app in Safari, tap the Share button, select "Add to Home Screen"
+## Privacy
 
-Once installed, you can:
-- Launch the app directly from your home screen or app drawer
-- Work completely offline
-- Get a native app experience with your data stored locally
+All data is stored locally using IndexedDB in your browser. Once installed, the app makes no network calls at all during normal use. There is no telemetry, no analytics, and no login required.
 
-## Getting Started
+The only optional network activity is when you tap "Check for Updates" in Settings. That fetches a small manifest file from whichever server you installed the app from -- the GitHub Pages host, or your own server if you self-host. No data from your device is sent.
 
-### Access the App
+## Using the app
 
-Open the live application here: **https://inherhands.github.io/liaison/**
+The hosted version is available at https://inherhands.github.io/liaison/
 
-### Updates
+You can install it as an app on any device. On desktop, look for the install button in the address bar. On Android, use "Add to Home screen" from the Chrome menu. On iOS, use the Share button in Safari and choose "Add to Home Screen."
 
-The online version automatically updates whenever new changes are pushed to the repository. Simply refresh your browser to load the latest version. No manual updates or installations required.
+To check for updates, go to Settings and tap "Check for Updates." The app does not check automatically.
 
-### Local Installation
+## Self-hosting
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/inherhands/liaison.git
-   cd liaison
-   ```
+You can build and host your own copy of Liaison with no dependency on GitHub Pages or any external service. The app has no backend and makes no external calls, so any static file host works.
 
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
-
-3. **Start the development server**
-   ```bash
-   npm start
-   ```
-
-4. **Open your browser** and navigate to `http://localhost:4200/`
-
-The application will automatically reload whenever you modify any source files.
-
-## Development
-
-### Build for Production
+**Build it:**
 
 ```bash
+git clone https://github.com/inherhands/liaison.git
+cd liaison
+npm install
 npm run build
 ```
 
-The build artifacts will be stored in the `dist/` directory. The production build is optimized for performance and speed.
+The output goes to `dist/liaison/browser/`. Copy that folder to any web server, object storage bucket, or local file host and it will work as a fully self-contained app. There are no API keys, no environment variables, and no callbacks to GitHub or any other service.
 
-## Technology Stack
+If you want to run it locally without a web server:
 
-- **Framework**: [Angular 21](https://angular.dev)
-- **UI Library**: [Angular Material](https://material.angular.io)
-- **Storage**: IndexedDB (browser-based local storage)
+```bash
+npm start
+```
 
-## Contributing
+Then open `http://localhost:4200/` in your browser. This mode supports live reloading during development.
 
-Feel free to fork the repository and submit pull requests for any improvements.
+## Tech stack
+
+Built with Angular 21, Angular Material, and IndexedDB for storage.
 
 ## License
 
-This project is open source and available under the MIT License.
+MIT

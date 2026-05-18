@@ -77,6 +77,37 @@
   <mat-divider></mat-divider>
 
   <section class="section">
+    <h3>Updates</h3>
+    <p>Check if a new version of the app is available. Updates are checked against {{ updateSource() }}.</p>
+    <button mat-raised-button color="primary" (click)="checkForUpdate()" [disabled]="checkingForUpdate() || updateAvailable()">
+      <mat-icon>system_update</mat-icon>
+      {{ checkingForUpdate() ? 'Checking...' : 'Check for Updates' }}
+    </button>
+    @if (lastChecked()) {
+      <p class="last-checked">Last checked: {{ lastChecked() | date:'medium' }}</p>
+    }
+    @if (updateAvailable()) {
+      <div class="update-available-banner">
+        <div class="update-available-text">
+          <mat-icon>system_update</mat-icon>
+          <span>A new version is available</span>
+        </div>
+        <button mat-raised-button color="primary" (click)="applyUpdate()">
+          <mat-icon>download</mat-icon>
+          Update now
+        </button>
+      </div>
+    } @else if (updateChecked() && !checkingForUpdate()) {
+      <div class="result success">
+        <mat-icon>check_circle</mat-icon>
+        <span>You're on the latest version.</span>
+      </div>
+    }
+  </section>
+
+  <mat-divider></mat-divider>
+
+  <section class="section">
     <h3>Erase All Data</h3>
     <p class="warn-text">This will permanently remove all events, partners, tag options and settings from this device and cannot be undone.</p>
     <p>The app will restart fresh, as if newly installed. Ensure you have exported a backup before proceeding.</p>

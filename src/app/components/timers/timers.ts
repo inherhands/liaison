@@ -31,6 +31,7 @@ export class TimersComponent implements OnInit, OnDestroy {
   protected showNewTimer = signal(false);
   protected selectedDevice = signal<TimerDevice | null>(null);
   protected newTimerNotes = signal('');
+  protected newDeviceName = signal('');
   protected tick = signal(Date.now());
   protected editState = signal<EditState | null>(null);
 
@@ -38,6 +39,7 @@ export class TimersComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.tickInterval = setInterval(() => this.tick.set(Date.now()), 1000);
+    this.deviceService.load();
   }
 
   ngOnDestroy(): void {
@@ -84,6 +86,27 @@ export class TimersComponent implements OnInit, OnDestroy {
     this.showNewTimer.set(false);
     this.selectedDevice.set(null);
     this.newTimerNotes.set('');
+    this.newDeviceName.set('');
+  }
+
+  protected async addDevice(): Promise<void> {
+    const name = this.newDeviceName().trim();
+    if (!name) return;
+    const isDuplicate = this.deviceService.devices().some(
+      d => d.name.toLowerCase() === name.toLowerCase()
+    );
+    if (isDuplicate) return;
+    await this.deviceService.addDevice(name);
+    this.newDeviceName.set('');
+  }
+
+  protected async deleteDevice(id: string): Promise<void> {
+    if (this.selectedDevice()?.id === id) this.selectedDevice.set(null);
+    await this.deviceService.deleteDevice(id);
+  }
+
+  protected onDeviceKeydown(event: KeyboardEvent): void {
+    if (event.key === 'Enter') this.addDevice();
   }
 
   // ── Edit ──────────────────────────────────────────────────────────────────

@@ -169,15 +169,51 @@
   font-style: italic;
 }
 
+/* ── Device management inside new-timer panel ────────────────────────────── */
+
+.mat-mdc-icon-button.add-btn-indigo .add-icon-bg { color: #283593 !important; }
+.mat-mdc-icon-button.add-btn-indigo .add-icon-fg { color: white !important; }
+
+.add-device-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 0.5rem;
+}
+
+.add-device-field {
+  flex: 1;
+}
+
+.new-timer-panel mat-divider {
+  margin: 0.75rem 0;
+}
+
 /* ── Edit panel ──────────────────────────────────────────────────────────── */
+.timer-card.editing {
+  border-radius: 8px 8px 0 0;
+  margin-bottom: 0;
+  border-bottom-color: var(--col-primary-dark);
+}
+
 .edit-panel {
   background: var(--col-surface-2);
   border: 1px solid var(--col-primary-dark);
   border-top: none;
   border-radius: 0 0 8px 8px;
   padding: 0.75rem 1rem 0.75rem;
-  margin-top: -6px;
+  margin-top: 0;
   margin-bottom: 0.5rem;
+}
+
+.session-card.editing {
+  background: var(--col-surface);
+  border-color: var(--col-border);
+}
+
+.session-card.editing + .edit-panel {
+  background: var(--col-surface);
+  border-color: var(--col-border);
 }
 
 .edit-label {

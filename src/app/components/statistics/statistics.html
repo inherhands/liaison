@@ -85,21 +85,6 @@
       <p class="empty-hint">No timer sessions recorded yet.</p>
     } @else {
 
-      <!-- Overall summary -->
-      <div class="stats-section">
-        <h3>Overall</h3>
-        <div class="stats-grid">
-          <div class="stat-label">Total sessions</div>
-          <div class="stat-value">{{ timerOverall().sessionCount }}</div>
-          <div class="stat-label">Total time</div>
-          <div class="stat-value">{{ formatDuration(timerOverall().totalMs) }}</div>
-          <div class="stat-label">Average session</div>
-          <div class="stat-value">{{ formatDuration(timerOverall().avgMs) }}</div>
-          <div class="stat-label">Longest session</div>
-          <div class="stat-value">{{ timerOverall().longestMs > 0 ? formatDuration(timerOverall().longestMs) : '—' }}</div>
-        </div>
-      </div>
-
       <!-- Per-device -->
       @for (device of timerStats(); track device.deviceName) {
         <div class="stats-section device-section">

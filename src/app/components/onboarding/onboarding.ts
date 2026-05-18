@@ -8,6 +8,8 @@ import { MatInputModule } from '@angular/material/input';
 import { OnboardingService } from '../../services/onboarding';
 import { PartnerService } from '../../services/partner';
 import { TagOptionService } from '../../services/tag-option';
+import { TimerDeviceService } from '../../services/timer-device.service';
+import { TimerService } from '../../services/timer.service';
 import { Partner } from '../../models/event.model';
 
 @Component({
@@ -20,6 +22,8 @@ export class OnboardingComponent {
   private onboardingService = inject(OnboardingService);
   private partnerService = inject(PartnerService);
   private tagOptionService = inject(TagOptionService);
+  private timerDeviceService = inject(TimerDeviceService);
+  private timerService = inject(TimerService);
 
   step = signal(0);
   partnerName = '';
@@ -43,11 +47,15 @@ export class OnboardingComponent {
 
   finish(): void {
     this.tagOptionService.seedIfEmpty();
+    this.timerDeviceService.seedIfEmpty();
+    this.timerService.loadSessions();
     this.onboardingService.complete();
   }
 
   skip(): void {
     this.tagOptionService.seedIfEmpty();
-    this.onboardingService.complete();
+    this.timerDeviceService.seedIfEmpty();
+    this.timerService.loadSessions();
+    this.step.set(4);
   }
 }
