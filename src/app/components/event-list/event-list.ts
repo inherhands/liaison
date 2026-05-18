@@ -4,7 +4,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { EventService } from '../../services/event';
 import { PartnerService } from '../../services/partner';
+import { TimerService } from '../../services/timer.service';
 import { TrackerEvent, SexEvent, NoteEvent, SoloEvent, RefusalEvent, HealthEvent } from '../../models/event.model';
+import { TimerSession, ActiveTimer } from '../../models/timer.model';
 
 @Component({
   selector: 'app-event-list',
@@ -15,6 +17,7 @@ import { TrackerEvent, SexEvent, NoteEvent, SoloEvent, RefusalEvent, HealthEvent
 export class EventListComponent implements OnInit {
   private eventService = inject(EventService);
   private partnerService = inject(PartnerService);
+  private timerService = inject(TimerService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
 
@@ -27,9 +30,66 @@ export class EventListComponent implements OnInit {
     return all.filter(e => e.date.slice(0, 10) === filter);
   });
 
+  dayTimers = computed<(TimerSession | ActiveTimer)[]>(() => {
+    const filter = this.dateFilter();
+    if (!filter) return [];
+    const dayStart = new Date(filter + 'T00:00:00').getTime();
+    const dayEnd   = dayStart + 86400000;
+    const now      = Date.now();
+    const sessions = this.timerService.sessions().filter(s => s.startedAt < dayEnd && s.endedAt > dayStart);
+    const active   = this.timerService.activeTimers().filter(a => a.startedAt < dayEnd && now > dayStart);
+    return [...sessions, ...active];
+  });
+
+  isActive(t: TimerSession | ActiveTimer): t is ActiveTimer {
+    return !('endedAt' in t);
+  }
+
+timerStartLabel(t: TimerSession | ActiveTimer): string {
+    return new Date(t.startedAt).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' });
+  }
+
+  timerEndLabel(t: TimerSession | ActiveTimer): string {
+    if (this.isActive(t)) return 'Ongoing...';
+    return new Date((t as TimerSession).endedAt).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' });
+  }
+
+  timerTotalDuration(t: TimerSession | ActiveTimer): string {
+    const end = this.isActive(t) ? Date.now() : (t as TimerSession).endedAt;
+    return this.formatDuration(end - t.startedAt);
+  }
+
+  timerDayDuration(t: TimerSession | ActiveTimer): string {
+    const dayFilter = this.dateFilter();
+    if (!dayFilter) return '';
+    const dayStart = new Date(dayFilter + 'T00:00:00').getTime();
+    const dayEnd   = dayStart + 86400000;
+    const now      = Date.now();
+    const start    = Math.max(t.startedAt, dayStart);
+    const end      = Math.min(this.isActive(t) ? now : (t as TimerSession).endedAt, dayEnd);
+    return this.formatDuration(Math.max(0, end - start));
+  }
+
+  isToday(): boolean {
+    const filter = this.dateFilter();
+    if (!filter) return false;
+    const today = new Date();
+    const key = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+    return filter === key;
+  }
+
+  formatDuration(ms: number): string {
+    const totalSeconds = Math.floor(ms / 1000);
+    const hours   = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    if (hours > 0) return `${hours}h ${minutes}m`;
+    return `${minutes}m`;
+  }
+
   ngOnInit(): void {
     this.eventService.loadEvents();
     this.partnerService.loadPartners();
+    this.timerService.loadSessions();
     const date = this.route.snapshot.queryParamMap.get('date');
     this.dateFilter.set(date);
   }

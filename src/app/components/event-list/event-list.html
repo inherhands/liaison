@@ -10,6 +10,41 @@
     <h2>Events</h2>
   }
 
+  @if (dateFilter() && dayTimers().length > 0) {
+    <div class="timers-section">
+      <h3 class="timers-heading">
+        <mat-icon class="timers-heading-icon">timer</mat-icon>
+        Timers
+      </h3>
+      @for (t of dayTimers(); track t.id) {
+        <div class="timer-card">
+          <div class="timer-card-header">
+            <span class="timer-device">{{ t.deviceName }}</span>
+            <span class="timer-total-duration">{{ timerDayDuration(t) }} <span class="timer-total-muted">({{ timerTotalDuration(t) }} total)</span></span>
+            @if (isActive(t) && isToday()) {
+              <span class="timer-active-badge">active</span>
+            }
+          </div>
+          <div class="timer-card-dates">
+            <span class="timer-date-label">Started</span>
+            <span class="timer-date-value">{{ timerStartLabel(t) }}</span>
+            <span class="timer-date-label">Ended</span>
+            <span class="timer-date-value">{{ timerEndLabel(t) }}</span>
+          </div>
+        </div>
+      }
+    </div>
+  }
+
+  @if (dateFilter()) {
+    <div class="timers-section">
+      <h3 class="timers-heading">
+        <mat-icon class="timers-heading-icon">event</mat-icon>
+        Events
+      </h3>
+    </div>
+  }
+
   @if (events().length === 0) {
     <div class="empty-state">
       @if (dateFilter()) {

@@ -130,3 +130,89 @@ h2 {
   color: var(--col-text);
   white-space: pre-wrap;
 }
+
+.timers-section {
+  margin-top: 16px;
+}
+
+.timers-heading {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 10px;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--col-text-muted);
+}
+
+.timers-heading-icon {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+}
+
+.timer-card {
+  padding: 8px 12px;
+  border: 1px solid var(--col-border);
+  border-radius: 8px;
+  margin-bottom: 8px;
+  background: var(--col-surface);
+  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.timer-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.timer-device {
+  font-weight: 600;
+  color: var(--col-primary-light);
+  flex: 1;
+}
+
+.timer-total-duration {
+  font-weight: 500;
+  color: var(--col-text);
+  flex-shrink: 0;
+}
+
+.timer-total-muted {
+  font-weight: 400;
+  color: var(--col-text-muted);
+  font-size: 12px;
+}
+
+.timer-card-dates {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2px 10px;
+  font-size: 13px;
+}
+
+.timer-date-label {
+  color: var(--col-text-muted);
+  font-weight: 500;
+}
+
+.timer-date-value {
+  color: var(--col-text);
+}
+
+.timer-active-badge {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 2px 7px;
+  border-radius: 10px;
+  background: var(--col-primary);
+  color: #fff;
+  flex-shrink: 0;
+}

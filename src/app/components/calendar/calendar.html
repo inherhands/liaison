@@ -22,6 +22,7 @@
         [class.today]="isToday(day)"
         [class.has-events]="day.eventCount > 0"
         [class.clickable]="day.inMonth"
+        [title]="day.inMonth ? dayTitle(day) : ''"
         (click)="selectDay(day)"
       >
         <span class="day-num">{{ day.date.getDate() }}</span>
@@ -45,6 +46,19 @@
             }
           </div>
         }
+
+        @if (day.inMonth && day.timerSegments.length > 0) {
+          <div class="timer-bar-track">
+            @for (seg of day.timerSegments; track seg.index) {
+              <div
+                class="timer-bar-seg"
+                [class.timer-bar-seg-alt]="seg.index % 2 === 1"
+                [style.left.%]="seg.left"
+                [style.width.%]="seg.width"
+              ></div>
+            }
+          </div>
+        }
       </div>
     }
   </div>
@@ -55,5 +69,6 @@
     <span class="legend-item"><span class="dot dot-note"></span> Note</span>
     <span class="legend-item"><span class="dot dot-refusal"></span> Refusal</span>
     <span class="legend-item"><span class="dot dot-health"></span> Health</span>
+    <span class="legend-item"><span class="timer-legend-bar"></span><span class="timer-legend-bar timer-legend-bar-alt"></span> Timer</span>
   </div>
 </div>
